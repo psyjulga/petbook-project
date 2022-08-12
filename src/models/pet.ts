@@ -1,0 +1,72 @@
+import client from '../database'
+
+export type Pet = {
+	pet_id?: number
+	type: string
+	breed: string
+	name: string
+	birthday: string
+	color: string
+	eye_color: string
+	profile_pic_path: string
+}
+
+export class PetStore {
+	async index(): Promise<Pet[]> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'SELECT * FROM pets'
+			const res = await conn.query(sql)
+			return res.rows
+		} catch (e) {
+			throw new Error(`Error in PetStore index(): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async show(pet_id: string): Promise<Pet> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'SELECT * FROM pets WHERE pet_id=($1)'
+			const res = await conn.query(sql, [pet_id])
+			return res.rows[0]
+		} catch (e) {
+			throw new Error(`Error in PetStore show(${pet_id}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async create(pet: Pet): Promise<Pet> {
+		const { type, breed, name, birthday, color, eye_color, profile_pic_path } =
+			pet
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = `INSERT INTO pets (
+          pet_id, type, breed, name, birthday, color, eye_color, profile_pic_path) 
+          VALUES (default, $1, $2, $3, $4, $5, $6, $7) RETURNING *`
+			const res = await conn.query(sql, [
+				type,
+				breed,
+				name,
+				birthday,
+				color,
+				eye_color,
+				profile_pic_path,
+			])
+			return res.rows[0]
+		} catch (e) {
+			throw new Error(`Error in PetStore create(pet): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async closeClient() {
+		await client.end()
+	}
+}

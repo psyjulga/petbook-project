@@ -120,6 +120,31 @@ export class UserStore {
 		}
 	}
 
+	async addPetToUser(
+		user_id: string,
+		pet_id: string
+	): Promise<{ users_pets_id: string; user_id: string; pet_id: string }> {
+		let conn
+
+		// we add a pet to the logged in user
+		// for that we use the JOIN TABLE => users_pets
+		try {
+			conn = await client.connect()
+			const sql = `INSERT INTO users_pets (
+         users_pets_id, user_id, pet_id) 
+         VALUES(default, $1, $2) RETURNING *`
+			const res = await conn.query(sql, [user_id, pet_id])
+			const petToUser = res.rows[0]
+			return petToUser
+		} catch (e) {
+			throw new Error(
+				`Error in PetStore addPetToUser(${user_id}, ${pet_id}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+	}
+
 	async closeClient() {
 		await client.end()
 	}

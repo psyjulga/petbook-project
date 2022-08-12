@@ -87,11 +87,26 @@ const authenticate = async (req: Request, res: Response) => {
 	}
 }
 
+const addPetToUser = async (req: Request, res: Response) => {
+	const user_id: string = req.params.id
+	const pet_id: string = req.body.pet_id
+
+	try {
+		const addedPet = await store.addPetToUser(user_id, pet_id)
+		res.status(200)
+		res.json(addedPet)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const user_routes = (app: Application) => {
 	app.get('/users', verifyAuthToken, index)
 	app.get('/users/:id', verifyAuthToken, show)
 	app.post('/users', create)
 	app.get('/users/:id/authenticate', authenticate)
+	app.post('/users/:id/pets', verifyAuthToken, addPetToUser)
 }
 
 export default user_routes

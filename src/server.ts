@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 
 // import routes
+import user_routes from './handlers/users'
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.get('/', function (req: Request, res: Response) {
 })
 
 // routes(app)
+user_routes(app)
 
 if (process.env.NODE_ENV !== 'test') {
 	app.listen(port, function () {

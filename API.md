@@ -20,3 +20,8 @@ index: all comments
 show: one comment by id
 showCommentsByPost: returns all comments related to a specific post
 create: create a new comment
+
+LIKES
+index: all likes => ??
+showLikesByPost: returns all likes related to a specific post => arr.length & list usernames
+create: create a new like

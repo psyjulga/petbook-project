@@ -46,7 +46,7 @@ export class CommentStore {
 			return res.rows
 		} catch (e) {
 			throw new Error(
-				`Error in CommentStore showCommentByPost(${post_id}): ${e}`
+				`Error in CommentStore showCommentsByPost(${post_id}): ${e}`
 			)
 		} finally {
 			conn?.release()

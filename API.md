@@ -14,3 +14,9 @@ POSTS
 index: all posts => to show in newsfeed
 show: one post by id => ?
 create: create a new post !! image / video / null
+
+COMMENTS
+index: all comments
+show: one comment by id
+showCommentsByPost: returns all comments related to a specific post
+create: create a new comment

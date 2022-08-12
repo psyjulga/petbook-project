@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 // import routes
 import user_routes from './handlers/users'
 import pet_routes from './handlers/pets'
+import post_routes from './handlers/posts'
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ app.get('/', function (_req: Request, res: Response) {
 // routes(app)
 user_routes(app)
 pet_routes(app)
+post_routes(app)
 
 if (process.env.NODE_ENV !== 'test') {
 	app.listen(port, function () {

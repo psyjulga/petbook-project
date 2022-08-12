@@ -13,4 +13,4 @@ create: create a new pet
 POSTS
 index: all posts => to show in newsfeed
 show: one post by id => ?
-create: create a new post !! audio / video / null
+create: create a new post !! image / video / null

@@ -1,1 +1,11 @@
-/* Replace with your SQL commands */
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  user_name VARCHAR(25),
+  first_name VARCHAR(25),
+  last_name VARCHAR(25),
+  email VARCHAR(25),
+  country VARCHAR(25),
+  city VARCHAR(25),
+  profile_pic_path VARCHAR,
+  password VARCHAR
+);

@@ -9,3 +9,8 @@ PETS
 index: all pets => e.g. filter by breed
 show: one pet by id => ?
 create: create a new pet
+
+POSTS
+index: all posts => to show in newsfeed
+show: one post by id => ?
+create: create a new post !! audio / video / null

@@ -11,7 +11,7 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM post_likes'
+			const sql = 'SELECT * FROM likes'
 			const res = await conn.query(sql)
 			return res.rows
 		} catch (e) {
@@ -25,7 +25,7 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM post_likes WHERE post_id=($1)'
+			const sql = 'SELECT * FROM likes WHERE post_id=($1)'
 			const res = await conn.query(sql, [post_id])
 			return res.rows
 		} catch (e) {
@@ -40,7 +40,7 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = `INSERT INTO post_likes (
+			const sql = `INSERT INTO likes (
          like_id, user_id, post_id) 
          VALUES (default, $1, $2) RETURNING *`
 			const res = await conn.query(sql, [user_id, post_id])
@@ -56,7 +56,7 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM post_likes WHERE id = ($1)'
+			const sql = 'DELETE FROM likes WHERE id = ($1)'
 			const res = await conn.query(sql, [id])
 			const like = res.rows[0]
 			return like

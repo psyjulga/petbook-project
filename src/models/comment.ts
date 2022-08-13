@@ -13,7 +13,7 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM post_comments'
+			const sql = 'SELECT * FROM comments'
 			const res = await conn.query(sql)
 			return res.rows
 		} catch (e) {
@@ -27,7 +27,7 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM post_comments WHERE comment_id=($1)'
+			const sql = 'SELECT * FROM comments WHERE comment_id=($1)'
 			const res = await conn.query(sql, [comment_id])
 			return res.rows[0]
 		} catch (e) {
@@ -41,7 +41,7 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM post_comments WHERE post_id=($1)'
+			const sql = 'SELECT * FROM comments WHERE post_id=($1)'
 			const res = await conn.query(sql, [post_id])
 			return res.rows
 		} catch (e) {
@@ -58,7 +58,7 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = `INSERT INTO post_comments (
+			const sql = `INSERT INTO comments (
 				 comment_id, date, text, user_id, post_id) 
 				 VALUES (default, $1, $2, $3, $4) RETURNING *`
 			const res = await conn.query(sql, [date, text, user_id, post_id])
@@ -78,8 +78,7 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql =
-				'UPDATE post_comments SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const sql = 'UPDATE comments SET ($1) = ($2) WHERE id = ($3) RETURNING *'
 			const res = await conn.query(sql, [field, value, id])
 			const comment = res.rows[0] // correct row?
 			return comment
@@ -96,7 +95,7 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM post_comments WHERE id = ($1)'
+			const sql = 'DELETE FROM comments WHERE id = ($1)'
 			const res = await conn.query(sql, [id])
 			const comment = res.rows[0]
 			return comment

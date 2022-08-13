@@ -40,6 +40,20 @@ export class PetStore {
 		}
 	}
 
+	async showPetsByUser(user_id: string): Promise<Pet[]> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'SELECT * FROM pets WHERE user_id=($1)'
+			const res = await conn.query(sql, [user_id])
+			return res.rows
+		} catch (e) {
+			throw new Error(`Error in PetStore showPetsByUser(${user_id}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
 	async create(pet: Pet): Promise<Pet> {
 		const { type, breed, name, birthday, color, eye_color, profile_pic_path } =
 			pet
@@ -61,6 +75,37 @@ export class PetStore {
 			return res.rows[0]
 		} catch (e) {
 			throw new Error(`Error in PetStore create(pet): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async edit(id: string, field: string, value: string | number): Promise<Pet> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'UPDATE pets SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const res = await conn.query(sql, [field, value, id])
+			const pet = res.rows[0] // correct row?
+			return pet
+		} catch (e) {
+			throw new Error(`Error in PetStore edit(${id}, ${field}, ${value}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async delete(id: string): Promise<Pet> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'DELETE FROM pets WHERE id = ($1)'
+			const res = await conn.query(sql, [id])
+			const pet = res.rows[0]
+			return pet
+			// return deleted pet
+		} catch (e) {
+			throw new Error(`Error in PetStore delete(${id}): ${e}`)
 		} finally {
 			conn?.release()
 		}

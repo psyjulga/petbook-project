@@ -170,7 +170,7 @@ export class UserStore {
 			const res = await conn.query(sql, [id])
 			const book = res.rows[0]
 			return book
-			// return deleted book
+			// return deleted user
 		} catch (e) {
 			throw new Error(`Error in UserStore delete(${id}): ${e}`)
 		} finally {

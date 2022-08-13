@@ -50,7 +50,7 @@ const showPetsByProp = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
-	const { type, breed, name, birthday, color, eye_color, profile_pic_path } =
+	const { type, breed, name, birthday, color, eye_color, profile_pic } =
 		req.body
 
 	const pet = {
@@ -60,7 +60,7 @@ const create = async (req: Request, res: Response) => {
 		birthday,
 		color,
 		eye_color,
-		profile_pic_path,
+		profile_pic,
 	}
 
 	try {

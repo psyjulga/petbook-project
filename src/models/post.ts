@@ -4,8 +4,8 @@ export type Post = {
 	post_id?: number
 	date: string
 	text: string
-	image_path?: string
-	video_path?: string
+	image?: string
+	video?: string
 	author: string
 	user_id: number
 }
@@ -54,19 +54,19 @@ export class PostStore {
 	}
 
 	async create(post: Post): Promise<Post> {
-		const { date, text, image_path, video_path, author, user_id } = post
+		const { date, text, image, video, author, user_id } = post
 		let conn
 		try {
 			conn = await client.connect()
 			const sql = `INSERT INTO posts (
-         post_id, date, text, image_path, video_path, author, user_id) 
+         post_id, date, text, image, video, author, user_id) 
          VALUES (default, $1, $2, $3, $4, $5, $6) RETURNING *`
 			// does it insert null if not submitted (e.g. video)?
 			const res = await conn.query(sql, [
 				date,
 				text,
-				image_path,
-				video_path,
+				image,
+				video,
 				author,
 				user_id,
 			])

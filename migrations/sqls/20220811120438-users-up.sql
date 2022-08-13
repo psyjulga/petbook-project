@@ -6,6 +6,6 @@ CREATE TABLE users (
   email VARCHAR(25) UNIQUE,
   country VARCHAR(25),
   city VARCHAR(25),
-  profile_pic_path VARCHAR,
+  profile_pic BYTEA,
   password VARCHAR
 );

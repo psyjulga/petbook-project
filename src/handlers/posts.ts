@@ -38,13 +38,13 @@ const showPostsByUser = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
-	const { date, text, image_path, video_path, author, user_id } = req.body
+	const { date, text, image, video, author, user_id } = req.body
 
 	const post = {
 		date,
 		text,
-		image_path,
-		video_path,
+		image,
+		video,
 		author,
 		user_id,
 	}

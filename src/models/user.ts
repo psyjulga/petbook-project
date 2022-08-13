@@ -10,7 +10,7 @@ export type User = {
 	email: string
 	country: string
 	city: string
-	profile_pic_path: string
+	profile_pic: string
 	password: string
 }
 
@@ -52,14 +52,14 @@ export class UserStore {
 			email,
 			country,
 			city,
-			profile_pic_path,
+			profile_pic,
 			password,
 		} = user
 		let conn
 		try {
 			conn = await client.connect()
 			const sql = `INSERT INTO users (
-          user_id, user_name, first_name, last_name, email, country, city, profile_pic_path, password) 
+          user_id, user_name, first_name, last_name, email, country, city, profile_pic, password) 
           VALUES(default, $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`
 
 			const saltRounds = process.env.SALT_ROUNDS
@@ -75,7 +75,7 @@ export class UserStore {
 				email,
 				country,
 				city,
-				profile_pic_path,
+				profile_pic,
 				hash,
 			])
 			const user = res.rows[0]

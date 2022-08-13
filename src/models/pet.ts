@@ -8,7 +8,7 @@ export type Pet = {
 	birthday: string
 	color: string
 	eye_color: string
-	profile_pic_path: string
+	profile_pic: string
 }
 
 export class PetStore {
@@ -72,13 +72,12 @@ export class PetStore {
 	}
 
 	async create(pet: Pet): Promise<Pet> {
-		const { type, breed, name, birthday, color, eye_color, profile_pic_path } =
-			pet
+		const { type, breed, name, birthday, color, eye_color, profile_pic } = pet
 		let conn
 		try {
 			conn = await client.connect()
 			const sql = `INSERT INTO pets (
-          pet_id, type, breed, name, birthday, color, eye_color, profile_pic_path) 
+          pet_id, type, breed, name, birthday, color, eye_color, profile_pic) 
           VALUES (default, $1, $2, $3, $4, $5, $6, $7) RETURNING *`
 			const res = await conn.query(sql, [
 				type,
@@ -87,7 +86,7 @@ export class PetStore {
 				birthday,
 				color,
 				eye_color,
-				profile_pic_path,
+				profile_pic,
 			])
 			return res.rows[0]
 		} catch (e) {

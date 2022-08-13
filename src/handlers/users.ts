@@ -36,7 +36,7 @@ const create = async (req: Request, res: Response) => {
 		email,
 		country,
 		city,
-		profile_pic_path,
+		profile_pic,
 		password,
 	} = req.body
 
@@ -47,7 +47,7 @@ const create = async (req: Request, res: Response) => {
 		email,
 		country,
 		city,
-		profile_pic_path,
+		profile_pic,
 		password,
 	}
 

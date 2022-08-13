@@ -6,5 +6,5 @@ CREATE TABLE pets(
   birthday DATE,
   color VARCHAR(25),
   eye_color VARCHAR(25),
-  profile_pic_path VARCHAR
+  profile_pic BYTEA
 );

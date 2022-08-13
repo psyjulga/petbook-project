@@ -3,11 +3,11 @@ import client from '../database'
 export type Pet = {
 	pet_id?: number
 	type: string
-	breed: string
+	breed?: string
 	name: string
-	birthday: string
-	color: string
-	eye_color: string
+	birthday?: string
+	color?: string
+	eye_color?: string
 	profile_pic: string
 }
 

@@ -26,6 +26,17 @@ const show = async (req: Request, res: Response) => {
 	}
 }
 
+const showPostsByUser = async (req: Request, res: Response) => {
+	try {
+		const postsByUser = await store.showPostsByUser(req.params.id)
+		res.status(200)
+		res.json(postsByUser)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const create = async (req: Request, res: Response) => {
 	const { date, text, image_path, video_path, author, user_id } = req.body
 
@@ -48,10 +59,37 @@ const create = async (req: Request, res: Response) => {
 	}
 }
 
+const edit = async (req: Request, res: Response) => {
+	const { id } = req.params
+	const { field, value } = req.body
+	try {
+		const editedPost = await store.edit(id, field, value)
+		res.status(200)
+		res.json(editedPost)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
+const destroy = async (req: Request, res: Response) => {
+	const { id } = req.params
+	try {
+		const deletedPost = await store.delete(id)
+		res.status(200)
+		res.json(deletedPost)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const post_routes = (app: Application) => {
 	app.get('/posts', verifyAuthToken, index)
 	app.get('/posts/:id', verifyAuthToken, show)
 	app.post('/posts', verifyAuthToken, create)
+	app.put('/posts/:id', verifyAuthToken, edit)
+	app.delete('/posts/:id', verifyAuthToken, destroy)
 }
 
 export default post_routes

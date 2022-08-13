@@ -39,6 +39,20 @@ export class PostStore {
 		}
 	}
 
+	async showPostsByUser(user_id: string): Promise<Post[]> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'SELECT * FROM posts WHERE user_id=($1)'
+			const res = await conn.query(sql, [user_id])
+			return res.rows
+		} catch (e) {
+			throw new Error(`Error in PostStore showPostsByUser(${user_id}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
 	async create(post: Post): Promise<Post> {
 		const { date, text, image_path, video_path, author, user_id } = post
 		let conn
@@ -59,6 +73,39 @@ export class PostStore {
 			return res.rows[0]
 		} catch (e) {
 			throw new Error(`Error in PostStore create(post): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async edit(id: string, field: string, value: string | number): Promise<Post> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'UPDATE posts SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const res = await conn.query(sql, [field, value, id])
+			const post = res.rows[0] // correct row?
+			return post
+		} catch (e) {
+			throw new Error(
+				`Error in PostStore edit(${id}, ${field}, ${value}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async delete(id: string): Promise<Post> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'DELETE FROM posts WHERE id = ($1)'
+			const res = await conn.query(sql, [id])
+			const post = res.rows[0]
+			return post
+			// return deleted post
+		} catch (e) {
+			throw new Error(`Error in PostStore delete(${id}): ${e}`)
 		} finally {
 			conn?.release()
 		}

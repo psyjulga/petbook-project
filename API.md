@@ -28,6 +28,8 @@ index: all comments ??
 show: one comment by id ??
 showCommentsByPost: returns all comments related to a specific post
 create: create a new comment
+edit: update a certain field of a certain comment with a value
+destroy: delete a comment
 
 LIKES
 index: all likes => ??

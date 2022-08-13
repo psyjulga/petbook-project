@@ -70,6 +70,44 @@ export class CommentStore {
 		}
 	}
 
+	async edit(
+		id: string,
+		field: string,
+		value: string | number
+	): Promise<Comment> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql =
+				'UPDATE post_comments SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const res = await conn.query(sql, [field, value, id])
+			const comment = res.rows[0] // correct row?
+			return comment
+		} catch (e) {
+			throw new Error(
+				`Error in CommentStore edit(${id}, ${field}, ${value}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async delete(id: string): Promise<Comment> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'DELETE FROM post_comments WHERE id = ($1)'
+			const res = await conn.query(sql, [id])
+			const comment = res.rows[0]
+			return comment
+			// return deleted comment
+		} catch (e) {
+			throw new Error(`Error in CommentStore delete(${id}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
 	async closeClient() {
 		await client.end()
 	}

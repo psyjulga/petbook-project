@@ -57,11 +57,38 @@ const create = async (req: Request, res: Response) => {
 	}
 }
 
+const edit = async (req: Request, res: Response) => {
+	const { id } = req.params
+	const { field, value } = req.body
+	try {
+		const editedComment = await store.edit(id, field, value)
+		res.status(200)
+		res.json(editedComment)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
+const destroy = async (req: Request, res: Response) => {
+	const { id } = req.params
+	try {
+		const deletedComment = await store.delete(id)
+		res.status(200)
+		res.json(deletedComment)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const comment_routes = (app: Application) => {
 	app.get('/comments', index)
 	app.get('/comments/:id', show)
 	app.get('/comments/:id/posts', showCommentsByPost)
 	app.post('/comments', verifyAuthToken, create)
+	app.put('/comments/:id', verifyAuthToken, edit)
+	app.delete('/comments/:id', verifyAuthToken, destroy)
 }
 
 export default comment_routes

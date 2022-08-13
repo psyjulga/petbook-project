@@ -11,6 +11,7 @@ PETS
 index: all pets => e.g. filter by breed ?? OR: showByProp
 show: one pet by id => ??
 showPetsByUser: to display all of the users pets
+showPetsByProp: for filtering the pets (e.g. all with type dog)
 create: create a new pet
 edit: update a certain field of a certain pet with a value
 destroy: delete a pet !! what if pet is connected to several users ?

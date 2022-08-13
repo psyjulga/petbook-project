@@ -37,6 +37,18 @@ const showPetsByUser = async (req: Request, res: Response) => {
 	}
 }
 
+const showPetsByProp = async (req: Request, res: Response) => {
+	const { field, value } = req.body
+	try {
+		const petsByProp = await store.showPetsByProp(field, value)
+		res.status(200)
+		res.json(petsByProp)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const create = async (req: Request, res: Response) => {
 	const { type, breed, name, birthday, color, eye_color, profile_pic_path } =
 		req.body
@@ -90,6 +102,7 @@ const pet_routes = (app: Application) => {
 	app.get('/pets', index)
 	app.get('/pets/:id', show)
 	app.get('/pets/:id/users', verifyAuthToken, showPetsByUser)
+	app.get('/pets/filter', showPetsByProp)
 	app.post('/pets', verifyAuthToken, create)
 	app.put('/pets/:id', verifyAuthToken, edit)
 	app.delete('/pets/:id', verifyAuthToken, destroy)

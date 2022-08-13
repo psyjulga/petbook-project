@@ -54,6 +54,23 @@ export class PetStore {
 		}
 	}
 
+	async showPetsByProp(field: string, value: string | number): Promise<Pet[]> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = `SELECT * FROM pets WHERE ($1) = ($2)`
+			const res = await conn.query(sql, [field, value])
+			const pets = res.rows
+			return pets
+		} catch (e) {
+			throw new Error(
+				`Error in PetStore showPetsByProp(${field}, ${value}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+	}
+
 	async create(pet: Pet): Promise<Pet> {
 		const { type, breed, name, birthday, color, eye_color, profile_pic_path } =
 			pet

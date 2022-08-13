@@ -34,4 +34,5 @@ destroy: delete a comment
 LIKES
 index: all likes => ??
 showLikesByPost: returns all likes related to a specific post => arr.length & list usernames
-create: create a new like
+create: create a new like - LIKE
+destroy: delete a like - UNLIKE

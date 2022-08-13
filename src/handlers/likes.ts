@@ -44,10 +44,23 @@ const create = async (req: Request, res: Response) => {
 	}
 }
 
+const destroy = async (req: Request, res: Response) => {
+	const { id } = req.params
+	try {
+		const deletedLike = await store.delete(id)
+		res.status(200)
+		res.json(deletedLike)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const like_routes = (app: Application) => {
 	app.get('/likes', index)
 	app.get('/likes/:id/posts', showLikesByPost)
 	app.post('/likes', verifyAuthToken, create)
+	app.delete('/likes/:id', verifyAuthToken, destroy)
 }
 
 export default like_routes

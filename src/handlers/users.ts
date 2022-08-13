@@ -101,12 +101,39 @@ const addPetToUser = async (req: Request, res: Response) => {
 	}
 }
 
+const edit = async (req: Request, res: Response) => {
+	const { id } = req.params
+	const { field, value } = req.body
+	try {
+		const editedUser = await store.edit(id, field, value)
+		res.status(200)
+		res.json(editedUser)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
+const destroy = async (req: Request, res: Response) => {
+	const { id } = req.params
+	try {
+		const deletedUser = await store.delete(id)
+		res.status(200)
+		res.json(deletedUser)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const user_routes = (app: Application) => {
 	app.get('/users', verifyAuthToken, index)
 	app.get('/users/:id', verifyAuthToken, show)
 	app.post('/users', create)
 	app.get('/users/:id/authenticate', authenticate)
 	app.post('/users/:id/pets', verifyAuthToken, addPetToUser)
+	app.put('/users/:id', verifyAuthToken, edit)
+	app.delete('/users/:id', verifyAuthToken, destroy)
 }
 
 export default user_routes

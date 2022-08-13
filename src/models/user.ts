@@ -138,8 +138,41 @@ export class UserStore {
 			return petToUser
 		} catch (e) {
 			throw new Error(
-				`Error in PetStore addPetToUser(${user_id}, ${pet_id}): ${e}`
+				`Error in UserStore addPetToUser(${user_id}, ${pet_id}): ${e}`
 			)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async edit(id: string, field: string, value: string | number): Promise<User> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'UPDATE users SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const res = await conn.query(sql, [field, value, id])
+			const user = res.rows[0] // correct row?
+			return user
+		} catch (e) {
+			throw new Error(
+				`Error in UserStore edit(${id}, ${field}, ${value}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async delete(id: string): Promise<User> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = 'DELETE FROM users WHERE id = ($1)'
+			const res = await conn.query(sql, [id])
+			const book = res.rows[0]
+			return book
+			// return deleted book
+		} catch (e) {
+			throw new Error(`Error in UserStore delete(${id}): ${e}`)
 		} finally {
 			conn?.release()
 		}

@@ -70,22 +70,18 @@ export class CommentStore {
 		}
 	}
 
-	async edit(
-		id: string,
-		field: string,
-		value: string | number
-	): Promise<Comment> {
+	async edit(id: string, value: string): Promise<Comment> {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE comments SET ($1) = ($2) WHERE id = ($3) RETURNING *'
-			const res = await conn.query(sql, [field, value, id])
-			const comment = res.rows[0] // correct row?
-			return comment
+			const sql =
+				'UPDATE comments SET text = ($1) WHERE comment_id = ($2) RETURNING *'
+			const res = await conn.query(sql, [value, id])
+			const updatedComment = res.rows[0]
+			return updatedComment
 		} catch (e) {
-			throw new Error(
-				`Error in CommentStore edit(${id}, ${field}, ${value}): ${e}`
-			)
+			console.log('Error in CommentStore edit', e)
+			throw new Error(`Error in CommentStore edit(${id}, ${value}): ${e}`)
 		} finally {
 			conn?.release()
 		}
@@ -95,11 +91,10 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM comments WHERE id = ($1)'
+			const sql = 'DELETE FROM comments WHERE comment_id = ($1) RETURNING *'
 			const res = await conn.query(sql, [id])
-			const comment = res.rows[0]
-			return comment
-			// return deleted comment
+			const deletedComment = res.rows[0]
+			return deletedComment
 		} catch (e) {
 			throw new Error(`Error in CommentStore delete(${id}): ${e}`)
 		} finally {

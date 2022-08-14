@@ -82,10 +82,10 @@ export class PostStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE posts SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const sql = 'UPDATE posts SET ($1) = ($2) WHERE id = ($3) RETURNING *' // !!
 			const res = await conn.query(sql, [field, value, id])
-			const post = res.rows[0] // correct row?
-			return post
+			const updatedPost = res.rows[0]
+			return updatedPost
 		} catch (e) {
 			throw new Error(
 				`Error in PostStore edit(${id}, ${field}, ${value}): ${e}`
@@ -99,11 +99,10 @@ export class PostStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM posts WHERE id = ($1)'
+			const sql = 'DELETE FROM posts WHERE post_id = ($1) RETURNING *'
 			const res = await conn.query(sql, [id])
-			const post = res.rows[0]
-			return post
-			// return deleted post
+			const deletedPost = res.rows[0]
+			return deletedPost
 		} catch (e) {
 			throw new Error(`Error in PostStore delete(${id}): ${e}`)
 		} finally {

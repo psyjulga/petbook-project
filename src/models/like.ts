@@ -58,9 +58,8 @@ export class LikeStore {
 			conn = await client.connect()
 			const sql = 'DELETE FROM likes WHERE like_id = ($1) RETURNING *'
 			const res = await conn.query(sql, [id])
-			const like = res.rows[0]
-			return like
-			// return deleted like
+			const deletedLike = res.rows[0]
+			return deletedLike
 		} catch (e) {
 			console.log('Error in LikeStore delete: ', e)
 			throw new Error(`Error in LikeStore delete(${id}): ${e}`)

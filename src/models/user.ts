@@ -155,7 +155,7 @@ export class UserStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = `DELETE FROM users_pets WHERE user_id = ($1) AND pet_id = ($2)`
+			const sql = `DELETE FROM users_pets WHERE user_id = ($1) AND pet_id = ($2) RETURNING *`
 			const res = await conn.query(sql, [user_id, pet_id])
 			const removedPet = res.rows[0]
 			return removedPet
@@ -172,10 +172,10 @@ export class UserStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE users SET $1 = $2 WHERE id = $3 RETURNING *'
+			const sql = 'UPDATE users SET $1 = $2 WHERE id = $3 RETURNING *' // !!
 			const res = await conn.query(sql, [field, value, id])
-			const user = res.rows[0] // correct row?
-			return user
+			const updatedUser = res.rows[0]
+			return updatedUser
 		} catch (e) {
 			console.log('Error in UserStore edit', e)
 			throw new Error(
@@ -190,11 +190,10 @@ export class UserStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM users WHERE user_id = ($1)'
+			const sql = 'DELETE FROM users WHERE user_id = ($1) RETURNING *'
 			const res = await conn.query(sql, [id])
-			const user = res.rows[0]
-			return user
-			// return deleted user
+			const deletedUser = res.rows[0]
+			return deletedUser
 		} catch (e) {
 			console.log('Error in UserStore delete', e)
 			throw new Error(`Error in UserStore delete(${id}): ${e}`)

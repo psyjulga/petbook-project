@@ -100,10 +100,10 @@ export class PetStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE pets SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const sql = 'UPDATE pets SET ($1) = ($2) WHERE id = ($3) RETURNING *' // !!
 			const res = await conn.query(sql, [field, value, id])
-			const pet = res.rows[0] // correct row?
-			return pet
+			const updatedPet = res.rows[0]
+			return updatedPet
 		} catch (e) {
 			throw new Error(`Error in PetStore edit(${id}, ${field}, ${value}): ${e}`)
 		} finally {
@@ -115,11 +115,10 @@ export class PetStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM pets WHERE id = ($1)'
+			const sql = 'DELETE FROM pets WHERE pet_id = ($1) RETURNING *'
 			const res = await conn.query(sql, [id])
-			const pet = res.rows[0]
-			return pet
-			// return deleted pet
+			const deletedPet = res.rows[0]
+			return deletedPet
 		} catch (e) {
 			throw new Error(`Error in PetStore delete(${id}): ${e}`)
 		} finally {

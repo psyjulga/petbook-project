@@ -10,7 +10,7 @@ export type User = {
 	email: string
 	country: string
 	city: string
-	profile_pic: string
+	profile_pic?: string
 	password: string
 }
 
@@ -81,6 +81,7 @@ export class UserStore {
 			const user = res.rows[0]
 			return user
 		} catch (e) {
+			console.log('Error in UserStore create(user): ', e)
 			throw new Error(`Error in UserStore create(user): ${e}`)
 		} finally {
 			conn?.release()
@@ -94,6 +95,7 @@ export class UserStore {
 	): Promise<User | null> {
 		let conn
 		try {
+			console.log('from authenticate model')
 			conn = await client.connect()
 			const sql = 'SELECT password FROM users WHERE user_name=($1)'
 
@@ -112,6 +114,7 @@ export class UserStore {
 			}
 			return null
 		} catch (e) {
+			console.log('Error in UserStore authenticate', e)
 			throw new Error(
 				`Error in UserStore authenticate(${user_name},${password}): ${e}`
 			)
@@ -149,11 +152,12 @@ export class UserStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE users SET ($1) = ($2) WHERE id = ($3) RETURNING *'
+			const sql = 'UPDATE users SET $1 = $2 WHERE id = $3 RETURNING *'
 			const res = await conn.query(sql, [field, value, id])
 			const user = res.rows[0] // correct row?
 			return user
 		} catch (e) {
+			console.log('Error in UserStore edit', e)
 			throw new Error(
 				`Error in UserStore edit(${id}, ${field}, ${value}): ${e}`
 			)
@@ -166,12 +170,13 @@ export class UserStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'DELETE FROM users WHERE id = ($1)'
+			const sql = 'DELETE FROM users WHERE user_id = ($1)'
 			const res = await conn.query(sql, [id])
-			const book = res.rows[0]
-			return book
+			const user = res.rows[0]
+			return user
 			// return deleted user
 		} catch (e) {
+			console.log('Error in UserStore delete', e)
 			throw new Error(`Error in UserStore delete(${id}): ${e}`)
 		} finally {
 			conn?.release()

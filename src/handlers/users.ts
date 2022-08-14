@@ -67,9 +67,14 @@ const create = async (req: Request, res: Response) => {
 
 // SIGN IN => token created
 const authenticate = async (req: Request, res: Response) => {
+	console.log('hello from auth')
 	try {
 		const { user_name, password } = req.body
-
+		console.log(
+			'user_name, password from authenticate handler: ',
+			user_name,
+			password
+		)
 		const authenticatedUser = await store.authenticate(
 			// returns null or password / user ??
 			user_name,
@@ -104,8 +109,10 @@ const addPetToUser = async (req: Request, res: Response) => {
 const edit = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const { field, value } = req.body
+	console.log('field, value from edit handler: ', field, value)
 	try {
 		const editedUser = await store.edit(id, field, value)
+		console.log('editedUser from edit handler: ', editedUser)
 		res.status(200)
 		res.json(editedUser)
 	} catch (e) {
@@ -116,8 +123,10 @@ const edit = async (req: Request, res: Response) => {
 
 const destroy = async (req: Request, res: Response) => {
 	const { id } = req.params
+	console.log('id from destroy handler: ', id)
 	try {
 		const deletedUser = await store.delete(id)
+		console.log('deletedUser from destroy handler: ', deletedUser)
 		res.status(200)
 		res.json(deletedUser)
 	} catch (e) {
@@ -130,7 +139,7 @@ const user_routes = (app: Application) => {
 	app.get('/users', verifyAuthToken, index)
 	app.get('/users/:id', verifyAuthToken, show)
 	app.post('/users', create)
-	app.get('/users/:id/authenticate', authenticate)
+	app.get('/users/authenticate', authenticate)
 	app.post('/users/:id/pets', verifyAuthToken, addPetToUser)
 	app.put('/users/:id', verifyAuthToken, edit)
 	app.delete('/users/:id', verifyAuthToken, destroy)

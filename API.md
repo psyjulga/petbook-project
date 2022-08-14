@@ -22,7 +22,7 @@ index: all posts => to show in newsfeed
 show: one post by id => ??
 showPostsByUser: to display all of the user's posts on his profile page
 create: create a new post !! image / video / null
-edit: update a certain field of a certain post with a value
+edit: update text or author of a certain post with a value
 destroy: delete a post
 
 COMMENTS

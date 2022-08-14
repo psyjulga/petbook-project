@@ -82,11 +82,17 @@ export class PostStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE posts SET ($1) = ($2) WHERE id = ($3) RETURNING *' // !!
-			const res = await conn.query(sql, [field, value, id])
+			const sql_text = `UPDATE posts SET text = ($1) WHERE post_id = ($2) RETURNING *`
+			const sql_author = `UPDATE posts SET author = ($1) WHERE post_id = ($2) RETURNING *`
+			const res = await conn.query((field = 'text' ? sql_text : sql_author), [
+				value,
+				id,
+			])
 			const updatedPost = res.rows[0]
+			console.log('updated post: ', updatedPost)
 			return updatedPost
 		} catch (e) {
+			console.log('Error in PostStore edit: ', e)
 			throw new Error(
 				`Error in PostStore edit(${id}, ${field}, ${value}): ${e}`
 			)
@@ -97,6 +103,44 @@ export class PostStore {
 
 	async delete(id: string): Promise<Post> {
 		let conn
+		// to delete a post we first have to check if there are comments and likes
+		// if so, comments and likes have to be deleted first
+		try {
+			conn = await client.connect()
+			const sql1 = 'SELECT * FROM comments WHERE post_id = ($1)'
+			const res1 = await conn.query(sql1, [id])
+			const comments = res1.rows
+
+			if (comments.length) {
+				const sql2 = 'DELETE FROM comments WHERE post_id = ($1) RETURNING *'
+				const res2 = await conn.query(sql2, [id])
+				const deletedComments = res2.rows
+			}
+		} catch (e) {
+			console.log('Error in PostStore delete - delete comments: ', e)
+			throw new Error(`Error in PostStore delete(${id}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+
+		try {
+			conn = await client.connect()
+			const sql1 = 'SELECT * FROM likes WHERE post_id = ($1)'
+			const res1 = await conn.query(sql1, [id])
+			const likes = res1.rows
+
+			if (likes.length) {
+				const sql2 = 'DELETE FROM likes WHERE post_id = ($1) RETURNING *'
+				const res2 = await conn.query(sql2, [id])
+				const deletedLikes = res2.rows
+			}
+		} catch (e) {
+			console.log('Error in PostStore delete - delete likes: ', e)
+			throw new Error(`Error in PostStore delete(${id}): ${e}`)
+		} finally {
+			conn?.release()
+		}
+
 		try {
 			conn = await client.connect()
 			const sql = 'DELETE FROM posts WHERE post_id = ($1) RETURNING *'
@@ -104,6 +148,7 @@ export class PostStore {
 			const deletedPost = res.rows[0]
 			return deletedPost
 		} catch (e) {
+			console.log('Error in PostStore delete: ', e)
 			throw new Error(`Error in PostStore delete(${id}): ${e}`)
 		} finally {
 			conn?.release()

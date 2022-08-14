@@ -87,6 +87,7 @@ const destroy = async (req: Request, res: Response) => {
 const post_routes = (app: Application) => {
 	app.get('/posts', verifyAuthToken, index)
 	app.get('/posts/:id', verifyAuthToken, show)
+	app.get('/posts/:id/users', verifyAuthToken, showPostsByUser)
 	app.post('/posts', verifyAuthToken, create)
 	app.put('/posts/:id', verifyAuthToken, edit)
 	app.delete('/posts/:id', verifyAuthToken, destroy)

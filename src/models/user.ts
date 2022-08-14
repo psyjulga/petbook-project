@@ -137,11 +137,31 @@ export class UserStore {
          users_pets_id, user_id, pet_id) 
          VALUES(default, $1, $2) RETURNING *`
 			const res = await conn.query(sql, [user_id, pet_id])
-			const petToUser = res.rows[0]
-			return petToUser
+			const addedPet = res.rows[0]
+			return addedPet
 		} catch (e) {
 			throw new Error(
 				`Error in UserStore addPetToUser(${user_id}, ${pet_id}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async removePetFromUser(
+		user_id: string,
+		pet_id: string
+	): Promise<{ users_pets_id: string; user_id: string; pet_id: string }> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql = `DELETE FROM users_pets WHERE user_id = ($1) AND pet_id = ($2)`
+			const res = await conn.query(sql, [user_id, pet_id])
+			const removedPet = res.rows[0]
+			return removedPet
+		} catch (e) {
+			throw new Error(
+				`Error in UserStore removePetFromUser(${user_id}, ${pet_id}): ${e}`
 			)
 		} finally {
 			conn?.release()

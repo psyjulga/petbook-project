@@ -106,6 +106,20 @@ const addPetToUser = async (req: Request, res: Response) => {
 	}
 }
 
+const removePetFromUser = async (req: Request, res: Response) => {
+	const user_id: string = req.params.id
+	const pet_id: string = req.body.pet_id
+
+	try {
+		const removedPet = await store.removePetFromUser(user_id, pet_id)
+		res.status(200)
+		res.json(removedPet)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
+}
+
 const edit = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const { field, value } = req.body
@@ -141,6 +155,7 @@ const user_routes = (app: Application) => {
 	app.post('/users', create)
 	app.get('/users/authenticate', authenticate)
 	app.post('/users/:id/pets', verifyAuthToken, addPetToUser)
+	app.delete('/users/:id/pets', verifyAuthToken, removePetFromUser)
 	app.put('/users/:id', verifyAuthToken, edit)
 	app.delete('/users/:id', verifyAuthToken, destroy)
 }

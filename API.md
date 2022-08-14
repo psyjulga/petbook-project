@@ -4,6 +4,7 @@ show: one user by id => to show the logged in users profile
 create: create a new user / sign up !! return value is the token
 authenticate: sign in / enter username and password
 addPetToUser: create a relation between a pet and a user !! how handle when pet already exists ?
+removePetFromUser: cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)
 edit: update a certain field of a certain user with a value
 destroy: delete a user
 

@@ -15,7 +15,7 @@ showPetsByUser: to display all of the users pets
 showPetsByProp: for filtering the pets (e.g. all with type dog)
 create: create a new pet
 edit: update a certain field of a certain pet with a value
-destroy: delete a pet !! what if pet is connected to several users ?
+destroy: delete a pet
 
 POSTS
 index: all posts => to show in newsfeed

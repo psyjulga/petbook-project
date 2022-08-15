@@ -88,8 +88,11 @@ const edit = async (req: Request, res: Response) => {
 
 const destroy = async (req: Request, res: Response) => {
 	const { id } = req.params
+	const { user_id } = req.body
+
 	try {
-		const deletedPet = await store.delete(id)
+		const deletedPet = await store.delete(id, user_id)
+		console.log('deleted pet in handler: ', deletedPet)
 		res.status(200)
 		res.json(deletedPet)
 	} catch (e) {
@@ -102,7 +105,7 @@ const pet_routes = (app: Application) => {
 	app.get('/pets', index)
 	app.get('/pets/:id', show)
 	app.get('/pets/:id/users', verifyAuthToken, showPetsByUser)
-	app.get('/pets/filter', showPetsByProp)
+	app.get('/filter_pets', showPetsByProp)
 	app.post('/pets', verifyAuthToken, create)
 	app.put('/pets/:id', verifyAuthToken, edit)
 	app.delete('/pets/:id', verifyAuthToken, destroy)

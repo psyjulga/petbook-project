@@ -1,6 +1,13 @@
 import bcrypt from 'bcrypt'
 import pepper from 'bcrypt'
 import client from '../database'
+import tableHasRelations from '../util/tableHasRelations'
+import deleteFromTable from '../util/deleteFromTable'
+import selectFromTable from '../util/selectFromTable'
+import removePetFromUser from '../util/removePetFromUser'
+
+import { PetStore } from './pet'
+const petStore = new PetStore()
 
 export type User = {
 	user_id?: number
@@ -154,21 +161,9 @@ export class UserStore {
 		user_id: string,
 		pet_id: string
 	): Promise<{ users_pets_id: string; user_id: string; pet_id: string }> {
-		let conn
-		try {
-			conn = await client.connect()
-			const sql = `DELETE FROM users_pets WHERE user_id = ($1) AND pet_id = ($2) RETURNING *`
-			const res = await conn.query(sql, [user_id, pet_id])
-			const removedPet = res.rows[0]
-			return removedPet
-		} catch (e) {
-			console.log('Error in UserStore removePetFromUser: ', e)
-			throw new Error(
-				`Error in UserStore removePetFromUser(${user_id}, ${pet_id}): ${e}`
-			)
-		} finally {
-			conn?.release()
-		}
+		const removedPet = await removePetFromUser(user_id, pet_id)
+		console.log('removed pet in user model: ', removedPet)
+		return removedPet
 	}
 
 	async edit(user_id: string, field: string, value: string): Promise<User> {
@@ -189,21 +184,42 @@ export class UserStore {
 		}
 	}
 
-	async delete(id: string): Promise<User> {
+	async delete(user_id: string): Promise<User> {
 		let conn
-		// user has pets? => remove from user -- delete if no users (other owners)
+		// user has pets? => delete
+		const userHasPets = await tableHasRelations(
+			'users_pets',
+			'user_id',
+			user_id
+		)
+		console.log('user has pets: ', userHasPets)
+		if (userHasPets) {
+			const pet_ids = await selectFromTable(
+				'pet_id',
+				'users_pets',
+				'user_id',
+				user_id
+			)
+			console.log('pet_ids: ', pet_ids)
+			pet_ids?.forEach((pet_id_obj: { pet_id: string }) => {
+				const pet_id = pet_id_obj.pet_id
+				console.log('pet id: ', pet_id)
+				petStore.delete(pet_id, user_id)
+			})
+		}
+
 		// user has posts? => delete (comments and likes first)
 		// user has comments => preserve! => "deleted user" => new table
 		// user has likes => preserve! => "deleted user" => new table
 		try {
 			conn = await client.connect()
 			const sql = 'DELETE FROM users WHERE user_id = ($1) RETURNING *'
-			const res = await conn.query(sql, [id])
+			const res = await conn.query(sql, [user_id])
 			const deletedUser = res.rows[0]
 			return deletedUser
 		} catch (e) {
 			console.log('Error in UserStore delete: ', e)
-			throw new Error(`Error in UserStore delete(${id}): ${e}`)
+			throw new Error(`Error in UserStore delete(${user_id}): ${e}`)
 		} finally {
 			conn?.release()
 		}

@@ -1,9 +1,7 @@
 import client from '../database'
-import { UserStore } from './user'
 import tableHasRelations from '../util/tableHasRelations'
 import deleteFromTable from '../util/deleteFromTable'
-
-const userStore = new UserStore()
+import removePetFromUser from '../util/removePetFromUser'
 
 export type Pet = {
 	pet_id?: number
@@ -125,7 +123,8 @@ export class PetStore {
 	}
 
 	async delete(pet_id: string, user_id: string): Promise<Pet | string> {
-		const removedPet = await userStore.removePetFromUser(user_id, pet_id)
+		const removedPet = await removePetFromUser(user_id, pet_id)
+		console.log('removed pet in pet model: ', removedPet)
 
 		const petHasUsers = await tableHasRelations('users_pets', 'pet_id', pet_id)
 		if (petHasUsers) {

@@ -7,7 +7,10 @@ import selectFromTable from '../util/selectFromTable'
 import removePetFromUser from '../util/removePetFromUser'
 
 import { PetStore } from './pet'
+import { PostStore } from './post'
+
 const petStore = new PetStore()
+const postStore = new PostStore()
 
 export type User = {
 	user_id?: number
@@ -162,7 +165,6 @@ export class UserStore {
 		pet_id: string
 	): Promise<{ users_pets_id: string; user_id: string; pet_id: string }> {
 		const removedPet = await removePetFromUser(user_id, pet_id)
-		console.log('removed pet in user model: ', removedPet)
 		return removedPet
 	}
 
@@ -184,9 +186,41 @@ export class UserStore {
 		}
 	}
 
+	async deleteUsersPets(user_id: string): Promise<void> {
+		const pet_ids = await selectFromTable(
+			'pet_id',
+			'users_pets',
+			'user_id',
+			user_id
+		)
+
+		pet_ids?.forEach(async (pet_id_obj: { pet_id: string }) => {
+			const pet_id = pet_id_obj.pet_id
+			console.log('deleting pet with id: ', pet_id)
+			await petStore.delete(pet_id, user_id)
+			console.log('AFTER deleting pet with id: ', pet_id)
+		})
+	}
+
+	async deleteUsersPosts(user_id: string): Promise<void> {
+		const post_ids = await selectFromTable(
+			'post_id',
+			'posts',
+			'user_id',
+			user_id
+		)
+
+		post_ids?.forEach(async (post_id_obj: { post_id: string }) => {
+			const post_id = post_id_obj.post_id
+			console.log('deleting post with id: ', post_id)
+			await postStore.delete(post_id)
+			console.log('AFTER deleting post with id: ', post_id)
+		})
+	}
+
 	async delete(user_id: string): Promise<User> {
 		let conn
-		// user has pets? => delete
+
 		const userHasPets = await tableHasRelations(
 			'users_pets',
 			'user_id',
@@ -194,21 +228,14 @@ export class UserStore {
 		)
 		console.log('user has pets: ', userHasPets)
 		if (userHasPets) {
-			const pet_ids = await selectFromTable(
-				'pet_id',
-				'users_pets',
-				'user_id',
-				user_id
-			)
-			console.log('pet_ids: ', pet_ids)
-			pet_ids?.forEach((pet_id_obj: { pet_id: string }) => {
-				const pet_id = pet_id_obj.pet_id
-				console.log('pet id: ', pet_id)
-				petStore.delete(pet_id, user_id)
-			})
+			await this.deleteUsersPets(user_id)
 		}
 
-		// user has posts? => delete (comments and likes first)
+		const userHasPosts = await tableHasRelations('posts', 'user_id', user_id)
+		if (userHasPosts) {
+			await this.deleteUsersPosts(user_id)
+		}
+
 		// user has comments => preserve! => "deleted user" => new table
 		// user has likes => preserve! => "deleted user" => new table
 		try {

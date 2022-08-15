@@ -106,6 +106,7 @@ export class PostStore {
 		const postHasComments = await tableHasRelations('comments', 'post_id', id)
 		if (postHasComments) {
 			const deletedComments = await deleteFromTable('comments', 'post_id', id)
+			console.log('deleted comments from deleted post: ', deletedComments)
 		}
 
 		const postHasLikes = await tableHasRelations('likes', 'post_id', id)
@@ -115,6 +116,7 @@ export class PostStore {
 
 		const deletedPosts = await deleteFromTable('posts', 'post_id', id)
 		const deletedPost = deletedPosts[0]
+		console.log('deleted post: ', deletedPost)
 		return deletedPost
 	}
 

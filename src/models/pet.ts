@@ -127,6 +127,7 @@ export class PetStore {
 		console.log('removed pet in pet model: ', removedPet)
 
 		const petHasUsers = await tableHasRelations('users_pets', 'pet_id', pet_id)
+		console.log('pet has users: ', petHasUsers)
 		if (petHasUsers) {
 			return `This pet does have multiple owners.
 		        It was succesfully removed from your profile,
@@ -135,6 +136,7 @@ export class PetStore {
 
 		const deletedPets = await deleteFromTable('pets', 'pet_id', pet_id)
 		const deletedPet = deletedPets[0]
+		console.log('deleted pet: ', deletedPet)
 		return deletedPet
 	}
 

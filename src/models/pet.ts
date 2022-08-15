@@ -1,4 +1,9 @@
 import client from '../database'
+import { UserStore } from './user'
+import tableHasRelations from '../util/tableHasRelations'
+import deleteFromTable from '../util/deleteFromTable'
+
+const userStore = new UserStore()
 
 export type Pet = {
 	pet_id?: number
@@ -120,47 +125,18 @@ export class PetStore {
 	}
 
 	async delete(pet_id: string, user_id: string): Promise<Pet | string> {
-		// to delete a pet we first have to remove it from the logged in user
-		// then check if the pet does still have users (a pet can have several owners)
-		// if no user => delete --- if user => only remove from logged in user
-		let conn
-		// 1. remove pet from user (users_pets table)
-		try {
-			conn = await client.connect()
-			const sql = `DELETE FROM users_pets WHERE user_id = ($1) AND pet_id = ($2) RETURNING *`
-			const res = await conn.query(sql, [user_id, pet_id])
-			const removedPet = res.rows[0]
-		} catch (e) {
-			console.log('Error in PetStore delete', e)
-			throw new Error(
-				`Error in PetStore delete(${pet_id}, ${user_id}) - remove pet: ${e}`
-			)
-		} finally {
-			conn?.release()
-		}
-		// 2. check if pet does still have owners (users)
-		try {
-			conn = await client.connect()
-			const sql = `SELECT * FROM users_pets WHERE pet_id = ($1)`
-			const res = await conn.query(sql, [pet_id])
-			const petHasUsers = res.rows
-			// if no user => delete pet (pets table)
-			if (!petHasUsers.length) {
-				const sql = 'DELETE FROM pets WHERE pet_id = ($1) RETURNING *'
-				const res = await conn.query(sql, [pet_id])
-				const deletedPet = res.rows[0]
-				return deletedPet
-			}
+		const removedPet = await userStore.removePetFromUser(user_id, pet_id)
 
+		const petHasUsers = await tableHasRelations('users_pets', 'pet_id', pet_id)
+		if (petHasUsers) {
 			return `This pet does have multiple owners.
 		        It was succesfully removed from your profile,
 						but is still available for co-owners.`
-		} catch (e) {
-			console.log('Error in PetStore delete', e)
-			throw new Error(`Error in PetStore delete(${pet_id}, ${user_id}): ${e}`)
-		} finally {
-			conn?.release()
 		}
+
+		const deletedPets = await deleteFromTable('pets', 'pet_id', pet_id)
+		const deletedPet = deletedPets[0]
+		return deletedPet
 	}
 
 	async closeClient() {

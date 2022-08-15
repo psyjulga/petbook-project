@@ -1,4 +1,6 @@
 import client from '../database'
+import tableHasRelations from '../util/tableHasRelations'
+import deleteFromTable from '../util/deleteFromTable'
 
 export type Post = {
 	post_id?: number
@@ -89,7 +91,6 @@ export class PostStore {
 				id,
 			])
 			const updatedPost = res.rows[0]
-			console.log('updated post: ', updatedPost)
 			return updatedPost
 		} catch (e) {
 			console.log('Error in PostStore edit: ', e)
@@ -102,57 +103,19 @@ export class PostStore {
 	}
 
 	async delete(id: string): Promise<Post> {
-		let conn
-		// to delete a post we first have to check if there are comments and likes
-		// if so, comments and likes have to be deleted first
-		try {
-			conn = await client.connect()
-			const sql1 = 'SELECT * FROM comments WHERE post_id = ($1)'
-			const res1 = await conn.query(sql1, [id])
-			const comments = res1.rows
-
-			if (comments.length) {
-				const sql2 = 'DELETE FROM comments WHERE post_id = ($1) RETURNING *'
-				const res2 = await conn.query(sql2, [id])
-				const deletedComments = res2.rows
-			}
-		} catch (e) {
-			console.log('Error in PostStore delete - delete comments: ', e)
-			throw new Error(`Error in PostStore delete(${id}): ${e}`)
-		} finally {
-			conn?.release()
+		const postHasComments = await tableHasRelations('comments', 'post_id', id)
+		if (postHasComments) {
+			const deletedComments = await deleteFromTable('comments', 'post_id', id)
 		}
 
-		try {
-			conn = await client.connect()
-			const sql1 = 'SELECT * FROM likes WHERE post_id = ($1)'
-			const res1 = await conn.query(sql1, [id])
-			const likes = res1.rows
-
-			if (likes.length) {
-				const sql2 = 'DELETE FROM likes WHERE post_id = ($1) RETURNING *'
-				const res2 = await conn.query(sql2, [id])
-				const deletedLikes = res2.rows
-			}
-		} catch (e) {
-			console.log('Error in PostStore delete - delete likes: ', e)
-			throw new Error(`Error in PostStore delete(${id}): ${e}`)
-		} finally {
-			conn?.release()
+		const postHasLikes = await tableHasRelations('likes', 'post_id', id)
+		if (postHasLikes) {
+			const deletedLikes = await deleteFromTable('likes', 'post_id', id)
 		}
 
-		try {
-			conn = await client.connect()
-			const sql = 'DELETE FROM posts WHERE post_id = ($1) RETURNING *'
-			const res = await conn.query(sql, [id])
-			const deletedPost = res.rows[0]
-			return deletedPost
-		} catch (e) {
-			console.log('Error in PostStore delete: ', e)
-			throw new Error(`Error in PostStore delete(${id}): ${e}`)
-		} finally {
-			conn?.release()
-		}
+		const deletedPosts = await deleteFromTable('posts', 'post_id', id)
+		const deletedPost = deletedPosts[0]
+		return deletedPost
 	}
 
 	async closeClient() {

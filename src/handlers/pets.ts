@@ -92,7 +92,6 @@ const destroy = async (req: Request, res: Response) => {
 
 	try {
 		const deletedPet = await store.delete(id, user_id)
-		console.log('deleted pet in handler: ', deletedPet)
 		res.status(200)
 		res.json(deletedPet)
 	} catch (e) {

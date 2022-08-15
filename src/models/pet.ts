@@ -130,7 +130,6 @@ export class PetStore {
 			const sql = `DELETE FROM users_pets WHERE user_id = ($1) AND pet_id = ($2) RETURNING *`
 			const res = await conn.query(sql, [user_id, pet_id])
 			const removedPet = res.rows[0]
-			console.log('removed pet: ', removedPet)
 		} catch (e) {
 			console.log('Error in PetStore delete', e)
 			throw new Error(
@@ -145,21 +144,12 @@ export class PetStore {
 			const sql = `SELECT * FROM users_pets WHERE pet_id = ($1)`
 			const res = await conn.query(sql, [pet_id])
 			const petHasUsers = res.rows
-			console.log('pethasusers: ', petHasUsers)
 			// if no user => delete pet (pets table)
 			if (!petHasUsers.length) {
-				try {
-					const sql = 'DELETE FROM pets WHERE pet_id = ($1) RETURNING *'
-					const res = await conn.query(sql, [pet_id])
-					const deletedPet = res.rows[0]
-					console.log('deleted pet: ', deletedPet)
-					return deletedPet
-				} catch (e) {
-					console.log('Error in PetStore delete', e)
-					throw new Error(
-						`Error in PetStore delete(${pet_id}, ${user_id}): ${e}`
-					)
-				}
+				const sql = 'DELETE FROM pets WHERE pet_id = ($1) RETURNING *'
+				const res = await conn.query(sql, [pet_id])
+				const deletedPet = res.rows[0]
+				return deletedPet
 			}
 
 			return `This pet does have multiple owners.
@@ -167,9 +157,7 @@ export class PetStore {
 						but is still available for co-owners.`
 		} catch (e) {
 			console.log('Error in PetStore delete', e)
-			throw new Error(
-				`Error in PetStore delete - check userhaspets (${pet_id}, ${user_id}): ${e}`
-			)
+			throw new Error(`Error in PetStore delete(${pet_id}, ${user_id}): ${e}`)
 		} finally {
 			conn?.release()
 		}

@@ -23,6 +23,7 @@ export class UserStore {
 			const res = await conn.query(sql)
 			return res.rows
 		} catch (e) {
+			console.log('Error in UserStore index: ', e)
 			throw new Error(`Error in UserStore index(): ${e}`)
 		} finally {
 			conn?.release()
@@ -37,6 +38,7 @@ export class UserStore {
 			const res = await conn.query(sql, [user_id])
 			return res.rows[0]
 		} catch (e) {
+			console.log('Error in UserStore show: ', e)
 			throw new Error(`Error in UserStore show(${user_id}): ${e}`)
 		} finally {
 			conn?.release()
@@ -81,7 +83,7 @@ export class UserStore {
 			const user = res.rows[0]
 			return user
 		} catch (e) {
-			console.log('Error in UserStore create(user): ', e)
+			console.log('Error in UserStore create: ', e)
 			throw new Error(`Error in UserStore create(user): ${e}`)
 		} finally {
 			conn?.release()
@@ -95,7 +97,6 @@ export class UserStore {
 	): Promise<User | null> {
 		let conn
 		try {
-			console.log('from authenticate model')
 			conn = await client.connect()
 			const sql = 'SELECT password FROM users WHERE user_name=($1)'
 
@@ -114,7 +115,7 @@ export class UserStore {
 			}
 			return null
 		} catch (e) {
-			console.log('Error in UserStore authenticate', e)
+			console.log('Error in UserStore authenticate: ', e)
 			throw new Error(
 				`Error in UserStore authenticate(${user_name},${password}): ${e}`
 			)
@@ -140,6 +141,7 @@ export class UserStore {
 			const addedPet = res.rows[0]
 			return addedPet
 		} catch (e) {
+			console.log('Error in UserStore addPetToUser: ', e)
 			throw new Error(
 				`Error in UserStore addPetToUser(${user_id}, ${pet_id}): ${e}`
 			)
@@ -160,6 +162,7 @@ export class UserStore {
 			const removedPet = res.rows[0]
 			return removedPet
 		} catch (e) {
+			console.log('Error in UserStore removePetFromUser: ', e)
 			throw new Error(
 				`Error in UserStore removePetFromUser(${user_id}, ${pet_id}): ${e}`
 			)
@@ -168,18 +171,18 @@ export class UserStore {
 		}
 	}
 
-	async edit(id: string, field: string, value: string | number): Promise<User> {
+	async edit(user_id: string, field: string, value: string): Promise<User> {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'UPDATE users SET $1 = $2 WHERE id = $3 RETURNING *' // !!
-			const res = await conn.query(sql, [field, value, id])
+			const sql = `UPDATE users SET ${field} = ($1) WHERE user_id = ($2) RETURNING *`
+			const res = await conn.query(sql, [value, user_id])
 			const updatedUser = res.rows[0]
 			return updatedUser
 		} catch (e) {
-			console.log('Error in UserStore edit', e)
+			console.log('Error in UserStore edit: ', e)
 			throw new Error(
-				`Error in UserStore edit(${id}, ${field}, ${value}): ${e}`
+				`Error in UserStore edit(${user_id}, ${field}, ${value}): ${e}`
 			)
 		} finally {
 			conn?.release()
@@ -188,6 +191,10 @@ export class UserStore {
 
 	async delete(id: string): Promise<User> {
 		let conn
+		// user has pets? => remove from user -- delete if no users (other owners)
+		// user has posts? => delete (comments and likes first)
+		// user has comments => preserve! => "deleted user" => new table
+		// user has likes => preserve! => "deleted user" => new table
 		try {
 			conn = await client.connect()
 			const sql = 'DELETE FROM users WHERE user_id = ($1) RETURNING *'
@@ -195,7 +202,7 @@ export class UserStore {
 			const deletedUser = res.rows[0]
 			return deletedUser
 		} catch (e) {
-			console.log('Error in UserStore delete', e)
+			console.log('Error in UserStore delete: ', e)
 			throw new Error(`Error in UserStore delete(${id}): ${e}`)
 		} finally {
 			conn?.release()

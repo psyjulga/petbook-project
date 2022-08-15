@@ -34,8 +34,8 @@ describe('User Handler', () => {
 		expect(res.status).toBe(200)
 	})
 
-	test('GET /users/authenticate calls authenticate() and returns 200', async () => {
-		const res = await request(server).get('/users/authenticate').send({
+	test('GET /authenticate_user calls authenticate() and returns 200', async () => {
+		const res = await request(server).get('/authenticate_user').send({
 			user_name: 'Johnny',
 			password: 'secret-password',
 		})
@@ -46,6 +46,13 @@ describe('User Handler', () => {
 	test('POST /users/:id/pets calls addPetToUser() and returns 200', async () => {
 		const res = await request(server)
 			.post('/users/1/pets')
+			.send({ pet_id: '2' })
+		expect(res.status).toBe(200)
+	})
+
+	test('DELETE /users/:id/pets calls removePetFromUser() and returns 200', async () => {
+		const res = await request(server)
+			.delete('/users/1/pets')
 			.send({ pet_id: '2' })
 		expect(res.status).toBe(200)
 	})

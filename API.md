@@ -25,16 +25,16 @@ create: create a new post !! image / video / null
 edit: update text or author of a certain post with a value
 destroy: delete a post
 
-COMMENTS
-index: all comments ??
-show: one comment by id ??
+COMMENTS => all tests passing
+index: all comments
+show: one comment by id
 showCommentsByPost: returns all comments related to a specific post
 create: create a new comment
 edit: update the text field of a certain comment with a value
 destroy: delete a comment
 
-LIKES
-index: all likes => ??
+LIKES => all tests passing
+index: all likes
 showLikesByPost: returns all likes related to a specific post => arr.length & list usernames
 create: create a new like - LIKE
 destroy: delete a like - UNLIKE

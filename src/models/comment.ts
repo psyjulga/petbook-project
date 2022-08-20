@@ -4,8 +4,8 @@ export type Comment = {
 	comment_id?: number
 	date: string
 	text: string
-	user_id: number
-	post_id: number
+	post_id: string
+	user_id: string
 }
 
 export class CommentStore {

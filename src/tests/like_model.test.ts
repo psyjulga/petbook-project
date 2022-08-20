@@ -52,7 +52,7 @@ describe('Like Model', () => {
 		expect(res).toEqual([populatedTestLike])
 	})
 
-	test('delete method should remove the like from the database', async () => {
+	test('delete method should remove the like from the database and return it', async () => {
 		const res = await store.delete('1')
 		expect(res).toEqual(populatedTestLike)
 

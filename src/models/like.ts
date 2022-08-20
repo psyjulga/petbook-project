@@ -2,8 +2,8 @@ import client from '../database'
 
 export type Like = {
 	like_id?: number
-	user_id: number
-	post_id: number
+	user_id: string
+	post_id: string
 }
 
 export class LikeStore {

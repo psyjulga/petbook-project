@@ -209,7 +209,8 @@ export class UserStore {
 			'user_id',
 			user_id
 		)
-
+		// seems to not really be synchronous
+		// maybe an issue with the loop?
 		post_ids?.forEach(async (post_id_obj: { post_id: string }) => {
 			const post_id = post_id_obj.post_id
 			console.log('deleting post with id: ', post_id)

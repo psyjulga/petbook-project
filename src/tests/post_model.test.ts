@@ -2,7 +2,7 @@ import { Post, PostStore } from '../models/post'
 
 const store = new PostStore()
 
-const populatedTestpost: Post = {
+const populatedTestPost: Post = {
 	// is inserted into the database via the test command
 	post_id: 1,
 	date: '2022-04-18 12:18:15', // ! DATE !
@@ -61,32 +61,32 @@ describe('Post Model', () => {
 		const res = await store.index()
 		res[0].date = '2022-04-18 12:18:15'
 		expect(res.length).toBeGreaterThanOrEqual(1)
-		expect(res[0]).toEqual(populatedTestpost)
+		expect(res[0]).toEqual(populatedTestPost)
 	})
 
 	test('show method should return a post by id', async () => {
 		const res = await store.show('1')
 		res.date = '2022-04-18 12:18:15'
-		expect(res).toEqual(populatedTestpost)
+		expect(res).toEqual(populatedTestPost)
 	})
 
 	test('showPostsByUser method should return all posts of a certain user', async () => {
 		const res = await store.showPostsByUser('2')
 		res[0].date = '2022-04-18 12:18:15'
-		expect(res[0]).toEqual(populatedTestpost)
+		expect(res[0]).toEqual(populatedTestPost)
 	})
 
 	test('edit method should edit the text or author field and return the edited post', async () => {
 		const res = await store.edit('1', 'text', 'edited post text')
-		expect(res).not.toEqual(populatedTestpost)
+		expect(res).not.toEqual(populatedTestPost)
 		expect(res.text).toBe('edited post text')
 	})
 
 	test('delete method should remove the post from the database and return it', async () => {
 		const res = await store.delete('1')
 		res.date = '2022-04-18 12:18:15'
-		populatedTestpost.text = 'edited post text'
-		expect(res).toEqual(populatedTestpost)
+		populatedTestPost.text = 'edited post text'
+		expect(res).toEqual(populatedTestPost)
 
 		await store.closeClient()
 	})

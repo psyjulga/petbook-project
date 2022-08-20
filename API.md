@@ -1,4 +1,4 @@
-USERS
+USERS => DELETE USER HANDLER TEST FAILING
 index: all users => e.g. filter ??
 show: one user by id => to show the logged in users profile
 create: create a new user / sign up !! return value is the token
@@ -8,16 +8,16 @@ removePetFromUser: cancel a relation between user and pet (e.g. before deleting 
 edit: update a certain field of a certain user with a value
 destroy: delete a user
 
-PETS
-index: all pets => e.g. filter by breed ?? OR: showByProp
-show: one pet by id => ??
+PETS => all tests passing
+index: all pets
+show: one pet by id
 showPetsByUser: to display all of the users pets
 showPetsByProp: for filtering the pets (e.g. all with type dog)
-create: create a new pet
+create: create a new pet !! addToUser should be called automatically
 edit: update a certain field of a certain pet with a value
-destroy: delete a pet
+destroy: delete a pet !! message to user when pet only removed but not deleted
 
-POSTS
+POSTS => all tests passing
 index: all posts => to show in newsfeed
 show: one post by id
 showPostsByUser: to display all of the user's posts on his profile page

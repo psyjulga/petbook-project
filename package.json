@@ -7,7 +7,7 @@
 		"start": "tsc && node ./dist/server.js",
 		"watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
 		"test": "db-migrate --env test up && jest --runInBand --detectOpenHandles && db-migrate --env test down -c7 --config ./database.json",
-		"test-one": "db-migrate --env test up && jest src/tests/post_model.test.ts --runInBand --detectOpenHandles && db-migrate --env test down -c7 --config ./database.json",
+		"test-one": "db-migrate --env test up && jest src/tests/pet_model.test.ts --runInBand --detectOpenHandles && db-migrate --env test down -c7 --config ./database.json",
 		"test-db-up": "db-migrate --env test up --config ./database.json",
 		"test-db-down": "db-migrate --env test down -c7 --config ./database.json",
 		"migrate-up": "db-migrate up --config ./database.json",

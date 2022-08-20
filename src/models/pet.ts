@@ -6,12 +6,12 @@ import removePetFromUser from '../util/removePetFromUser'
 export type Pet = {
 	pet_id?: number
 	type: string
-	breed?: string
+	breed?: string | null
 	name: string
-	birthday?: string
-	color?: string
-	eye_color?: string
-	profile_pic?: string
+	birthday?: string | null
+	color?: string | null
+	eye_color?: string | null
+	profile_pic?: string | null
 }
 
 export class PetStore {
@@ -62,11 +62,13 @@ export class PetStore {
 
 	async showPetsByProp(field: string, value: string): Promise<Pet[] | []> {
 		let conn
+		console.log('field and value: ', field, value)
 		try {
 			conn = await client.connect()
-			const sql = `SELECT * FROM pets WHERE ($1) = ($2)`
-			const res = await conn.query(sql, [field, value])
+			const sql = `SELECT * FROM pets WHERE ${field}=($1)`
+			const res = await conn.query(sql, [value])
 			const filteredPets = res.rows
+			console.log('filtered pets: ', filteredPets)
 			return filteredPets
 		} catch (e) {
 			console.log('Error in PetStore showPetsByProps', e)
@@ -122,16 +124,17 @@ export class PetStore {
 		}
 	}
 
-	async delete(pet_id: string, user_id: string): Promise<Pet | string> {
+	async delete(pet_id: string, user_id: string): Promise<Pet | null> {
 		const removedPet = await removePetFromUser(user_id, pet_id)
 		console.log('removed pet in pet model: ', removedPet)
 
 		const petHasUsers = await tableHasRelations('users_pets', 'pet_id', pet_id)
 		console.log('pet has users: ', petHasUsers)
 		if (petHasUsers) {
-			return `This pet does have multiple owners.
-		        It was succesfully removed from your profile,
-						but is still available for co-owners.`
+			return null
+			//      `This pet does have multiple owners.
+			//       It was succesfully removed from your profile,
+			// 			but is still available for co-owners.`
 		}
 
 		const deletedPets = await deleteFromTable('pets', 'pet_id', pet_id)

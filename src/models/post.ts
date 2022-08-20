@@ -6,10 +6,10 @@ export type Post = {
 	post_id?: number
 	date: string
 	text: string
-	image?: string
-	video?: string
+	image?: string | null
+	video?: string | null
 	author: string
-	user_id: number
+	user_id: string
 }
 
 export class PostStore {

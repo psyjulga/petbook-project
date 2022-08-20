@@ -19,7 +19,7 @@ destroy: delete a pet
 
 POSTS
 index: all posts => to show in newsfeed
-show: one post by id => ??
+show: one post by id
 showPostsByUser: to display all of the user's posts on his profile page
 create: create a new post !! image / video / null
 edit: update text or author of a certain post with a value

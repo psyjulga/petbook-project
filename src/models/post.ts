@@ -63,7 +63,7 @@ export class PostStore {
 			const sql = `INSERT INTO posts (
          post_id, date, text, image, video, author, user_id) 
          VALUES (default, $1, $2, $3, $4, $5, $6) RETURNING *`
-			// does it insert null if not submitted (e.g. video)?
+			// does it insert null if not submitted (e.g. video)?=> yes
 			const res = await conn.query(sql, [
 				date,
 				text,

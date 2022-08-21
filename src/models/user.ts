@@ -5,12 +5,18 @@ import tableHasRelations from '../util/tableHasRelations'
 import deleteFromTable from '../util/deleteFromTable'
 import selectFromTable from '../util/selectFromTable'
 import removePetFromUser from '../util/removePetFromUser'
+import insertIntoTable from '../util/insertIntoTable'
+import convertTimestamp from '../util/convertTimestamp'
 
 import { PetStore } from './pet'
 import { PostStore } from './post'
+import { Comment, CommentStore } from './comment'
+import { Like, LikeStore } from './like'
 
 const petStore = new PetStore()
 const postStore = new PostStore()
+const commentStore = new CommentStore()
+const likeStore = new LikeStore()
 
 export type User = {
 	user_id?: number
@@ -20,7 +26,7 @@ export type User = {
 	email: string
 	country: string
 	city: string
-	profile_pic?: string
+	profile_pic?: string | null
 	password: string
 }
 
@@ -56,7 +62,7 @@ export class UserStore {
 	}
 
 	// SIGN UP => password hashing
-	async create(user: User): Promise<User> {
+	async create(user: User): Promise<User | null> {
 		const {
 			user_name,
 			first_name,
@@ -67,7 +73,28 @@ export class UserStore {
 			profile_pic,
 			password,
 		} = user
+
+		// check if user_name already exists
 		let conn
+
+		try {
+			conn = await client.connect()
+			const sql = 'SELECT * FROM users WHERE user_name=($1)'
+			const res = await conn.query(sql, [user_name])
+			const user_name_rows = res.rows
+			if (user_name_rows.length) {
+				return null
+			}
+		} catch (e) {
+			console.log('Error in UserStore create - check username: ', e)
+			throw new Error(
+				`Error in UserStore create - check username(${user_name}): ${e}`
+			)
+		} finally {
+			conn?.release()
+		}
+
+		// create new user
 		try {
 			conn = await client.connect()
 			const sql = `INSERT INTO users (
@@ -114,13 +141,15 @@ export class UserStore {
 
 			if (res.rows.length) {
 				const passwordFromUser = res.rows[0]
+				console.log('password from user: ', passwordFromUser.password)
 				if (
 					bcrypt.compareSync(
 						password + pepper, // entered pw
 						passwordFromUser.password // pw from db
 					)
 				) {
-					return passwordFromUser
+					console.log('returning from auth: ', passwordFromUser)
+					return passwordFromUser // encrypted pw from db
 				}
 			}
 			return null
@@ -186,6 +215,12 @@ export class UserStore {
 		}
 	}
 
+	// helper methods for deleting a user
+	// 1. delete the users' pets
+	// 2. delete the users' posts
+	// 3. handle the users' comments (preserve the comments => "deleted user")
+	// 4. handle the users' likes (preserve the likes => "deleted likes")
+
 	async deleteUsersPets(user_id: string): Promise<void> {
 		const pet_ids = await selectFromTable(
 			'pet_id',
@@ -196,9 +231,8 @@ export class UserStore {
 
 		pet_ids?.forEach(async (pet_id_obj: { pet_id: string }) => {
 			const pet_id = pet_id_obj.pet_id
-			console.log('deleting pet with id: ', pet_id)
-			await petStore.delete(pet_id, user_id)
-			console.log('AFTER deleting pet with id: ', pet_id)
+			const deletedPet = await petStore.delete(pet_id, user_id)
+			console.log('deleted pet: ', deletedPet)
 		})
 	}
 
@@ -209,19 +243,74 @@ export class UserStore {
 			'user_id',
 			user_id
 		)
+		// !!!!!!!!!! FAILING IN HANDLER TEST
 		// seems to not really be synchronous
 		// maybe an issue with the loop?
 		post_ids?.forEach(async (post_id_obj: { post_id: string }) => {
 			const post_id = post_id_obj.post_id
-			console.log('deleting post with id: ', post_id)
-			await postStore.delete(post_id)
-			console.log('AFTER deleting post with id: ', post_id)
+			const deletedPost = await postStore.delete(post_id)
+			console.log('deleted post: ', deletedPost)
+		})
+	}
+
+	async handleUsersComments(user_id: string): Promise<void> {
+		// 1. insert comments into table commentsFromDeletedUsers
+		const comments = await selectFromTable('*', 'comments', 'user_id', user_id)
+		comments?.forEach(async (comment: Comment) => {
+			const { date, text, post_id } = comment
+			const convertedDate = convertTimestamp(date.toString())
+			console.log('converted in handle: ', convertedDate)
+			const user_id = 'deleted_user'
+			await insertIntoTable(
+				'commentsFromDeletedUsers',
+				['comment_id', 'date', 'text', 'post_id', 'user_id'],
+				[convertedDate, text, post_id, user_id]
+			)
+		})
+
+		// 2. delete comments from comments table
+		const comment_ids = await selectFromTable(
+			'comment_id',
+			'comments',
+			'user_id',
+			user_id
+		)
+		comment_ids?.forEach(async (comment_id_obj: { comment_id: string }) => {
+			const comment_id = comment_id_obj.comment_id
+			const deletedComment = await commentStore.delete(comment_id)
+			console.log('deleted comment: ', deletedComment)
+		})
+	}
+
+	async handleUsersLikes(user_id: string): Promise<void> {
+		// 1. insert likes into table likesFromDeletedUsers
+		const likes = await selectFromTable('*', 'likes', 'user_id', user_id)
+		likes?.forEach(async (like: Like) => {
+			const { post_id } = like
+			const user_id = 'deleted_user'
+			await insertIntoTable(
+				'likesFromDeletedUsers',
+				['like_id', 'user_id', 'post_id'],
+				[user_id, post_id]
+			)
+		})
+
+		// 2. delete likes from likes table
+		const like_ids = await selectFromTable(
+			'like_id',
+			'likes',
+			'user_id',
+			user_id
+		)
+		like_ids?.forEach(async (like_id_obj: { like_id: string }) => {
+			const like_id = like_id_obj.like_id
+			const deletedLike = await likeStore.delete(like_id)
+			console.log('deleted like: ', deletedLike)
 		})
 	}
 
 	async delete(user_id: string): Promise<User> {
-		let conn
-
+		// 1. delete / handle users' pets, posts, comments, likes
 		const userHasPets = await tableHasRelations(
 			'users_pets',
 			'user_id',
@@ -237,8 +326,22 @@ export class UserStore {
 			await this.deleteUsersPosts(user_id)
 		}
 
-		// user has comments => preserve! => "deleted user" => new table
-		// user has likes => preserve! => "deleted user" => new table
+		const userHasComments = await tableHasRelations(
+			'comments',
+			'user_id',
+			user_id
+		)
+		if (userHasComments) {
+			await this.handleUsersComments(user_id)
+		}
+
+		const userHasLikes = await tableHasRelations('likes', 'user_id', user_id)
+		if (userHasLikes) {
+			await this.handleUsersLikes(user_id)
+		}
+
+		// 2. delete user
+		let conn
 		try {
 			conn = await client.connect()
 			const sql = 'DELETE FROM users WHERE user_id = ($1) RETURNING *'

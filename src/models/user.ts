@@ -259,11 +259,10 @@ export class UserStore {
 		comments?.forEach(async (comment: Comment) => {
 			const { date, text, post_id } = comment
 			const convertedDate = convertTimestamp(date.toString())
-			console.log('converted in handle: ', convertedDate)
 			const user_id = 'deleted_user'
 			await insertIntoTable(
 				'commentsFromDeletedUsers',
-				['comment_id', 'date', 'text', 'post_id', 'user_id'],
+				['date', 'text', 'post_id', 'user_id'],
 				[convertedDate, text, post_id, user_id]
 			)
 		})

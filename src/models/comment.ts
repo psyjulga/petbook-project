@@ -13,9 +13,13 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM comments'
-			const res = await conn.query(sql)
-			return res.rows
+			const sql1 = 'SELECT * FROM comments'
+			const res1 = await conn.query(sql1)
+			const sql2 = 'SELECT * FROM commentsFromDeletedUsers'
+			const res2 = await conn.query(sql2)
+			const res = res1.rows.concat(res2.rows)
+			console.log('concatenated comments in model index: ', res)
+			return res
 		} catch (e) {
 			throw new Error(`Error in CommentStore index(): ${e}`)
 		} finally {
@@ -41,9 +45,13 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM comments WHERE post_id=($1)'
-			const res = await conn.query(sql, [post_id])
-			return res.rows
+			const sql1 = 'SELECT * FROM comments WHERE post_id=($1)'
+			const res1 = await conn.query(sql1, [post_id])
+			const sql2 = 'SELECT * FROM commentsFromDeletedUsers WHERE post_id=($1)'
+			const res2 = await conn.query(sql2, [post_id])
+			const res = res1.rows.concat(res2.rows)
+			console.log('concatenated comments in model showByPost: ', res)
+			return res
 		} catch (e) {
 			throw new Error(
 				`Error in CommentStore showCommentsByPost(${post_id}): ${e}`

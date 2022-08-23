@@ -1,4 +1,4 @@
-USERS => DELETE USER HANDLER TEST FAILING => all model tests passing
+USERS => all tests passing
 index: all users
 show: one user by id => to show the logged in users profile
 create: create a new user / sign up !! return value is the encrypted password
@@ -32,15 +32,15 @@ edit: update text or author of a certain post with a value
 destroy: delete a post
 
 COMMENTS => all tests passing
-index: all comments
-show: one comment by id
-showCommentsByPost: returns all comments related to a specific post
+index: all comments (active and deleted users)
+show: one comment by id => ? (not for deleted users)
+showCommentsByPost: returns all comments related to a specific post (active and deleted users)
 create: create a new comment
 edit: update the text field of a certain comment with a value
 destroy: delete a comment
 
 LIKES => all tests passing
-index: all likes
-showLikesByPost: returns all likes related to a specific post => arr.length & list usernames
+index: all likes (active and deleted users)
+showLikesByPost: returns all likes related to a specific post => arr.length & list usernames (active and deleted users)
 create: create a new like - LIKE
 destroy: delete a like - UNLIKE

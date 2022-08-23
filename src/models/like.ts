@@ -11,9 +11,13 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM likes'
-			const res = await conn.query(sql)
-			return res.rows
+			const sql1 = 'SELECT * FROM likes'
+			const res1 = await conn.query(sql1)
+			const sql2 = 'SELECT * FROM likesFromDeletedUsers'
+			const res2 = await conn.query(sql2)
+			const res = res1.rows.concat(res2.rows)
+			console.log('concatenated likes in model index: ', res)
+			return res
 		} catch (e) {
 			throw new Error(`Error in LikeStore index(): ${e}`)
 		} finally {
@@ -25,9 +29,13 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql = 'SELECT * FROM likes WHERE post_id=($1)'
-			const res = await conn.query(sql, [post_id])
-			return res.rows
+			const sql1 = 'SELECT * FROM likes WHERE post_id=($1)'
+			const res1 = await conn.query(sql1, [post_id])
+			const sql2 = 'SELECT * FROM likesFromDeletedUsers WHERE post_id=($1)'
+			const res2 = await conn.query(sql2, [post_id])
+			const res = res1.rows.concat(res2.rows)
+			console.log('concatenated likes in model showByPost: ', res)
+			return res
 		} catch (e) {
 			throw new Error(`Error in LikeStore showLikesByPost(${post_id}): ${e}`)
 		} finally {

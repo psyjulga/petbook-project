@@ -22,3 +22,27 @@ INSERT INTO users (
   default, 'Ganesha', 'Lindsay', 'Brown', 'l.brown@gmx.com', 'India', 'Mumbai','src/ganesha/pics.jpg', 'secret456' 
 );
 
+INSERT INTO users (
+  user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
+) VALUES (
+  default, 'test-user', 'Mona', 'Lisa', 'm.lisa@louvre.fr', 'France', 'Paris', null, 'secret789' 
+);
+
+INSERT INTO users (
+  user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
+) VALUES (
+  default, 'do-not-delete', 'James', 'Bond', 'j.bond@secret-service.uk', 'UK', 'London', null, 'secret007' 
+);
+
+INSERT INTO users (
+  user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
+) VALUES (
+  default, 'do-not-delete-II', 'Jane', 'Doe', 'j.doe@secret-service.uk', 'UK', 'London', null, 'secret006' 
+);
+
+INSERT INTO users (
+  user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
+) VALUES (
+  default, 'DELETE', 'John', 'Doe', 'j.doeII@secret-service.uk', 'UK', 'London', null, 'secret005' 
+);
+

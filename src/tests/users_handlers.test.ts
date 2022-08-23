@@ -45,15 +45,15 @@ describe('User Handler', () => {
 
 	test('POST /users/:id/pets calls addPetToUser() and returns 200', async () => {
 		const res = await request(server)
-			.post('/users/1/pets')
-			.send({ pet_id: '2' })
+			.post('/users/4/pets')
+			.send({ pet_id: '5' })
 		expect(res.status).toBe(200)
 	})
 
 	test('DELETE /users/:id/pets calls removePetFromUser() and returns 200', async () => {
 		const res = await request(server)
-			.delete('/users/1/pets')
-			.send({ pet_id: '2' })
+			.delete('/users/4/pets')
+			.send({ pet_id: '5' })
 		expect(res.status).toBe(200)
 	})
 
@@ -66,7 +66,7 @@ describe('User Handler', () => {
 	})
 
 	test('DELETE /users/:id calls destroy() and returns 200', async () => {
-		const res = await request(server).delete('/users/1')
+		const res = await request(server).delete('/users/6')
 		expect(res.status).toBe(200)
 
 		await store.closeClient()

@@ -15,3 +15,7 @@ INSERT INTO users_pets (
 INSERT INTO users_pets (
   users_pets_id, user_id, pet_id) 
   VALUES (default, '2', '2');
+
+INSERT INTO users_pets (
+  users_pets_id, user_id, pet_id) 
+  VALUES (default, '3', '4');

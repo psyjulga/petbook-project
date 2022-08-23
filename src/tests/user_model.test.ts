@@ -15,6 +15,18 @@ const populatedTestUser: User = {
 	password: 'secret123',
 }
 
+const notDeletedUser: User = {
+	user_id: 4,
+	user_name: 'do-not-delete',
+	first_name: 'James',
+	last_name: 'Bond',
+	email: 'j.bond@secret-service.uk',
+	country: 'UK',
+	city: 'London',
+	profile_pic: null,
+	password: 'secret007',
+}
+
 describe('User Model', () => {
 	test('should have an index method', () => {
 		expect(store.index).toBeDefined()
@@ -61,11 +73,7 @@ describe('User Model', () => {
 		}
 
 		const res = await store.create(testUserToAdd)
-		if (res) {
-			res.password = 'wolf123'
-			testUserToAdd.user_id = 3
-		}
-		expect(res).toEqual(testUserToAdd)
+		expect(res?.user_name).toBe('Dances with Wolves')
 	})
 
 	test('create method should return null if the user_name already exists', async () => {
@@ -86,16 +94,14 @@ describe('User Model', () => {
 
 	test('index method should return a list of all users', async () => {
 		const res = await store.index()
-		res[0].profile_pic = 'src/pics/ladybug.jpg'
-
 		expect(res.length).toBeGreaterThanOrEqual(1)
-		expect(res[0]).toEqual(populatedTestUser)
+		const findUser = res.find((user) => user.user_name === 'do-not-delete')
+		expect(findUser?.first_name).toBe('James')
 	})
 
 	test('show method should return a user by id', async () => {
-		const res = await store.show('1')
-		res.profile_pic = 'src/pics/ladybug.jpg'
-		expect(res).toEqual(populatedTestUser)
+		const res = await store.show('4')
+		expect(res).toEqual(notDeletedUser)
 	})
 
 	test('authenticate method should return the user if the username exists and the password is correct', async () => {
@@ -116,19 +122,21 @@ describe('User Model', () => {
 	})
 
 	test('addPetToUser method should create a connection between pet and user with the join table', async () => {
-		const res = await store.addPetToUser('3', '2')
-		expect(res.users_pets_id).toBe(4)
+		const res = await store.addPetToUser('4', '5')
+		expect(res.user_id).toBe('4')
+		expect(res.pet_id).toBe('5')
 	})
 
 	test('removePetFromUser method should cancel the connection between pet and user with the join table', async () => {
-		const res = await store.removePetFromUser('3', '2')
-		expect(res.users_pets_id).toBe(4)
+		const res = await store.removePetFromUser('4', '5')
+		expect(res.user_id).toBe('4')
+		expect(res.pet_id).toBe('5')
 	})
 
 	test('edit method should edit a certain field and return the edited user', async () => {
-		const res = await store.edit('1', 'city', 'Waldbröl')
-		expect(res).not.toEqual(populatedTestUser)
-		expect(res.city).toBe('Waldbröl')
+		const res = await store.edit('4', 'city', 'Manchester')
+		expect(res).not.toEqual(notDeletedUser)
+		expect(res.city).toBe('Manchester')
 	})
 
 	test('delete method should remove the user from the database and return it - delete account', async () => {

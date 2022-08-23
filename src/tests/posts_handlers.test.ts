@@ -46,7 +46,7 @@ describe('Post Handler', () => {
 	})
 
 	test('DELETE /posts/:id calls destroy() and returns 200', async () => {
-		const res = await request(server).delete('/posts/1')
+		const res = await request(server).delete('/posts/5')
 		expect(res.status).toBe(200)
 
 		await store.closeClient()

@@ -11,8 +11,8 @@ describe('Like Handler', () => {
 
 	test('POST /likes/ calls create() and returns 200', async () => {
 		const res = await request(server).post('/likes/').send({
-			user_id: '2',
-			post_id: '2',
+			user_id: '4',
+			post_id: '4',
 		})
 
 		expect(res.status).toBe(200)

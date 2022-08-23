@@ -60,7 +60,7 @@ export class LikeStore {
 		}
 	}
 
-	async delete(id: string): Promise<Comment> {
+	async delete(id: string): Promise<Like> {
 		let conn
 		try {
 			conn = await client.connect()

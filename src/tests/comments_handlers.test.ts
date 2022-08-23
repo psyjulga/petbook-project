@@ -13,8 +13,8 @@ describe('Comment Handler', () => {
 		const res = await request(server).post('/comments/').send({
 			date: '2022-04-24 12:00:08',
 			text: 'well done my friend',
-			user_id: '1',
-			post_id: '1',
+			user_id: '4',
+			post_id: '4',
 		})
 
 		expect(res.status).toBe(200)

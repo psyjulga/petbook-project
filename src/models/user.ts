@@ -141,14 +141,13 @@ export class UserStore {
 
 			if (res.rows.length) {
 				const passwordFromUser = res.rows[0]
-				console.log('password from user: ', passwordFromUser.password)
+
 				if (
 					bcrypt.compareSync(
 						password + pepper, // entered pw
 						passwordFromUser.password // pw from db
 					)
 				) {
-					console.log('returning from auth: ', passwordFromUser)
 					return passwordFromUser // encrypted pw from db
 				}
 			}
@@ -243,9 +242,7 @@ export class UserStore {
 			'user_id',
 			user_id
 		)
-		// !!!!!!!!!! FAILING IN HANDLER TEST
-		// seems to not really be synchronous
-		// maybe an issue with the loop?
+
 		post_ids?.forEach(async (post_id_obj: { post_id: string }) => {
 			const post_id = post_id_obj.post_id
 			const deletedPost = await postStore.delete(post_id)
@@ -262,7 +259,7 @@ export class UserStore {
 			const user_id = 'deleted_user'
 			await insertIntoTable(
 				'commentsFromDeletedUsers',
-				['date', 'text', 'post_id', 'user_id'],
+				['comment_id', 'date', 'text', 'post_id', 'user_id'],
 				[convertedDate, text, post_id, user_id]
 			)
 		})

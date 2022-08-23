@@ -4,6 +4,7 @@ show: one user by id => to show the logged in users profile
 create: create a new user / sign up !! return value is the encrypted password
 returns user OR null if user_name already taken => display message to user !!
 authenticate: sign in / enter username and password
+=> returns encrypted password
 => display message to the user if username does not exist
 if password is not correct
 addPetToUser: create a relation between a pet and a user !! how handle when pet already exists ?
@@ -29,7 +30,7 @@ show: one post by id
 showPostsByUser: to display all of the user's posts on his profile page
 create: create a new post !! image / video / null
 edit: update text or author of a certain post with a value
-destroy: delete a post
+destroy: delete a post !! if post not exists => handle undefined
 
 COMMENTS => all tests passing
 index: all comments (active and deleted users)

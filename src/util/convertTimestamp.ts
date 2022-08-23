@@ -37,6 +37,6 @@ export default function convertTimestamp(timestamp: string): string {
 	splitTimestamp.splice(0, 4, formattedDate)
 	const newTimestamp = splitTimestamp.slice(0, 2)
 	const timeString = newTimestamp.join(' ')
-	console.log('typeof in convert: ', typeof timeString)
+
 	return timeString
 }

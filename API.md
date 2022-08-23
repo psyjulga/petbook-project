@@ -1,4 +1,4 @@
-USERS => DELETE USER HANDLER TEST FAILING
+USERS => DELETE USER HANDLER TEST FAILING => all model tests passing
 index: all users
 show: one user by id => to show the logged in users profile
 create: create a new user / sign up !! return value is the encrypted password
@@ -10,6 +10,9 @@ addPetToUser: create a relation between a pet and a user !! how handle when pet 
 removePetFromUser: cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)
 edit: update a certain field of a certain user with a value
 destroy: delete a user
+=> delete users' pets, posts, comments, likes
+=> comments and likes preserved in new table
+=> shown as "deleted user"
 
 PETS => all tests passing
 index: all pets

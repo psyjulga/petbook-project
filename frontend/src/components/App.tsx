@@ -1,9 +1,14 @@
 import React from 'react'
-import { ReactNode } from 'react'
+import { ReactElement } from 'react'
 
-const App = (): ReactNode => {
-	// @ts-ignore
-	return <h1>hello from app</h1> // implicit any
+const App = (): ReactElement => {
+	// const { loading } = props
+
+	// useEffect(() => {
+	// 	props.dispatch(handleInitialData()) // load all data from the database tables into the redux store
+	// }, [loading])
+
+	return <h1>hello from app</h1>
 }
 
 // export default connect(mapStateToProps)(App)

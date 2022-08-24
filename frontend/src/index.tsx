@@ -6,7 +6,7 @@ import App from './components/App'
 import store from './store'
 
 ReactDOM.render(
-	<Provider store={store} children={undefined}>
+	<Provider store={store}>
 		<Router>
 			<App />
 		</Router>

@@ -1,12 +1,12 @@
 USERS => all tests passing
 index: all users
 show: one user by id => to show the logged in users profile
-create: create a new user / sign up !! return value is the encrypted password
-returns user OR null if user_name already taken => display message to user !!
+create: create a new user / sign up !! return value is the TOKEN
+OR null if user_name already taken => display message to user !!
 authenticate: sign in / enter username and password
 => returns encrypted password
 => display message to the user if username does not exist
-if password is not correct
+or if password is not correct
 addPetToUser: create a relation between a pet and a user !! how handle when pet already exists ?
 removePetFromUser: cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)
 edit: update a certain field of a certain user with a value

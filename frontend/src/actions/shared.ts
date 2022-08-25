@@ -5,10 +5,13 @@
 import { InitStore } from '../models/init'
 const initStore = new InitStore()
 
-// import { _getInitialData } from '../utils/_DATA'
-// import { receiveQuestions } from './questions'
 import { receiveUsers } from './users'
-import { setAuthedUser } from './authedUser'
+import { receivePets } from './pets'
+import { receiveUsersPets } from './usersPets'
+import { receivePosts } from './posts'
+import { receiveComments } from './comments'
+import { receiveLikes } from './likes'
+// import { setAuthedUser } from './authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { Dispatch } from 'redux'
 

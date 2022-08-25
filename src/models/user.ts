@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt'
 import pepper from 'bcrypt'
 import client from '../database'
 import tableHasRelations from '../util/tableHasRelations'
-import deleteFromTable from '../util/deleteFromTable'
 import selectFromTable from '../util/selectFromTable'
 import removePetFromUser from '../util/removePetFromUser'
 import insertIntoTable from '../util/insertIntoTable'
@@ -28,6 +27,12 @@ export type User = {
 	city: string
 	profile_pic?: string | null
 	password: string
+}
+
+export type UserPet = {
+	users_pets_id?: string
+	user_id: string
+	pet_id: string
 }
 
 export class UserStore {
@@ -162,10 +167,7 @@ export class UserStore {
 		}
 	}
 
-	async addPetToUser(
-		user_id: string,
-		pet_id: string
-	): Promise<{ users_pets_id: string; user_id: string; pet_id: string }> {
+	async addPetToUser(user_id: string, pet_id: string): Promise<UserPet> {
 		let conn
 
 		// we add a pet to the logged in user
@@ -188,10 +190,7 @@ export class UserStore {
 		}
 	}
 
-	async removePetFromUser(
-		user_id: string,
-		pet_id: string
-	): Promise<{ users_pets_id: string; user_id: string; pet_id: string }> {
+	async removePetFromUser(user_id: string, pet_id: string): Promise<UserPet> {
 		const removedPet = await removePetFromUser(user_id, pet_id)
 		return removedPet
 	}

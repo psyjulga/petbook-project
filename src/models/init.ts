@@ -1,5 +1,5 @@
 import client from '../database'
-import { User, UserStore } from './user'
+import { User, UserStore, UserPet } from './user'
 import { Pet, PetStore } from './pet'
 import { Post, PostStore } from './post'
 import { Comment, CommentStore } from './comment'
@@ -14,13 +14,13 @@ const likeStore = new LikeStore()
 export type InitialData = {
 	users: User[]
 	pets: Pet[]
-	usersPets: any[]
+	usersPets: UserPet[]
 	posts: Post[]
 	comments: Comment[]
 	likes: Like[]
 }
 
-async function getJoinTable(): Promise<any[]> {
+async function getJoinTable(): Promise<UserPet[]> {
 	let conn
 	try {
 		conn = await client.connect()

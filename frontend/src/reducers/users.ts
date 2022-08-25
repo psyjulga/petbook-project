@@ -9,13 +9,13 @@
 // // delete
 
 // REDUCER => update the store
-import { Action } from 'redux'
 
 import {
 	RECEIVE_USERS,
 	// UPDATE_USERS_ANSWERS,
 	// UPDATE_USERS_QUESTIONS,
 } from '../actions/users'
+import { User } from '../models/user'
 
 // function userAnswer(state = {}, action) {
 // 	const { qid, answer } = action
@@ -40,7 +40,14 @@ import {
 // 	}
 // }
 
-export default function users(state = {}, action: Action) {
+// use UNIONS
+type UserAction = { type: string; users: User[] }
+
+export default function users(state = {}, action: UserAction) {
+	// is put into "combined reducer"
+	// and loaded into the store
+	// one single state object:
+	// => {users, pets, posts, ..}
 	switch (action.type) {
 		case RECEIVE_USERS: {
 			return {

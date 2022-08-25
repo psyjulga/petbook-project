@@ -6,7 +6,11 @@ module.exports = {
 		es6: true,
 		jest: true,
 	},
-	extends: ['eslint:recommended', 'plugin:react/recommended'],
+	extends: [
+		// 'eslint:recommended',
+		'plugin:react/recommended',
+		'plugin:react-redux/recommended',
+	],
 	globals: {},
 	parser: '@babel/eslint-parser',
 	parserOptions: {
@@ -18,10 +22,17 @@ module.exports = {
 	},
 	plugins: ['react', 'import', 'react-hooks'],
 	ignorePatterns: ['node_modules/'],
-	rules: {},
+	rules: {
+		// 'no-unused-vars': [
+		// 	'error',
+		// 	{
+		// 		varsIgnorePattern: '^[A-Z]',
+		// 	},
+		// ],
+	},
 	settings: {
 		react: {
-			version: 'latest', // "detect" automatically picks the version you have installed.
+			version: 'detect', // "detect" automatically picks the version you have installed.
 		},
 	},
 }

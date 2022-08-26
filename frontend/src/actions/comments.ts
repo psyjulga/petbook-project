@@ -6,7 +6,7 @@
 // // edit
 // // delete
 
-import { Comment } from '../models/comment'
+import { Comment } from '../../../backend/src/models/comment'
 
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 

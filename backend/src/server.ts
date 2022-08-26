@@ -12,7 +12,7 @@ import like_routes from './handlers/likes'
 dotenv.config()
 
 const app: Application = express()
-const address: string = '0.0.0.0:3000'
+const address: string = '0.0.0.0:8000'
 const port = process.env.SERVER_PORT
 
 app.use(cors())

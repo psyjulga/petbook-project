@@ -7,7 +7,7 @@
 // // edit
 // // delete
 
-import { Pet } from '../models/pet'
+import { Pet } from '../../../backend/src/models/pet'
 
 export const RECEIVE_PETS = 'RECEIVE_PETS'
 

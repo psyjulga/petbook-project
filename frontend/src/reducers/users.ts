@@ -15,7 +15,7 @@ import {
 	// UPDATE_USERS_ANSWERS,
 	// UPDATE_USERS_QUESTIONS,
 } from '../actions/users'
-import { User } from '../models/user'
+import { User } from '../../../backend/src/models/user'
 
 // function userAnswer(state = {}, action) {
 // 	const { qid, answer } = action

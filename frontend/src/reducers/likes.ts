@@ -9,7 +9,7 @@
 
 import { RECEIVE_LIKES } from '../actions/likes'
 
-import { Like } from '../models/like'
+import { Like } from '../../../backend/src/models/like'
 
 // use UNIONS
 type LikeAction = { type: string; likes: Like[] }

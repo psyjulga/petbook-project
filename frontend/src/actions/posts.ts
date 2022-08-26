@@ -6,7 +6,7 @@
 // // edit
 // // delete
 
-import { Post } from '../models/post'
+import { Post } from '../../../backend/src/models/post'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 

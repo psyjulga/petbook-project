@@ -1,6 +1,6 @@
 // JOIN TABLE users_pets
 
-import { UserPet } from '../models/user'
+import { UserPet } from '../../../backend/src/models/user'
 
 export const RECEIVE_USERS_PETS = 'RECEIVE_USERS_PETS'
 

@@ -11,7 +11,7 @@
 
 import { RECEIVE_POSTS } from '../actions/posts'
 
-import { Post } from '../models/post'
+import { Post } from '../../../backend/src/models/post'
 
 // use UNIONS
 type PostAction = { type: string; posts: Post[] }

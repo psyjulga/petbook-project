@@ -4,7 +4,7 @@
 // // create
 // // delete
 
-import { Like } from '../models/like'
+import { Like } from '../../../backend/src/models/like'
 
 export const RECEIVE_LIKES = 'RECEIVE_LIKES'
 

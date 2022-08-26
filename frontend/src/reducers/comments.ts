@@ -11,7 +11,7 @@
 
 import { RECEIVE_COMMENTS } from '../actions/comments'
 
-import { Comment } from '../models/comment'
+import { Comment } from '../../../backend/src/models/comment'
 
 // use UNIONS
 type CommentAction = { type: string; comments: Comment[] }

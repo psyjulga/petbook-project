@@ -143,7 +143,7 @@ const destroy = async (req: Request, res: Response) => {
 }
 
 const user_routes = (app: Application) => {
-	app.get('/users', verifyAuthToken, index)
+	app.get('/users', index)
 	app.get('/users/:id', verifyAuthToken, show)
 	app.post('/users', create)
 	app.get('/authenticate_user', authenticate)

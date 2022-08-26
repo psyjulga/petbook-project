@@ -3,7 +3,7 @@
 
 import { RECEIVE_USERS_PETS } from '../actions/usersPets'
 
-import { UserPet } from '../models/user'
+import { UserPet } from '../../../backend/src/models/user'
 
 // use UNIONS
 type UserPetAction = { type: string; usersPets: UserPet[] }

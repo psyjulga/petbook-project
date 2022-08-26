@@ -12,7 +12,7 @@
 
 import { RECEIVE_PETS } from '../actions/pets'
 
-import { Pet } from '../models/pet'
+import { Pet } from '../../../backend/src/models/pet'
 
 // use UNIONS
 type PetAction = { type: string; pets: Pet[] }

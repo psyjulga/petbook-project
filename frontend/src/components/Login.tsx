@@ -1,13 +1,15 @@
 import React, { ReactElement } from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 // an existent user logs in with username and password
-const Login = (props: any): ReactElement => {
-	console.log('Hello from Login')
+const Login = (): ReactElement => {
+	// props: any
+	// console.log('props / users, pets from Login: ', props)
 
 	return (
 		<div className="login">
-			<form>
+			<form className="m-5">
 				<div className="mb-3">
 					<label htmlFor="usernameInput" className="form-label">
 						Username
@@ -21,18 +23,21 @@ const Login = (props: any): ReactElement => {
 					<input type="password" className="form-control" id="passwordInput" />
 				</div>
 				<button type="submit" className="btn btn-primary">
-					Sign In
+					Login
 				</button>
 			</form>
+
+			<Link className="ms-5" to={'/new_user'}>
+				Create an Account
+			</Link>
 		</div>
 	)
 }
 
-// const mapStateToProps = ({ users }: any) => {
+// const mapStateToProps = ({ users, pets }: any) => {
 // 	// ......
-// 	return { users }
+// 	return { users, pets }
 // }
 
 // export default connect(mapStateToProps)(Login)
-
 export default Login

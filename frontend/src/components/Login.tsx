@@ -1,28 +1,68 @@
-import React, { ReactElement } from 'react'
+import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { handleAuthUser } from '../actions/authedUser'
 
 // an existent user logs in with username and password
-const Login = (): ReactElement => {
-	// props: any
-	// console.log('props / users, pets from Login: ', props)
+const Login = (props: any): ReactElement => {
+	const { users, dispatch } = props
+	const navigate = useNavigate()
+
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
+	const [disabled, setDisabled] = useState(true)
+
+	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		dispatch(handleAuthUser(username, password)).then((res: any) => {
+			setUsername('')
+			setPassword('')
+			setDisabled(true)
+			if (res) {
+				navigate('/newsfeed')
+			} else {
+				alert('Username or Password invalid - please try again')
+			}
+		})
+	}
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		name === 'username' ? setUsername(value) : setPassword(value)
+		username !== '' && password !== '' ? setDisabled(false) : setDisabled(true)
+	}
 
 	return (
 		<div className="login">
-			<form className="m-5">
+			<form className="m-5" onSubmit={handleFormSubmit}>
 				<div className="mb-3">
 					<label htmlFor="usernameInput" className="form-label">
 						Username
 					</label>
-					<input type="text" className="form-control" id="usernameInput" />
+					<input
+						name="username"
+						value={username}
+						onChange={handleInputChange}
+						type="text"
+						className="form-control"
+						id="usernameInput"
+					/>
 				</div>
 				<div className="mb-3">
 					<label htmlFor="passwordInput" className="form-label">
 						Password
 					</label>
-					<input type="password" className="form-control" id="passwordInput" />
+					<input
+						name="password"
+						value={password}
+						onChange={handleInputChange}
+						type="password"
+						className="form-control"
+						id="passwordInput"
+					/>
 				</div>
-				<button type="submit" className="btn btn-primary">
+				<button type="submit" className="btn btn-success" disabled={disabled}>
 					Login
 				</button>
 			</form>
@@ -34,10 +74,8 @@ const Login = (): ReactElement => {
 	)
 }
 
-// const mapStateToProps = ({ users, pets }: any) => {
-// 	// ......
-// 	return { users, pets }
-// }
+const mapStateToProps = ({ users }: any) => {
+	return { users }
+}
 
-// export default connect(mapStateToProps)(Login)
-export default Login
+export default connect(mapStateToProps)(Login)

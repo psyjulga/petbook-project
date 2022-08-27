@@ -3,6 +3,7 @@ import { ReactElement } from 'react'
 import { connect } from 'react-redux'
 import { LoadingBar } from 'react-redux-loading-bar'
 import { Routes, Route } from 'react-router-dom'
+import Navbar from './Navbar'
 import Login from './Login'
 import Dashboard from './Dashboard'
 import NewUser from './NewUser'
@@ -30,7 +31,7 @@ const App = (props: any): ReactElement => {
 		<Fragment>
 			<LoadingBar />
 			<div className="app-container">
-				{/* <Navbar /> */}
+				<Navbar />
 				<Routes>
 					{/* <Route path="*" element={<NotFound page="page" />} /> */}
 					<Route path="/" element={<Login />} />

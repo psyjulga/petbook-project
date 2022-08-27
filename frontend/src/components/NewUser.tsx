@@ -60,7 +60,7 @@ const NewUser = (): ReactElement => {
 					<input className="form-control" type="file" id="fileInput" />
 				</div>
 
-				<button type="submit" className="btn btn-primary">
+				<button type="submit" className="btn btn-success">
 					Create an Account
 				</button>
 			</form>

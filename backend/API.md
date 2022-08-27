@@ -4,7 +4,8 @@ show: one user by id => to show the logged in users profile
 create: create a new user / sign up !! return value is the TOKEN
 OR null if user_name already taken => display message to user !!
 authenticate: sign in / enter username and password
-=> returns encrypted password
+=> returns encrypted password (model)
+=> returns token (handler)
 => display message to the user if username does not exist
 or if password is not correct
 addPetToUser: create a relation between a pet and a user !! how handle when pet already exists ?

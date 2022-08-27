@@ -153,6 +153,7 @@ export class UserStore {
 						passwordFromUser.password // pw from db
 					)
 				) {
+					console.log('FROM MODEL: return', passwordFromUser)
 					return passwordFromUser // encrypted pw from db
 				}
 			}

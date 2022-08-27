@@ -34,8 +34,8 @@ describe('User Handler', () => {
 		expect(res.status).toBe(200)
 	})
 
-	test('GET /authenticate_user calls authenticate() and returns 200', async () => {
-		const res = await request(server).get('/authenticate_user').send({
+	test('POST /authenticate_user calls authenticate() and returns 200', async () => {
+		const res = await request(server).post('/authenticate_user').send({
 			user_name: 'Johnny',
 			password: 'secret-password',
 		})

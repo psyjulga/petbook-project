@@ -70,14 +70,22 @@ const authenticate = async (req: Request, res: Response) => {
 	try {
 		const { user_name, password } = req.body
 		const authenticatedUser = await store.authenticate(
-			// returns null or password / user ??
+			// returns null or password
 			user_name,
 			password // entered password => checks if correct
 		)
+		console.log('FROM BACKEND HANDLER: authedUser', authenticatedUser)
+
+		if (!authenticatedUser) {
+			throw new Error('username or password invalid')
+		}
+
 		const token = jwt.sign(
 			{ user: authenticatedUser },
 			process.env.TOKEN_SECRET as string
 		)
+
+		console.log('FROM BACKEND HANDLER: token', token)
 		res.status(200)
 		res.json(token)
 	} catch (e) {
@@ -146,7 +154,7 @@ const user_routes = (app: Application) => {
 	app.get('/users', index)
 	app.get('/users/:id', verifyAuthToken, show)
 	app.post('/users', create)
-	app.get('/authenticate_user', authenticate)
+	app.post('/authenticate_user', authenticate)
 	app.post('/users/:id/pets', verifyAuthToken, addPetToUser)
 	app.delete('/users/:id/pets', verifyAuthToken, removePetFromUser)
 	app.put('/users/:id', verifyAuthToken, edit)

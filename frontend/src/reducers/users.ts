@@ -2,7 +2,7 @@
 // // index => RECEIVE_USERS
 // // show
 // // create
-// // authenticate
+// // authenticate => authedUser
 // // addPetToUser
 // // removePetFromUser
 // // edit
@@ -12,7 +12,6 @@
 
 import {
 	RECEIVE_USERS,
-	// UPDATE_USERS_ANSWERS,
 	// UPDATE_USERS_QUESTIONS,
 } from '../actions/users'
 import { User } from '../../../backend/src/models/user'

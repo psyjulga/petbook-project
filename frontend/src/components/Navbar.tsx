@@ -8,7 +8,6 @@ const Navbar = (props: any) => {
 
 	const logOut = () => {
 		dispatch(handleLogout())
-		console.log('LOGOUT')
 	}
 
 	return (

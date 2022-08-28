@@ -3,10 +3,11 @@ import { Dispatch } from 'redux'
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 
-export function setAuthedUser(token: string | null) {
+export function setAuthedUser(token: string | null, user_name: string) {
 	return {
 		type: SET_AUTHED_USER,
 		token,
+		user_name,
 	}
 }
 
@@ -30,7 +31,7 @@ export function handleAuthUser(user_name: string, password: string) {
 				return res.json()
 			})
 			.then((token) => {
-				dispatch(setAuthedUser(token))
+				dispatch(setAuthedUser(token, user_name))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
@@ -41,6 +42,6 @@ export function handleAuthUser(user_name: string, password: string) {
 
 export function handleLogout() {
 	return (dispatch: Dispatch) => {
-		dispatch(setAuthedUser(null))
+		dispatch(setAuthedUser(null, ''))
 	}
 }

@@ -1,19 +1,16 @@
 // // USER MODEL METHODS:
 // // index => RECEIVE_USERS
 // // show
-// // create
-// // authenticate => authedUser
+// // create => NEW_USER
+// // authenticate => authedUser.ts
 // // addPetToUser
 // // removePetFromUser
 // // edit
 // // delete
 
-// REDUCER => update the store
+// REDUCER => updates the store
 
-import {
-	RECEIVE_USERS,
-	// UPDATE_USERS_QUESTIONS,
-} from '../actions/users'
+import { RECEIVE_USERS, ADD_USER } from '../actions/users'
 import { User } from '../../../backend/src/models/user'
 
 // function userAnswer(state = {}, action) {
@@ -40,9 +37,9 @@ import { User } from '../../../backend/src/models/user'
 // }
 
 // use UNIONS
-type UserAction = { type: string; users: User[] }
+type UserAction = { type: string; payload: User | User[] } // ??? !!! ???
 
-export default function users(state = {}, action: UserAction) {
+export default function users(state = {}, action: any) {
 	// is put into "combined reducer"
 	// and loaded into the store
 	// one single state object:
@@ -51,7 +48,14 @@ export default function users(state = {}, action: UserAction) {
 		case RECEIVE_USERS: {
 			return {
 				...state,
-				...action.users,
+				...action.payload, // users
+			}
+		}
+
+		case ADD_USER: {
+			return {
+				...state,
+				[action.numUsers]: action.payload,
 			}
 		}
 

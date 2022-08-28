@@ -12,7 +12,7 @@ const verifyAuthToken = (req: Request, res: Response, next: NextFunction) => {
 			return next()
 		} catch (e) {
 			console.log(e)
-			res.status(403) // not authorized
+			res.status(403) // not authorized (forbidden)
 			res.json(e)
 		}
 	}

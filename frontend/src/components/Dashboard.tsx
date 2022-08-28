@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import Newsfeed from './Newsfeed'
+import User from './User'
+import { handleReceivePosts } from '../actions/posts'
 
 const Dashboard = (props: any) => {
-	console.log('Hello from Dashboard - props.authedUser: ', props.authedUser)
+	const { dispatch, authedUser } = props
+
+	useEffect(() => {
+		dispatch(handleReceivePosts(authedUser.token))
+	})
+
 	return (
 		<div className="dashboard">
-			<h1>Dashboard</h1>
-			{/* posts with comments and likes */}
-			{/* user with his pets */}
-			{/* new post form */}
+			<div className="row">
+				<div className="col">
+					<User /> {/* user with pets, new pet */}
+					{/* new post form */}
+					<h1>NEW POST</h1>
+				</div>
+				<div className="col">
+					<Newsfeed /> {/* posts with comments and likes */}
+				</div>
+			</div>
 		</div>
 	)
 }
 
 const mapStateToProps = ({ authedUser }: any) => ({
-	// postIds: Object.keys(posts).sort((a, b) => posts[b].date - posts[a].date),
 	authedUser,
 })
 

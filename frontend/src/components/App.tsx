@@ -7,23 +7,19 @@ import Navbar from './Navbar'
 import Login from './Login'
 import Dashboard from './Dashboard'
 import NewUser from './NewUser'
-import { handleInitialData } from '../actions/shared' // ?? !!
 import { handleReceiveUsers } from '../actions/users'
 
 // on load: login form
-// => authenticate
+// => authenticate user
 // link to signup form
-// => create
+// => create user
 
 // if logged in: dashboard / neewsfeed => DATA
 
 const App = (props: any): ReactElement => {
 	const { loading } = props
-	console.log('props from app: ', props)
 
 	useEffect(() => {
-		console.log('from useEffect')
-		// props.dispatch(handleInitialData())
 		props.dispatch(handleReceiveUsers())
 	}, [loading])
 

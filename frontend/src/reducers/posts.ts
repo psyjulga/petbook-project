@@ -1,12 +1,12 @@
-// // Post MODEL METHODS:
-// // index
-// // show
-// // create
-// // showByUser
-// // edit
-// // delete
+// Post MODEL METHODS:
+// index => RECEIVE_POSTS
+// show
+// create
+// showByUser
+// edit
+// delete
 
-// REDUCER => update the store
+// REDUCER => updates the store
 // is triggered with store.dispatch(action)
 
 import { RECEIVE_POSTS } from '../actions/posts'

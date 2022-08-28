@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleAuthUser } from '../actions/authedUser'
 
-// an existent user logs in with username and password
 const Login = (props: any): ReactElement => {
 	const { users, dispatch } = props
 	const navigate = useNavigate()

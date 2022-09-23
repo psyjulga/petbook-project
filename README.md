@@ -1,7 +1,16 @@
 # PETBOOK PROJECT
 
+<<<<<<< HEAD
 - **Final Fullstack Project** for the Masterschool Web Development program
 - **Tech Stack:** React, Redux, JavaScript, Typescript, Node, Express, PostgreSQL, Jest
+=======
+After two backend courses with an image API project and a shopping app API project, where we used NodeJS, Express, Typescript and Jest, we combined our knowledge of front- and backend development to build a fullstack project. The very last - the final Masterschool project. Petbook is a facebook for pet owners - come and create an account yourself! 🐹  
+
+⚠ THIS WORK IS STILL IN PROGRESS ⚠
+
+- final fullstack project for the masterschool web development bootcamp
+- react, redux, typescript, jest, postgres
+>>>>>>> c1f816eef19554c1f6c6536809aa8d306e9c8367
 
 ## PROJECT SETUP
 

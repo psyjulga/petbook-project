@@ -1,19 +1,26 @@
 import { Application, Request, Response } from 'express'
+import { FileStore } from '../models/shared'
+
+const store = new FileStore()
 
 const create = async (req: Request, res: Response) => {
-	// const {file} = req.files
-	console.log('shared handler req.params.id: ', req.params.id)
-	console.log('shared handler req.files: ', req.files)
-	console.log('shared handler req.body: ', req.body)
-	res.json('okay')
-	// try {
-	// 	const upload = await store.create(file)
-	// 	res.status(200)
-	// 	res.json(upload)
-	// } catch (e) {
-	// 	res.status(400)
-	// 	res.json(e)
-	// }
+	// @ts-ignore
+	const fileData = req.files?.file.data
+	const table = req.body.table
+	const { id } = req.params
+
+	console.log('shared handler file: ', fileData)
+	console.log('shared handler table: ', table)
+
+	try {
+		const savedFile = await store.create(table, id, fileData)
+		console.log('RES IN HANDLER: ', savedFile)
+		res.status(200)
+		res.json(savedFile)
+	} catch (e) {
+		res.status(400)
+		res.json(e)
+	}
 }
 
 const shared_routes = (app: Application) => {

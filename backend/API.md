@@ -59,3 +59,5 @@ index: all likes (active and deleted users)
 showLikesByPost: returns all likes related to a specific post => arr.length & list usernames (active and deleted users)
 create: create a new like - LIKE
 destroy: delete a like - UNLIKE
+
+### SHARED => for file upload

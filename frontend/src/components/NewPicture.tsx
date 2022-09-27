@@ -1,23 +1,19 @@
 import React, { ReactElement } from 'react'
+import { connect } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { handleEditUser } from '../actions/users'
 
 const NewPicture = (props: any): ReactElement => {
-	const { dispatch, user_id } = props
-	console.log('new picture props user_id: ', user_id)
+	const { dispatch, user_id } = props // user_id from parent component
 	const { register, handleSubmit } = useForm()
 
 	const onSubmit = (data: any) => {
-		console.log('DATA from picture upload: ', data)
-		console.log(
-			'DATA.profile_picture[0] from picture upload: ',
-			data.profile_picture[0]
-		)
-		const pic: File = data.profile_picture[0]
+		const pic: File = data.file[0]
 		const formData = new FormData()
 		formData.append('file', pic)
+		formData.append('table', 'users')
 
-		dispatch(handleEditUser(pic, user_id, 'users', formData)).then(() => {
+		dispatch(handleEditUser(user_id, formData)).then(() => {
 			console.log('dispatch handle edit user')
 		})
 	}
@@ -33,7 +29,7 @@ const NewPicture = (props: any): ReactElement => {
 						className="form-control"
 						type="file"
 						id="fileInput"
-						{...register('profile_picture')}
+						{...register('file')}
 					/>
 					<button className="btn btn-success">Upload Picture</button>
 				</form>
@@ -42,4 +38,8 @@ const NewPicture = (props: any): ReactElement => {
 	)
 }
 
-export default NewPicture
+const mapStateToProps = ({ authedUser }: any) => {
+	return { authedUser } // we don't need this, but to get dispatch
+}
+
+export default connect(mapStateToProps)(NewPicture)

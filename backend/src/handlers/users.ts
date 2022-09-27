@@ -51,6 +51,8 @@ const create = async (req: Request, res: Response) => {
 		password,
 	}
 
+	console.log('from create user handler:', user)
+
 	try {
 		const newUser = await store.create(user) // with hashed password
 		const token = jwt.sign(
@@ -69,6 +71,7 @@ const create = async (req: Request, res: Response) => {
 const authenticate = async (req: Request, res: Response) => {
 	try {
 		const { user_name, password } = req.body
+
 		const authenticatedUser = await store.authenticate(
 			// returns null or password
 			user_name,

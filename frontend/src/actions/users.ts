@@ -57,6 +57,8 @@ export function handleReceiveUsers() {
 }
 
 export function handleAddUser(user: User, numUsers: number) {
+	console.log('user in actions handleAddUser: ', user)
+
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
 

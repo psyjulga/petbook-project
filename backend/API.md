@@ -1,18 +1,16 @@
 ### USER ROUTES
 
-| VERB | ROUTE              | METHOD       | PROTECTED | DESCRIPTION                                                                                                               |
-| ---- | ------------------ | ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------- |
-| get  | /users             | index        | -         | all users                                                                                                                 |
-| get  | /users/:id         | show         | ✔         | one user by id => to show the logged in users profile                                                                     |
-| post | /users             | create       | -         | create a new user / sign up !! return value is the TOKEN OR null if user_name already taken => display message to user !! |
-| post | /authenticate_user | authenticate | -         | sign in / enter username and password => returns encrypted password(model) => returns token (handler)                     |
+| VERB   | ROUTE              | METHOD            | PROTECTED | DESCRIPTION                                                                                                                                                                                   |
+| ------ | ------------------ | ----------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| get    | /users             | index             | -         | all users                                                                                                                                                                                     |
+| get    | /users/:id         | show              | ✔         | one user by id => to show the logged in users profile                                                                                                                                         |
+| post   | /users             | create            | -         | create a new user / sign up !! return value is the TOKEN OR null if user_name already taken => display message to user !!                                                                     |
+| post   | /authenticate_user | authenticate      | -         | sign in / enter username and password => returns encrypted password(model) => returns token (handler) => display message to the user if username does not exist or if password is not correct |
+| post   | /users/:id/pets    | addPetToUser      | ✔         | create a relation between a pet and a user !! how handle when pet already exists ?                                                                                                            |
+| delete | /users/:id/pets    | removePetFromUser | ✔         | cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)                                                                                                        |
+| put    | /users/:id         | edit              | yes       | update a certain field of a certain user with a value                                                                                                                                         |
+| delete | /users/:id'        | destroy           | ✔         | delete a user                                                                                                                                                                                 |
 
-=> display message to the user if username does not exist
-or if password is not correct |
-| post | /users/:id/pets | addPetToUser | ✔ | create a relation between a pet and a user !! how handle when pet already exists ? |
-| delete | /users/:id/pets | removePetFromUser | ✔ | cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!) |
-| put | /users/:id | edit | yes | update a certain field of a certain user with a value |
-| delete | /users/:id' | destroy | ✔ | delete a user
 => delete users' pets, posts, comments, likes
 => comments and likes preserved in new table
 => shown as "deleted user" |

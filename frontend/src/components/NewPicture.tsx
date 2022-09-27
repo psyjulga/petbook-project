@@ -4,6 +4,7 @@ import { handleEditUser } from '../actions/users'
 
 const NewPicture = (props: any): ReactElement => {
 	const { dispatch, user_id } = props
+	console.log('new picture props user_id: ', user_id)
 	const { register, handleSubmit } = useForm()
 
 	const onSubmit = (data: any) => {
@@ -12,9 +13,11 @@ const NewPicture = (props: any): ReactElement => {
 			'DATA.profile_picture[0] from picture upload: ',
 			data.profile_picture[0]
 		)
-		const pic = data.profile_picture[0]
+		const pic: File = data.profile_picture[0]
+		const formData = new FormData()
+		formData.append('file', pic)
 
-		dispatch(handleEditUser(pic, user_id)).then(() => {
+		dispatch(handleEditUser(pic, user_id, 'users', formData)).then(() => {
 			console.log('dispatch handle edit user')
 		})
 	}

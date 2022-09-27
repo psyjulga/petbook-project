@@ -9,6 +9,7 @@ import pet_routes from './handlers/pets'
 import post_routes from './handlers/posts'
 import comment_routes from './handlers/comments'
 import like_routes from './handlers/likes'
+import shared_routes from './handlers/shared'
 
 dotenv.config()
 
@@ -34,6 +35,7 @@ pet_routes(app)
 post_routes(app)
 comment_routes(app)
 like_routes(app)
+shared_routes(app)
 
 if (process.env.NODE_ENV !== 'test') {
 	app.listen(port, function () {

@@ -81,33 +81,40 @@ export function handleAddUser(user: User, numUsers: number) {
 	}
 }
 
-export function handleEditUser(pic: '', id: ' ') {
+export function handleEditUser(
+	pic: File,
+	id: string,
+	table: string,
+	formData: any
+) {
 	console.log('pic in actions handleEditUser: ', pic)
 
-	// field, value => req.body
-	const user = {
-		field: 'profile_picture',
-		value: pic,
+	const upload = {
+		id: id,
+		table: table,
+		file: pic,
 	}
 
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
 
-		return fetch(`http://localhost:8000/users/${id}`, {
-			method: 'EDIT',
-			body: JSON.stringify(user),
-			headers: { 'Content-Type': 'application/json' },
-		})
-			.then((res) => {
-				return res.json()
+		return (
+			fetch(`http://localhost:8000/shared/${id}`, {
+				method: 'POST',
+				body: formData,
+				headers: { 'Content-Type': 'multipart/form-data' },
 			})
-			.then((token) => {
-				dispatch(setAuthedUser(token, user.user_name))
-				dispatch(addUser(user, numUsers))
-			})
-			.then(() => dispatch(hideLoading()))
-			.catch((e) => {
-				console.log('error in handleAddUser: ', e)
-			})
+				.then((res) => {
+					console.log('res', res)
+					// return res.json()
+				})
+				// .then((json) => {
+				// 	dispatch(editUser(json))
+				// })
+				.then(() => dispatch(hideLoading()))
+				.catch((e) => {
+					console.log('error in handleEditUser: ', e)
+				})
+		)
 	}
 }

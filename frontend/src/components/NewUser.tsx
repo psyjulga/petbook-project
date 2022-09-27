@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react'
 import { handleAddUser } from '../actions/users'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
+import NewPicture from './NewPicture'
 
 const NewUser = (props: any): ReactElement => {
 	console.log('props in new user: ', props)
@@ -136,18 +137,7 @@ const NewUser = (props: any): ReactElement => {
 					/>
 				</div>
 				{/* PROFILE PICTURE */}
-				<div className="mb-3">
-					<label htmlFor="fileInput" className="form-label">
-						Profile Picture
-					</label>
-					<input
-						name="profile_picture"
-						onChange={handleInputChange}
-						className="form-control"
-						type="file"
-						id="fileInput"
-					/>
-				</div>
+				<NewPicture />
 				{/* BUTTON */}
 				<button type="submit" className="btn btn-success">
 					Create an Account

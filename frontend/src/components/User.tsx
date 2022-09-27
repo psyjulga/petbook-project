@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import '../styles/user.css'
+import NewPicture from './NewPicture'
 
 const User = (props: any) => {
 	const { authedUser, users, numUsers } = props
@@ -12,16 +13,19 @@ const User = (props: any) => {
 
 	const user = usersArr.find((u) => u.user_name === authedUser.user_name)
 
-	const { user_name, first_name, last_name } = user
+	const { user_name, first_name, last_name, profile_pic } = user
 
 	return (
 		<div className="user m-4">
 			<div className="card">
-				<img
-					src="http://placekitten.com/80/40"
-					className="card-img-top img-fluid"
-					alt={`${user_name} profile picture`}
-				/>
+				{profile_pic && (
+					<img
+						src="http://placekitten.com/80/40"
+						className="card-img-top img-fluid"
+						alt={`${user_name} profile picture`}
+					/>
+				)}
+				{!profile_pic && <NewPicture />}
 				<div className="card-body">
 					<h5 className="card-title">{`${first_name} ${last_name} (${user_name})`}</h5>
 					<p className="card-text">a small paragraph about the user</p>

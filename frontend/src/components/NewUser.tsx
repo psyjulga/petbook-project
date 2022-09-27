@@ -2,10 +2,8 @@ import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react'
 import { handleAddUser } from '../actions/users'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
-import NewPicture from './NewPicture'
 
 const NewUser = (props: any): ReactElement => {
-	console.log('props in new user: ', props)
 	const { dispatch, numUsers } = props
 	const navigate = useNavigate()
 
@@ -16,7 +14,6 @@ const NewUser = (props: any): ReactElement => {
 		email: '',
 		country: '',
 		city: '',
-		profile_pic: '',
 		password: '',
 	}
 
@@ -136,8 +133,6 @@ const NewUser = (props: any): ReactElement => {
 						id="passwordInput"
 					/>
 				</div>
-				{/* PROFILE PICTURE */}
-				<NewPicture />
 				{/* BUTTON */}
 				<button type="submit" className="btn btn-success">
 					Create an Account

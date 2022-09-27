@@ -4,16 +4,20 @@ import { useForm } from 'react-hook-form'
 const NewPicture = () => {
 	const { register, handleSubmit } = useForm()
 
-	const onSubmit = (data: {}) => {
+	const onSubmit = (data: any) => {
 		console.log('DATA from picture upload: ', data)
+		console.log(
+			'DATA.profile_picture[0] from picture upload: ',
+			data.profile_picture[0]
+		)
 	}
 
 	return (
 		<div className="new-picture">
-			<div className="mb-3">
+			<div className="m-3">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<label htmlFor="fileInput" className="form-label">
-						Profile Picture
+						Choose a Profile Picture
 					</label>
 					<input
 						className="form-control"
@@ -21,7 +25,7 @@ const NewPicture = () => {
 						id="fileInput"
 						{...register('profile_picture')}
 					/>
-					<button>Upload Picture</button>
+					<button className="btn btn-success">Upload Picture</button>
 				</form>
 			</div>
 		</div>

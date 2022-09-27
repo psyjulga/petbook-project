@@ -8,12 +8,8 @@
 | post   | /authenticate_user | authenticate      | -         | sign in / enter username and password => returns encrypted password(model) => returns token (handler) => display message to the user if username does not exist or if password is not correct |
 | post   | /users/:id/pets    | addPetToUser      | ✔         | create a relation between a pet and a user !! how handle when pet already exists ?                                                                                                            |
 | delete | /users/:id/pets    | removePetFromUser | ✔         | cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)                                                                                                        |
-| put    | /users/:id         | edit              | yes       | update a certain field of a certain user with a value                                                                                                                                         |
-| delete | /users/:id'        | destroy           | ✔         | delete a user                                                                                                                                                                                 |
-
-=> delete users' pets, posts, comments, likes
-=> comments and likes preserved in new table
-=> shown as "deleted user" |
+| put    | /users/:id         | edit              | ✔         | update a certain field of a certain user with a value                                                                                                                                         |
+| delete | /users/:id'        | destroy           | ✔         | delete a user => delete users' pets, posts, comments, likes => comments and likes preserved in new table => shown as "deleted user"                                                           |
 
 ### PETS => all tests passing
 

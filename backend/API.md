@@ -9,7 +9,21 @@
 | post   | /users/:id/pets    | addPetToUser      | ✔         | create a relation between a pet and a user !! how handle when pet already exists ?                                                                                                            |
 | delete | /users/:id/pets    | removePetFromUser | ✔         | cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)                                                                                                        |
 | put    | /users/:id         | edit              | ✔         | update a certain field of a certain user with a value                                                                                                                                         |
-| delete | /users/:id'        | destroy           | ✔         | delete a user => delete users' pets, posts, comments, likes => comments and likes preserved in new table => shown as "deleted user"                                                           |
+| delete | /users/:id         | destroy           | ✔         | delete a user => delete users' pets, posts, comments, likes => comments and likes preserved in new table => shown as "deleted user"                                                           |
+
+### USER DATABASE SCHEMA => table users
+
+| COLUMN      | DATA TYPE          | CONSTRAINT      |
+| ----------- | ------------------ | --------------- |
+| user_id     | SERIAL PRIMARY KEY | -               |
+| user_name   | VARCHAR(25)        | NOT NULL UNIQUE |
+| first_name  | VARCHAR(25)        | NOT NULL        |
+| last_name   | VARCHAR(25)        | NOT NULL        |
+| email       | VARCHAR(25)        | NOT NULL UNIQUE |
+| country     | VARCHAR(25)        | -               |
+| city        | VARCHAR(25)        | -               |
+| profile_pic | BYTEA              | -               |
+| password    | VARCHAR            | NOT NULL        |
 
 ### PETS => all tests passing
 

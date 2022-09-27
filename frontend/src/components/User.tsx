@@ -13,7 +13,7 @@ const User = (props: any) => {
 
 	const user = usersArr.find((u) => u.user_name === authedUser.user_name)
 
-	const { user_name, first_name, last_name, profile_pic } = user
+	const { user_name, first_name, last_name, profile_pic, user_id } = user
 
 	return (
 		<div className="user m-4">
@@ -25,7 +25,7 @@ const User = (props: any) => {
 						alt={`${user_name} profile picture`}
 					/>
 				)}
-				{!profile_pic && <NewPicture />}
+				{!profile_pic && <NewPicture user_id={user_id} />}
 				<div className="card-body">
 					<h5 className="card-title">{`${first_name} ${last_name} (${user_name})`}</h5>
 					<p className="card-text">a small paragraph about the user</p>

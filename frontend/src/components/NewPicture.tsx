@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
+import { handleEditUser } from '../actions/users'
 
-const NewPicture = () => {
+const NewPicture = (props: any): ReactElement => {
+	const { dispatch, user_id } = props
 	const { register, handleSubmit } = useForm()
 
 	const onSubmit = (data: any) => {
@@ -10,6 +12,11 @@ const NewPicture = () => {
 			'DATA.profile_picture[0] from picture upload: ',
 			data.profile_picture[0]
 		)
+		const pic = data.profile_picture[0]
+
+		dispatch(handleEditUser(pic, user_id)).then(() => {
+			console.log('dispatch handle edit user')
+		})
 	}
 
 	return (

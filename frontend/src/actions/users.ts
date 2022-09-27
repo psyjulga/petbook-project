@@ -80,3 +80,34 @@ export function handleAddUser(user: User, numUsers: number) {
 			})
 	}
 }
+
+export function handleEditUser(pic: '', id: ' ') {
+	console.log('pic in actions handleEditUser: ', pic)
+
+	// field, value => req.body
+	const user = {
+		field: 'profile_picture',
+		value: pic,
+	}
+
+	return (dispatch: Dispatch) => {
+		dispatch(showLoading())
+
+		return fetch(`http://localhost:8000/users/${id}`, {
+			method: 'EDIT',
+			body: JSON.stringify(user),
+			headers: { 'Content-Type': 'application/json' },
+		})
+			.then((res) => {
+				return res.json()
+			})
+			.then((token) => {
+				dispatch(setAuthedUser(token, user.user_name))
+				dispatch(addUser(user, numUsers))
+			})
+			.then(() => dispatch(hideLoading()))
+			.catch((e) => {
+				console.log('error in handleAddUser: ', e)
+			})
+	}
+}

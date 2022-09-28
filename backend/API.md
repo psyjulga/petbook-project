@@ -19,10 +19,10 @@
 | user_name   | VARCHAR(25)        | NOT NULL UNIQUE |
 | first_name  | VARCHAR(25)        | NOT NULL        |
 | last_name   | VARCHAR(25)        | NOT NULL        |
-| email       | VARCHAR(25)        | NOT NULL UNIQUE |
+| email       | VARCHAR(50)        | NOT NULL UNIQUE |
 | country     | VARCHAR(25)        | -               |
 | city        | VARCHAR(25)        | -               |
-| profile_pic | BYTEA              | -               |
+| profile_pic | VARCHAR(50)        | -               |
 | password    | VARCHAR            | NOT NULL        |
 
 ### PETS => all tests passing

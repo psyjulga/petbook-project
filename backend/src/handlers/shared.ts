@@ -1,20 +1,29 @@
 import { Application, Request, Response } from 'express'
 import { FileStore } from '../models/shared'
+import path from 'path'
 
 const store = new FileStore()
 
 const create = async (req: Request, res: Response) => {
+	if (!req.files) {
+		console.log('no files were uploaded')
+		return res.status(400).send('No files were uploaded.')
+	}
+
+	const file = req.files?.file
 	// @ts-ignore
-	const fileData = req.files?.file.data
+	const fileName = file.name
 	const table = req.body.table
 	const { id } = req.params
 
-	console.log('shared handler file: ', fileData)
-	console.log('shared handler table: ', table)
+	// save image file to local images folder
+	const imagePath = path.resolve(`src/images/${fileName}`)
+	// @ts-ignore
+	file.mv(imagePath)
 
+	// save image path to database
 	try {
-		const savedFile = await store.create(table, id, fileData)
-		console.log('RES IN HANDLER: ', savedFile)
+		const savedFile = await store.create(table, id, fileName) // updated user object with image file name
 		res.status(200)
 		res.json(savedFile)
 	} catch (e) {

@@ -23,8 +23,6 @@ const NewUser = (props: any): ReactElement => {
 		e.preventDefault()
 
 		dispatch(handleAddUser(user, numUsers)).then(() => {
-			setUser(user)
-			// setDisabled(true)
 			navigate('/newsfeed')
 		})
 	}

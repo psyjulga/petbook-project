@@ -1,17 +1,7 @@
-import { UploadedFile } from 'express-fileupload'
 import client from '../database'
 
 export class FileStore {
-	async create(
-		table: string,
-		id: string,
-		fileData: UploadedFile | UploadedFile[] | undefined
-	): Promise<any> {
-		const fileDataString = fileData?.toString()
-		const dataWithX = `\\x${fileDataString}`
-
-		console.log('STRING: ', dataWithX)
-
+	async create(table: string, id: string, fileName: string): Promise<any> {
 		let conn
 
 		let id_name
@@ -34,11 +24,9 @@ export class FileStore {
 
 		try {
 			conn = await client.connect()
-			const sql = `INSERT INTO ${table} (${col_name}) 
-         VALUES (${dataWithX}) WHERE ${id_name} = ${id} RETURNING *`
-			console.log('SQL: ', sql)
+			const sql = `UPDATE ${table} SET ${col_name} = '${fileName}' WHERE ${id_name} = ${id} RETURNING *`
 			const res = await conn.query(sql)
-			return res
+			return res.rows[0]
 		} catch (e) {
 			console.log(`Error in FileStore create(): ${e}`)
 			throw new Error(`Error in FileStore create(): ${e}`)

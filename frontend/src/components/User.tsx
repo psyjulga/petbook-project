@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import '../styles/user.css'
 import NewPicture from './NewPicture'
+import path from 'path'
 
 const User = (props: any) => {
 	const { authedUser, users, numUsers } = props
@@ -12,15 +13,18 @@ const User = (props: any) => {
 	}
 
 	const user = usersArr.find((u) => u.user_name === authedUser.user_name)
-
 	const { user_name, first_name, last_name, profile_pic, user_id } = user
+
+	const imagePath = path.resolve()
+	console.log(imagePath)
+	// !!!!!!!!!
 
 	return (
 		<div className="user m-4">
 			<div className="card">
 				{profile_pic && (
 					<img
-						src="http://placekitten.com/80/40"
+						src={imagePath}
 						className="card-img-top img-fluid"
 						alt={`${user_name} profile picture`}
 					/>

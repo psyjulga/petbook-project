@@ -15,6 +15,7 @@ import { setAuthedUser } from './authedUser'
 
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const ADD_USER = 'ADD_USER'
+export const ADD_USER_PICTURE = 'ADD_USER_PICTURE'
 
 export function receiveUsers(payload: User[]) {
 	return {
@@ -28,6 +29,14 @@ export function addUser(payload: User, numUsers: number) {
 		type: ADD_USER,
 		payload,
 		numUsers,
+	}
+}
+
+export function addUserPicture(payload: string, user_id: string) {
+	return {
+		type: ADD_USER_PICTURE,
+		payload,
+		user_id,
 	}
 }
 
@@ -81,7 +90,7 @@ export function handleAddUser(user: User, numUsers: number) {
 	}
 }
 
-export function handleEditUser(id: string, formData: FormData) {
+export function handleAddUserPicture(id: string, formData: FormData) {
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
 
@@ -92,9 +101,9 @@ export function handleEditUser(id: string, formData: FormData) {
 			.then((res) => {
 				return res.json()
 			})
-			.then((json) => {
-				console.log('json: ', json)
-				// dispatch(editUser(json))
+			.then((userWithPicture) => {
+				const picture = userWithPicture.profile_pic
+				dispatch(addUserPicture(picture, id))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {

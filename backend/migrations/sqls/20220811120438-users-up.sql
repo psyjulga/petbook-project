@@ -3,29 +3,29 @@ CREATE TABLE users (
   user_name VARCHAR(25) NOT NULL UNIQUE,
   first_name VARCHAR(25) NOT NULL,
   last_name VARCHAR(25) NOT NULL,
-  email VARCHAR(25) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
   country VARCHAR(25),
   city VARCHAR(25),
-  profile_pic BYTEA,
+  profile_pic VARCHAR(50),
   password VARCHAR NOT NULL
 );
 
 INSERT INTO users (
   user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
 ) VALUES (
-  default, 'Ladybug', 'Julia', 'Bestgen', 'psyjulga@yahoo.de', 'Germany', 'Cologne','src/pics/ladybug.jpg', 'secret123' 
+  default, 'Ladybug', 'Julia', 'Bestgen', 'psyjulga@yahoo.de', 'Germany', 'Cologne','ladybug.jpg', 'secret123' 
 );
 
 INSERT INTO users (
   user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
 ) VALUES (
-  default, 'Ganesha', 'Lindsay', 'Brown', 'l.brown@gmx.com', 'India', 'Mumbai','src/ganesha/pics.jpg', 'secret456' 
+  default, 'Ganesha', 'Lindsay', 'Brown', 'l.brown@gmx.com', 'India', 'Mumbai','ganesha.jpg', 'secret456' 
 );
 
 INSERT INTO users (
   user_id, user_name, first_name, last_name, email, country, city, profile_pic, password
 ) VALUES (
-  default, 'test-user', 'Mona', 'Lisa', 'm.lisa@louvre.fr', 'France', 'Paris', null, 'secret789' 
+  default, 'test-user', 'Mona', 'Lisa', 'm.lisa@louvre.fr', 'France', 'Paris', 'the persistance of memory.jpg', 'secret789' 
 );
 
 INSERT INTO users (

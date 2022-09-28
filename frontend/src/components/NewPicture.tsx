@@ -1,11 +1,12 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { connect } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { handleEditUser } from '../actions/users'
+import { handleAddUserPicture } from '../actions/users'
 
 const NewPicture = (props: any): ReactElement => {
 	const { dispatch, user_id } = props // user_id from parent component
 	const { register, handleSubmit } = useForm()
+	const [pic, setPic] = useState(false)
 
 	const onSubmit = (data: any) => {
 		const pic: File = data.file[0]
@@ -13,8 +14,8 @@ const NewPicture = (props: any): ReactElement => {
 		formData.append('file', pic)
 		formData.append('table', 'users')
 
-		dispatch(handleEditUser(user_id, formData)).then(() => {
-			console.log('dispatch handle edit user')
+		dispatch(handleAddUserPicture(user_id, formData)).then(() => {
+			setPic(true)
 		})
 	}
 

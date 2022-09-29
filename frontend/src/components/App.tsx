@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import Login from './Login'
 import Dashboard from './Dashboard'
+import Footer from './Footer'
 import NewUser from './NewUser'
 import { handleReceiveUsers } from '../actions/users'
 
@@ -34,6 +35,7 @@ const App = (props: any): ReactElement => {
 					<Route path="/newsfeed" element={<Dashboard />} />
 					<Route path="/new_user" element={<NewUser />} />
 				</Routes>
+				<Footer />
 			</div>
 		</Fragment>
 	)

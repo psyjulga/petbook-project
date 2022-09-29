@@ -35,10 +35,7 @@ function profilePic(state = {}, action: any) {
 
 	return {
 		...state,
-		users: {
-			...users,
-			['profile_pic']: payload,
-		},
+		['profile_pic']: payload,
 	}
 }
 
@@ -75,11 +72,8 @@ export default function users(state = {}, action: any) {
 			}
 		}
 
-		// action.payload => 'example.jpg'
-		// {'profile_pic':'example.jpg'}
 		case ADD_USER_PICTURE: {
-			const { user_id } = action
-			const key = Number(user_id) - 1
+			const { key } = action
 
 			return {
 				...state,

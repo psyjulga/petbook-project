@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { handleAddUserPicture } from '../actions/users'
 
 const NewPicture = (props: any): ReactElement => {
-	const { dispatch, user_id } = props // user_id from parent component
+	const { dispatch, keyOfUserObject, user_id } = props // user_id from parent component
 	const { register, handleSubmit } = useForm()
 	const [pic, setPic] = useState(false)
 
@@ -14,9 +14,11 @@ const NewPicture = (props: any): ReactElement => {
 		formData.append('file', pic)
 		formData.append('table', 'users')
 
-		dispatch(handleAddUserPicture(user_id, formData)).then(() => {
-			setPic(true)
-		})
+		dispatch(handleAddUserPicture(user_id, formData, keyOfUserObject)).then(
+			() => {
+				setPic(true)
+			}
+		)
 	}
 
 	return (
@@ -39,8 +41,19 @@ const NewPicture = (props: any): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ authedUser }: any) => {
-	return { authedUser } // we don't need this, but to get dispatch
+const mapStateToProps = ({ users, authedUser }: any) => {
+	const numUsers = Object.keys(users).length
+
+	let usersArr = []
+	for (let i = 0; i < numUsers; i++) {
+		usersArr.push(users[i])
+	}
+
+	const keyOfUserObject = usersArr.findIndex(
+		(u) => u.user_name === authedUser.user_name
+	)
+
+	return { keyOfUserObject }
 }
 
 export default connect(mapStateToProps)(NewPicture)

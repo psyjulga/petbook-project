@@ -17,7 +17,7 @@ const create = async (req: Request, res: Response) => {
 	const { id } = req.params
 
 	// save image file to local images folder
-	const imagePath = path.resolve(`src/images/${fileName}`)
+	const imagePath = path.resolve(`../frontend/public/images/${fileName}`)
 	// @ts-ignore
 	file.mv(imagePath)
 

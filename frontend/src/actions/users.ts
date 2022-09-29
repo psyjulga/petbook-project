@@ -32,11 +32,11 @@ export function addUser(payload: User, numUsers: number) {
 	}
 }
 
-export function addUserPicture(payload: string, user_id: string) {
+export function addUserPicture(payload: string, key: number) {
 	return {
 		type: ADD_USER_PICTURE,
 		payload,
-		user_id,
+		key,
 	}
 }
 
@@ -90,7 +90,11 @@ export function handleAddUser(user: User, numUsers: number) {
 	}
 }
 
-export function handleAddUserPicture(id: string, formData: FormData) {
+export function handleAddUserPicture(
+	id: string,
+	formData: FormData,
+	key: number
+) {
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
 
@@ -103,7 +107,7 @@ export function handleAddUserPicture(id: string, formData: FormData) {
 			})
 			.then((userWithPicture) => {
 				const picture = userWithPicture.profile_pic
-				dispatch(addUserPicture(picture, id))
+				dispatch(addUserPicture(picture, key))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {

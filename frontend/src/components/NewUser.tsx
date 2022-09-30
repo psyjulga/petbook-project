@@ -34,7 +34,7 @@ const NewUser = (props: any): ReactElement => {
 	}
 
 	return (
-		<div className="new-user">
+		<div className="new-user" style={{ marginBottom: '50px' }}>
 			<form onSubmit={handleFormSubmit} className="m-5">
 				{/* USERNAME */}
 				<div className="mb-3">

@@ -7,6 +7,7 @@ const Footer = () => {
 			style={{
 				position: 'fixed',
 				bottom: 0,
+				marginTop: '20px',
 				width: '100%',
 				textAlign: 'center',
 				padding: '20px',

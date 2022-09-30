@@ -8,7 +8,7 @@ const Newsfeed = (props: any) => {
 	const { postsArr } = props
 
 	return (
-		<div className="newsfeed mt-4">
+		<div className="newsfeed mt-4 mb-5">
 			<ul>
 				{postsArr.map((post: Post) => (
 					<li key={post.post_id} className="m-2">

@@ -1,18 +1,23 @@
 // USER MODEL METHODS:
-// index => RECEIVE_USERS
+// index => RECEIVE_USERS ✔
 // show
-// create => NEW_USER
-// authenticate => authedUser.ts
+// create => NEW_USER ✔
+// authenticate => authedUser.ts ✔
 // addPetToUser
 // removePetFromUser
-// edit
+// edit => EDIT_USER
 // delete
 
-// addUserPicture
+// addUserPicture => ADD_USER_PICTURE ✔
 
 // REDUCER => updates the store
 
-import { RECEIVE_USERS, ADD_USER, ADD_USER_PICTURE } from '../actions/users'
+import {
+	RECEIVE_USERS,
+	ADD_USER,
+	ADD_USER_PICTURE,
+	EDIT_USER,
+} from '../actions/users'
 import { User } from '../../../backend/src/models/user'
 
 // function userAnswer(state = {}, action) {
@@ -79,6 +84,15 @@ export default function users(state = {}, action: any) {
 				...state,
 				// @ts-ignore
 				[key]: profilePic(state[key], action),
+			}
+		}
+
+		case EDIT_USER: {
+			const { payload, key } = action
+
+			return {
+				...state,
+				[key]: payload, // edited user
 			}
 		}
 

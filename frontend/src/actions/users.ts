@@ -1,12 +1,14 @@
 // // USER MODEL METHODS:
-// // index => RECEIVE_USERS
+// // index => RECEIVE_USERS ✔
 // // show
-// // create => ADD_USER
-// // authenticate => authedUser.ts
+// // create => ADD_USER ✔
+// // authenticate => authedUser.ts ✔
 // // addPetToUser
 // // removePetFromUser
-// // edit
+// // edit => EDIT_USER
 // // delete
+
+// addPictureToUser => ADD_USER_PICTURE ✔
 
 import { Dispatch } from 'redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
@@ -16,6 +18,7 @@ import { setAuthedUser } from './authedUser'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const ADD_USER = 'ADD_USER'
 export const ADD_USER_PICTURE = 'ADD_USER_PICTURE'
+export const EDIT_USER = 'EDIT_USER'
 
 export function receiveUsers(payload: User[]) {
 	return {
@@ -35,6 +38,14 @@ export function addUser(payload: User, numUsers: number) {
 export function addUserPicture(payload: string, key: number) {
 	return {
 		type: ADD_USER_PICTURE,
+		payload,
+		key,
+	}
+}
+
+export function editUser(payload: User, key: string) {
+	return {
+		type: EDIT_USER,
 		payload,
 		key,
 	}
@@ -108,6 +119,39 @@ export function handleAddUserPicture(
 			.then((userWithPicture) => {
 				const picture = userWithPicture.profile_pic
 				dispatch(addUserPicture(picture, key))
+			})
+			.then(() => dispatch(hideLoading()))
+			.catch((e) => {
+				console.log('error in handleAddUserPicture: ', e)
+			})
+	}
+}
+
+export function handleEditUser(
+	id: string,
+	field: string,
+	value: string,
+	token: string,
+	key: string
+) {
+	const data = { field, value }
+
+	return (dispatch: Dispatch) => {
+		dispatch(showLoading())
+
+		return fetch(`http://localhost:8000/users/${id}`, {
+			method: 'PUT',
+			headers: {
+				authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		})
+			.then((res) => {
+				return res.json()
+			})
+			.then((editedUser) => {
+				dispatch(editUser(editedUser, key))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {

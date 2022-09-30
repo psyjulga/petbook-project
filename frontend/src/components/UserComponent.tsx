@@ -5,7 +5,7 @@ import '../styles/user.css'
 import NewPicture from './NewPicture'
 import { User } from '../../../backend/src/models/user'
 
-const User = (props: any) => {
+const UserComponent = (props: any) => {
 	// current logged in user
 	const { user } = props
 	const { user_name, first_name, last_name, profile_pic, user_id } = user
@@ -24,9 +24,6 @@ const User = (props: any) => {
 				<div className="card-body">
 					<h5 className="card-title">{`${first_name} ${last_name} (${user_name})`}</h5>
 					<p className="card-text">a small paragraph about the user</p>
-					{/* <a href="#" className="btn btn-success">
-						My Profile
-					</a> */}
 					<Link className="btn btn-success" to={'/user_profile'}>
 						My Profile
 					</Link>
@@ -44,4 +41,4 @@ const mapStateToProps = ({ authedUser, users }: any) => {
 		user,
 	}
 }
-export default connect(mapStateToProps)(User)
+export default connect(mapStateToProps)(UserComponent)

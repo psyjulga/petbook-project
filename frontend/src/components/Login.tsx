@@ -66,7 +66,15 @@ const Login = (props: any): ReactElement => {
 				</button>
 			</form>
 
-			<Link className="ms-5" to={'/new_user'}>
+			<Link
+				className="ms-5"
+				to={'/new_user'}
+				style={{
+					color: 'rgb(25, 135, 84)',
+					fontWeight: 'bold',
+				}}
+				title="Create an Account"
+			>
 				Create an Account
 			</Link>
 		</div>

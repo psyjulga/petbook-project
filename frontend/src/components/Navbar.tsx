@@ -11,7 +11,7 @@ const Navbar = (props: any) => {
 	}
 
 	return (
-		<nav className="navbar navbar-expand-lg bg-light">
+		<nav className="navbar navbar-expand-md bg-light">
 			<div className="container-fluid">
 				<a className="navbar-brand" href="#">
 					🐶PETBOOK🐱
@@ -30,9 +30,13 @@ const Navbar = (props: any) => {
 				<div className="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 						<li className="nav-item">
-							<a className="nav-link active" aria-current="page" href="#">
+							<Link
+								to={'/newsfeed'}
+								className="nav-link active"
+								aria-current="page"
+							>
 								Home
-							</a>
+							</Link>
 						</li>
 						{loggedIn && (
 							<li className="nav-item">

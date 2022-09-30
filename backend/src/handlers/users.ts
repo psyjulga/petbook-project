@@ -51,8 +51,6 @@ const create = async (req: Request, res: Response) => {
 		password,
 	}
 
-	console.log('from create user handler:', user)
-
 	try {
 		const newUser = await store.create(user) // with hashed password
 		const token = jwt.sign(
@@ -77,7 +75,6 @@ const authenticate = async (req: Request, res: Response) => {
 			user_name,
 			password // entered password => checks if correct
 		)
-		console.log('FROM BACKEND HANDLER: authedUser', authenticatedUser)
 
 		if (!authenticatedUser) {
 			throw new Error('username or password invalid')
@@ -88,7 +85,6 @@ const authenticate = async (req: Request, res: Response) => {
 			process.env.TOKEN_SECRET as string
 		)
 
-		console.log('FROM BACKEND HANDLER: token', token)
 		res.status(200)
 		res.json(token)
 	} catch (e) {

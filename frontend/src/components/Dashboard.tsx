@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Newsfeed from './Newsfeed'
-import User from './User'
+import UserComponent from './UserComponent'
 import { handleReceivePosts } from '../actions/posts'
 
 const Dashboard = (props: any) => {
@@ -15,7 +15,7 @@ const Dashboard = (props: any) => {
 		<div className="dashboard">
 			<div className="row">
 				<div className="col">
-					<User /> {/* user with pets, new pet */}
+					<UserComponent /> {/* user with pets, new pet */}
 					{/* new post form */}
 					<h1>NEW POST</h1>
 				</div>

@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react'
 import { connect } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { handleAddUserPicture } from '../actions/users'
+import { User } from '../../../backend/src/models/user'
 
 const NewPicture = (props: any): ReactElement => {
 	const { dispatch, keyOfUserObject, user_id } = props // user_id from parent component
@@ -42,14 +43,9 @@ const NewPicture = (props: any): ReactElement => {
 }
 
 const mapStateToProps = ({ users, authedUser }: any) => {
-	const numUsers = Object.keys(users).length
+	const usersArr: User[] = Object.values(users)
 
-	let usersArr = []
-	for (let i = 0; i < numUsers; i++) {
-		usersArr.push(users[i])
-	}
-
-	const keyOfUserObject = usersArr.findIndex(
+	const keyOfUserObject: number = usersArr.findIndex(
 		(u) => u.user_name === authedUser.user_name
 	)
 

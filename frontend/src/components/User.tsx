@@ -2,17 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import '../styles/user.css'
 import NewPicture from './NewPicture'
-import path from 'path'
+import { User } from '../../../backend/src/models/user'
 
 const User = (props: any) => {
-	const { authedUser, users, numUsers } = props
-
-	let usersArr = []
-	for (let i = 0; i < numUsers; i++) {
-		usersArr.push(users[i])
-	}
-
-	const user = usersArr.find((u) => u.user_name === authedUser.user_name)
+	const { user } = props
 	const { user_name, first_name, last_name, profile_pic, user_id } = user
 
 	return (
@@ -38,11 +31,12 @@ const User = (props: any) => {
 	)
 }
 const mapStateToProps = ({ authedUser, users }: any) => {
-	const numUsers = Object.keys(users).length
+	const usersArr: User[] = Object.values(users)
+	// @ts-ignore
+	const user: User = usersArr.find((u) => u.user_name === authedUser.user_name)
+
 	return {
-		authedUser,
-		users,
-		numUsers,
+		user,
 	}
 }
 export default connect(mapStateToProps)(User)

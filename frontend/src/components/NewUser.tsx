@@ -2,12 +2,13 @@ import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react'
 import { handleAddUser } from '../actions/users'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { User } from '../../../backend/src/models/user'
 
 const NewUser = (props: any): ReactElement => {
 	const { dispatch, numUsers } = props
 	const navigate = useNavigate()
 
-	const userObject = {
+	const userObject: User = {
 		user_name: '',
 		first_name: '',
 		last_name: '',

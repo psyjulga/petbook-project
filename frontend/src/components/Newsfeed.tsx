@@ -5,12 +5,7 @@ import PostComponent from './PostComponent'
 import '../styles/newsfeed.css'
 
 const Newsfeed = (props: any) => {
-	const { posts, numPosts } = props
-
-	let postsArr = []
-	for (let i = 0; i < numPosts; i++) {
-		postsArr.push(posts[i])
-	}
+	const { postsArr } = props
 
 	return (
 		<div className="newsfeed mt-4">
@@ -28,8 +23,8 @@ const Newsfeed = (props: any) => {
 const mapStateToProps = ({ posts }: any) => {
 	// postIds: Object.keys(posts).sort((a, b) => posts[b].date - posts[a].date),
 	// is in order anyway ?
-	const numPosts = Object.keys(posts).length
-	return { posts, numPosts }
+	const postsArr: Post[] = Object.values(posts)
+	return { postsArr }
 }
 
 export default connect(mapStateToProps)(Newsfeed)

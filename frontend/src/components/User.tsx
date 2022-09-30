@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import '../styles/user.css'
 import NewPicture from './NewPicture'
 import { User } from '../../../backend/src/models/user'
 
 const User = (props: any) => {
+	// current logged in user
 	const { user } = props
 	const { user_name, first_name, last_name, profile_pic, user_id } = user
 
@@ -22,9 +24,12 @@ const User = (props: any) => {
 				<div className="card-body">
 					<h5 className="card-title">{`${first_name} ${last_name} (${user_name})`}</h5>
 					<p className="card-text">a small paragraph about the user</p>
-					<a href="#" className="btn btn-success">
+					{/* <a href="#" className="btn btn-success">
 						My Profile
-					</a>
+					</a> */}
+					<Link className="btn btn-success" to={'/user_profile'}>
+						My Profile
+					</Link>
 				</div>
 			</div>
 		</div>

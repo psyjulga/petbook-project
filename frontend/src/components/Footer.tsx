@@ -1,19 +1,9 @@
 import React from 'react'
+import '../styles/styles.css'
 
 const Footer = () => {
 	return (
-		<div
-			className="footer"
-			style={{
-				position: 'fixed',
-				bottom: 0,
-				marginTop: '20px',
-				width: '100%',
-				textAlign: 'center',
-				padding: '20px',
-				backgroundColor: 'rgb(248, 249, 250)',
-			}}
-		>
+		<div className="footer">
 			<a
 				href="https://github.com/psyjulga/petbook-project"
 				target="_blank"

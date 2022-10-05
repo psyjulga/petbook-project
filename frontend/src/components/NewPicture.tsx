@@ -23,21 +23,22 @@ const NewPicture = (props: any): ReactElement => {
 	}
 
 	return (
-		<div className="new-picture">
-			<div className="m-3">
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<label htmlFor="fileInput" className="form-label">
-						Choose a Profile Picture
-					</label>
-					<input
-						className="form-control"
-						type="file"
-						id="fileInput"
-						{...register('file')}
-					/>
-					<button className="btn btn-success">Upload Picture</button>
-				</form>
-			</div>
+		<div
+			className="new-picture m-3 border border-2 border-success border-opacity-25 rounded p-3"
+			style={{ width: '300px', maxWidth: '90%' }}
+		>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<label htmlFor="fileInput" className="form-label">
+					Choose a Profile Picture
+				</label>
+				<input
+					className="form-control"
+					type="file"
+					id="fileInput"
+					{...register('file')}
+				/>
+				<button className="btn btn-success">Upload Picture</button>
+			</form>
 		</div>
 	)
 }

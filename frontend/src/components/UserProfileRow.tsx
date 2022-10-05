@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
 import { handleEditUser } from '../actions/users'
+import NewPicture from './NewPicture'
 
 const UserProfileRow = (props: any) => {
 	const { dispatch, authedUser, entry, user, keyOfUserObject } = props
@@ -11,11 +12,15 @@ const UserProfileRow = (props: any) => {
 	const [edit, setEdit] = useState(false)
 	const [inputValue, setInputValue] = useState(' ')
 
+	const isProfilePic = entry[0] === 'profile_pic'
+
 	const editUser = () => {
 		if (edit === true) {
-			dispatch(
-				handleEditUser(user_id, entry[0], inputValue, token, keyOfUserObject)
-			).then(setInputValue(' '))
+			if (!isProfilePic) {
+				dispatch(
+					handleEditUser(user_id, entry[0], inputValue, token, keyOfUserObject)
+				).then(setInputValue(' '))
+			}
 		}
 		setEdit(!edit)
 	}
@@ -34,21 +39,26 @@ const UserProfileRow = (props: any) => {
 
 	return (
 		<div className="user-profile-row row">
-			<div className="col-5">{transformWord(entry[0])}</div>
+			<div className="col-3">{transformWord(entry[0])}</div>
 			{edit && (
-				<div className="col-5>">
-					<input
-						type="text"
-						placeholder="Enter new value"
-						onChange={onInputChange}
-					/>
+				<div className="col">
+					{' '}
+					{isProfilePic ? (
+						<NewPicture user_id={user_id} />
+					) : (
+						<input
+							type="text"
+							placeholder="Enter new value"
+							onChange={onInputChange}
+						/>
+					)}
 				</div>
 			)}
-			{!edit && <div className="col-5">{entry[1]}</div>}
+			{!edit && <div className="col">{entry[1]}</div>}
 			<div className="col-2">
 				<button
 					onClick={editUser}
-					className="btn btn-success"
+					className={edit ? 'btn btn-warning' : 'btn btn-success'}
 					style={{ width: '100%' }}
 				>
 					{edit ? 'Save' : 'Edit'}

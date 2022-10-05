@@ -1,0 +1,20 @@
+body {
+	min-height: 150vh;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	padding: 20px;
+	background-color: rgb(248, 249, 250);
+}
+
+.newsfeed ul {
+	list-style: none;
+}
+
+.card {
+	width: 18rem;
+}

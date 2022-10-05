@@ -8,6 +8,7 @@ const UserProfile = (props: any) => {
 	const { user } = props
 
 	const userAllEntries = Object.entries(user)
+	// user_id and password not shown
 	const userEntries = userAllEntries.slice(1, 8)
 
 	return (

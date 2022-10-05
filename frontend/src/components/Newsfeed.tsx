@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import PostComponent from './PostComponent'
-import '../styles/newsfeed.css'
+import '../styles/styles.css'
 
 const Newsfeed = (props: any) => {
 	const { postsArr } = props

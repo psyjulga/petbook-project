@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import '../styles/post.css'
+import '../styles/styles.css'
 
 const PostComponent = (props: any) => {
 	const { post } = props

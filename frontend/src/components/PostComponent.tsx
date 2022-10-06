@@ -1,27 +1,51 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Post } from '../../../backend/src/models/post'
+import { User } from '../../../backend/src/models/user'
 import '../styles/styles.css'
+import NewPicture from './NewPicture'
 
 const PostComponent = (props: any) => {
-	const { post } = props
+	const { post, postAuthor, authedUser } = props
+	const { post_id, post_title, text, image }: Post = post
+	const { user_name } = authedUser
+	// video
+
+	const authedToLoadPicture: boolean =
+		image === null && user_name === postAuthor
 
 	return (
 		<div className="post">
-			<div className="card">
+			<div className="card card-post">
+				{image && (
+					<img
+						src={window.location.origin + `/images/${image}`}
+						className="card-img-top img-fluid"
+						alt={`${post_title} picture`}
+					/>
+				)}
+				{authedToLoadPicture && <NewPicture id={post_id} table={'posts'} />}
+
 				<div className="card-body">
-					<h5 className="card-title">Post title</h5>
-					<h6 className="card-subtitle mb-2 text-muted">{post.author}</h6>
-					<p className="card-text">{post.text}</p>
+					<h5 className="card-title">{post_title}</h5>
+					<h6 className="card-subtitle mb-2 text-muted">{postAuthor}</h6>
+					<p className="card-text">{text}</p>
 				</div>
 			</div>
 		</div>
 	)
 }
 
-const mapStateToProps = ({ authedUser }: any, { post }: any) => {
+const mapStateToProps = ({ users, authedUser }: any, { post }: any) => {
+	const usersArr: User[] = Object.values(users)
+	const postAuthor = usersArr.find(
+		(u) => u.user_id === Number(post.user_id)
+	)?.user_name
+
 	return {
-		authedUser,
 		post,
+		postAuthor,
+		authedUser,
 	}
 }
 

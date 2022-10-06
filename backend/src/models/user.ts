@@ -22,6 +22,7 @@ export type User = {
 	user_name: string
 	first_name: string
 	last_name: string
+	about_paragraph?: string | null
 	email: string
 	country: string
 	city: string
@@ -72,6 +73,7 @@ export class UserStore {
 			user_name,
 			first_name,
 			last_name,
+			about_paragraph,
 			email,
 			country,
 			city,
@@ -103,8 +105,8 @@ export class UserStore {
 		try {
 			conn = await client.connect()
 			const sql = `INSERT INTO users (
-          user_id, user_name, first_name, last_name, email, country, city, profile_pic, password) 
-          VALUES(default, $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`
+          user_id, user_name, first_name, last_name, about_paragraph, email, country, city, profile_pic, password) 
+          VALUES(default, $1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`
 
 			const saltRounds = process.env.SALT_ROUNDS
 			const hash = bcrypt.hashSync(
@@ -116,6 +118,7 @@ export class UserStore {
 				user_name,
 				first_name,
 				last_name,
+				about_paragraph,
 				email,
 				country,
 				city,

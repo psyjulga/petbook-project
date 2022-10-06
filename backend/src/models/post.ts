@@ -5,10 +5,10 @@ import deleteFromTable from '../util/deleteFromTable'
 export type Post = {
 	post_id?: number
 	date: string
+	post_title: string
 	text: string
 	image?: string | null
 	video?: string | null
-	author: string
 	user_id: string
 }
 
@@ -56,20 +56,21 @@ export class PostStore {
 	}
 
 	async create(post: Post): Promise<Post> {
-		const { date, text, image, video, author, user_id } = post
+		const { date, post_title, text, image, video, user_id } = post
+
 		let conn
 		try {
 			conn = await client.connect()
 			const sql = `INSERT INTO posts (
-         post_id, date, text, image, video, author, user_id) 
+         post_id, date, post_title, text, image, video, user_id) 
          VALUES (default, $1, $2, $3, $4, $5, $6) RETURNING *`
-			// does it insert null if not submitted (e.g. video)?=> yes
+
 			const res = await conn.query(sql, [
 				date,
+				post_title,
 				text,
 				image,
 				video,
-				author,
 				user_id,
 			])
 			return res.rows[0]
@@ -84,9 +85,9 @@ export class PostStore {
 		let conn
 		try {
 			conn = await client.connect()
+			const sql_title = `UPDATE posts SET post_title = ($1) WHERE post_id = ($2) RETURNING *`
 			const sql_text = `UPDATE posts SET text = ($1) WHERE post_id = ($2) RETURNING *`
-			const sql_author = `UPDATE posts SET author = ($1) WHERE post_id = ($2) RETURNING *`
-			const res = await conn.query((field = 'text' ? sql_text : sql_author), [
+			const res = await conn.query((field = 'text' ? sql_text : sql_title), [
 				value,
 				id,
 			])

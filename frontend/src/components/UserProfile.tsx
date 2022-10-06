@@ -9,7 +9,7 @@ const UserProfile = (props: any) => {
 
 	const userAllEntries = Object.entries(user)
 	// user_id and password not shown
-	const userEntries = userAllEntries.slice(1, 8)
+	const userEntries = userAllEntries.slice(1, 9)
 
 	return (
 		<div className="user-profile mb-5">

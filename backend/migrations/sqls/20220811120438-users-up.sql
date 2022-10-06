@@ -3,6 +3,7 @@ CREATE TABLE users (
   user_name VARCHAR(25) NOT NULL UNIQUE,
   first_name VARCHAR(25) NOT NULL,
   last_name VARCHAR(25) NOT NULL,
+  about_paragraph TEXT,
   email VARCHAR(50) NOT NULL UNIQUE,
   country VARCHAR(25),
   city VARCHAR(25),

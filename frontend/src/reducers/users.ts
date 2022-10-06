@@ -35,9 +35,6 @@ import { User } from '../../../backend/src/models/user'
 
 function profilePic(state = {}, action: any) {
 	const { payload } = action
-	// @ts-ignore
-	const { users } = state
-
 	return {
 		...state,
 		['profile_pic']: payload,
@@ -71,9 +68,11 @@ export default function users(state = {}, action: any) {
 		}
 
 		case ADD_USER: {
+			const { payload, key } = action
+
 			return {
 				...state,
-				[action.numUsers]: action.payload, // user
+				[key]: payload, // user
 			}
 		}
 

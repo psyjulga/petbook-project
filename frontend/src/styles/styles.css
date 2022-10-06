@@ -15,6 +15,11 @@ body {
 	list-style: none;
 }
 
-.card {
+.card-user {
 	width: 18rem;
+}
+
+.card-post {
+	width: 36rem;
+	max-width: 80%;
 }

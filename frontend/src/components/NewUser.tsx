@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
 
 const NewUser = (props: any): ReactElement => {
-	const { dispatch, numUsers } = props
+	const { dispatch, newKey } = props
 	const navigate = useNavigate()
 
 	const userObject: User = {
@@ -23,7 +23,7 @@ const NewUser = (props: any): ReactElement => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		dispatch(handleAddUser(user, numUsers)).then(() => {
+		dispatch(handleAddUser(user, newKey)).then(() => {
 			navigate('/newsfeed')
 		})
 	}
@@ -141,9 +141,13 @@ const NewUser = (props: any): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ authedUser, users }: any) => {
-	const numUsers = Object.keys(users).length
-	return { authedUser, numUsers }
+const mapStateToProps = ({ users }: any) => {
+	const usersArr: User[] = Object.values(users)
+	const userIDs = usersArr.map((u) => u.user_id)
+	//@ts-ignore
+	const newKey: number = Math.max(...userIDs)
+
+	return { newKey }
 }
 
 export default connect(mapStateToProps)(NewUser)

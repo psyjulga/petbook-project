@@ -6,7 +6,7 @@ import NewPicture from './NewPicture'
 
 const UserProfileRow = (props: any) => {
 	const { dispatch, authedUser, entry, user, keyOfUserObject } = props
-	const { user_id } = user
+	const { user_id }: User = user
 	const { token } = authedUser
 
 	const [edit, setEdit] = useState(false)
@@ -18,7 +18,13 @@ const UserProfileRow = (props: any) => {
 		if (edit === true) {
 			if (!isProfilePic) {
 				dispatch(
-					handleEditUser(user_id, entry[0], inputValue, token, keyOfUserObject)
+					handleEditUser(
+						user_id as number,
+						entry[0],
+						inputValue,
+						token,
+						keyOfUserObject
+					)
 				).then(setInputValue(' '))
 			}
 		}
@@ -44,7 +50,7 @@ const UserProfileRow = (props: any) => {
 				<div className="col">
 					{' '}
 					{isProfilePic ? (
-						<NewPicture user_id={user_id} />
+						<NewPicture id={user_id} table={'users'} />
 					) : (
 						<input
 							type="text"

@@ -27,11 +27,11 @@ export function receiveUsers(payload: User[]) {
 	}
 }
 
-export function addUser(payload: User, numUsers: number) {
+export function addUser(payload: User, key: number) {
 	return {
 		type: ADD_USER,
 		payload,
-		numUsers,
+		key,
 	}
 }
 
@@ -76,9 +76,7 @@ export function handleReceiveUsers() {
 	}
 }
 
-export function handleAddUser(user: User, numUsers: number) {
-	console.log('user in actions handleAddUser: ', user)
-
+export function handleAddUser(user: User, newKey: number) {
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
 
@@ -92,7 +90,7 @@ export function handleAddUser(user: User, numUsers: number) {
 			})
 			.then((token) => {
 				dispatch(setAuthedUser(token, user.user_name))
-				dispatch(addUser(user, numUsers))
+				dispatch(addUser(user, newKey))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
@@ -128,7 +126,7 @@ export function handleAddUserPicture(
 }
 
 export function handleEditUser(
-	id: string,
+	id: number,
 	field: string,
 	value: string,
 	token: string,

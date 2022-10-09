@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { User } from '../../../backend/src/models/user'
 import NewPicture from './NewPicture'
+import displayTimeInFrontend from '../util/displayTimeInFrontend'
 import '../styles/styles.css'
 
 const PostComponent = (props: any) => {
@@ -10,6 +11,7 @@ const PostComponent = (props: any) => {
 	const { post_id, post_title, date, text, image }: Post = post
 	const { user_name } = authedUser
 	// video
+	const localDate = new Date(date).toString()
 
 	const authedToLoadPicture: boolean =
 		image === null && user_name === postAuthor
@@ -29,7 +31,7 @@ const PostComponent = (props: any) => {
 				<div className="card-body">
 					<h5 className="card-title">{post_title}</h5>
 					<h6 className="card-subtitle mb-2 text-muted">
-						{postAuthor} ({date})
+						{postAuthor} on {displayTimeInFrontend(localDate)}
 					</h6>
 					<p className="card-text">{text}</p>
 				</div>

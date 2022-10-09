@@ -25,7 +25,7 @@
 | profile_pic | VARCHAR(50)        | -               |
 | password    | VARCHAR            | NOT NULL        |
 
-### PETS => all tests passing
+### PET ROUTES
 
 index: all pets
 show: one pet by id
@@ -35,29 +35,55 @@ create: create a new pet !! addToUser should be called automatically
 edit: update a certain field of a certain pet with a value
 destroy: delete a pet !! message to user when pet only removed but not deleted
 
-### POSTS => all tests passing
+### POST ROUTES
 
-index: all posts => to show in newsfeed
-show: one post by id
-showPostsByUser: to display all of the user's posts on his profile page
-create: create a new post !! image / video / null
-edit: update text or author of a certain post with a value
-destroy: delete a post !! if post not exists => handle undefined
+| VERB   | ROUTE            | METHOD          | PROTECTED | DESCRIPTION                                            |
+| ------ | ---------------- | --------------- | --------- | ------------------------------------------------------ |
+| get    | /posts           | index           | ✔         | all posts => to show in newsfeed                       |
+| get    | /posts/:id       | show            | ✔         | one post by id                                         |
+| get    | /posts/:id/users | showPostsByUser | ✔         | to display all of the user's posts on his profile page |
+| post   | /posts           | create          | ✔         | create a new post                                      |
+| put    | /posts/:id       | edit            | ✔         | update title or text of a certain post with a value    |
+| delete | /posts/:id       | destroy         | ✔         | delete a post (comments and likes first)               |
 
-### COMMENTS => all tests passing
+### POST DATABASE SCHEMA => table posts
 
-index: all comments (active and deleted users)
-show: one comment by id => ? (not for deleted users)
-showCommentsByPost: returns all comments related to a specific post (active and deleted users)
-create: create a new comment
-edit: update the text field of a certain comment with a value
-destroy: delete a comment
+| COLUMN     | DATA TYPE          | CONSTRAINT                |
+| ---------- | ------------------ | ------------------------- |
+| post_id    | SERIAL PRIMARY KEY | -                         |
+| date       | TIMESTAMP          | -                         |
+| post_title | VARCHAR(25)        | NOT NULL                  |
+| text       | TEXT               | NOT NULL                  |
+| image      | VARCHAR(50)        | -                         |
+| video      | VARCHAR(50)        | -                         |
+| user_id    | bigint             | REFERENCES users(user_id) |
 
-### LIKES => all tests passing
+### COMMENT ROUTES
+
+| VERB   | ROUTE               | METHOD             | PROTECTED | DESCRIPTION                                                                |
+| ------ | ------------------- | ------------------ | --------- | -------------------------------------------------------------------------- |
+| get    | /comments           | index              | ✔         | all comments (active and deleted users)                                    |
+| get    | /comments/:id       | show               | ✔         | one comment by id (not for deleted users)                                  |
+| get    | /comments/:id/posts | showCommentsByPost | ✔         | returns all comments related to a specific post (active and deleted users) |
+| post   | /comments           | create             | ✔         | create a new comment                                                       |
+| put    | /comments/:id       | edit               | ✔         | update the text field of a certain comment with a value                    |
+| delete | /comments/:id       | destroy            | ✔         | delete a comment                                                           |
+
+### COMMENT DATABASE SCHEMA => table comments
+
+| COLUMN     | DATA TYPE          | CONSTRAINT                |
+| ---------- | ------------------ | ------------------------- |
+| comment_id | SERIAL PRIMARY KEY | -                         |
+| date       | TIMESTAMP          | -                         |
+| text       | TEXT               | NOT NULL                  |
+| post_id    | bigint             | REFERENCES posts(post_id) |
+| user_id    | bigint             | REFERENCES users(user_id) |
+
+### LIKE ROUTES
 
 index: all likes (active and deleted users)
 showLikesByPost: returns all likes related to a specific post => arr.length & list usernames (active and deleted users)
 create: create a new like - LIKE
 destroy: delete a like - UNLIKE
 
-### SHARED => for file upload
+### SHARED ROUTES => for file upload

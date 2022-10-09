@@ -1,6 +1,6 @@
 body {
 	min-height: 150vh;
-	background-color: rgb(223, 199, 247);
+	background-color: rgb(245, 224, 242);
 }
 
 .footer {
@@ -24,9 +24,13 @@ body {
 	list-style: none;
 }
 
-.user-profile .user-profile-back-button {
+.user-profile-back-button {
 	display: block;
 	text-align: center;
+}
+
+.user-profile-row button {
+	width: 100%;
 }
 
 .card-user {

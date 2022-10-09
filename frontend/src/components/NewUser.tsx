@@ -14,7 +14,7 @@ const NewUser = (props: any): ReactElement => {
 	const { dispatch, newKey } = props
 	const navigate = useNavigate()
 
-	const userObject: User = {
+	const initialUserObject: User = {
 		user_name: '',
 		first_name: '',
 		last_name: '',
@@ -24,11 +24,12 @@ const NewUser = (props: any): ReactElement => {
 		password: '',
 	}
 
-	const [user, setUser] = useState(userObject)
+	const [user, setUser] = useState(initialUserObject)
 	const [disabled, setDisabled] = useState(true)
 
 	const checkInput = () => {
-		if (!Object.values(userObject).includes('')) setDisabled(false)
+		const userDataComplete = !Object.values(user).includes('')
+		if (userDataComplete) setDisabled(false)
 	}
 
 	useEffect(() => {

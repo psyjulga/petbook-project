@@ -11,7 +11,7 @@ const Navbar = (props: any) => {
 	}
 
 	return (
-		<nav className="navbar navbar-expand-md bg-light">
+		<nav className="navbar fixed-top navbar-expand-md bg-light">
 			<div className="container-fluid">
 				<a className="navbar-brand" href="#">
 					🐶PETBOOK🐱

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
 import { handleEditUser } from '../actions/users'
 import NewPicture from './NewPicture'
+import '../styles/styles.css'
 
 const UserProfileRow = (props: any) => {
 	const { dispatch, authedUser, entry, user, keyOfUserObject } = props
@@ -15,20 +16,19 @@ const UserProfileRow = (props: any) => {
 
 	const isProfilePic = entry[0] === 'profile_pic'
 
-	const editUser = () => {
-		if (edit === true) {
-			if (!isProfilePic) {
-				dispatch(
-					handleEditUser(
-						user_id as number,
-						entry[0],
-						inputValue,
-						token,
-						keyOfUserObject
-					)
-				).then(setInputValue(' '))
-			}
+	const saveEditedUser = () => {
+		if (!isProfilePic) {
+			dispatch(
+				handleEditUser(
+					user_id as number,
+					entry[0],
+					inputValue,
+					token,
+					keyOfUserObject
+				)
+			).then(setInputValue(' '))
 		}
+
 		setEdit(!edit)
 	}
 
@@ -47,7 +47,23 @@ const UserProfileRow = (props: any) => {
 
 	return (
 		<div className="user-profile-row row">
+			{/* col1 => the field's name (e.g. first name) */}
 			<div className="col-3">{transformWord(entry[0])}</div>
+
+			{/* VIEW 1 => edit === false */}
+			{/* col2 => the field's current value (to be edited) */}
+			{!edit && <div className="col">{entry[1]}</div>}
+			{!edit && (
+				<div className="col-2">
+					{/* col3 => EDIT BUTTON */}
+					<button onClick={() => setEdit(true)} className="btn btn-success">
+						Edit
+					</button>
+				</div>
+			)}
+
+			{/* VIEW 2 => edit === true */}
+			{/* col2 => input for new value */}
 			{edit && (
 				<div className="col">
 					{' '}
@@ -62,17 +78,20 @@ const UserProfileRow = (props: any) => {
 					)}
 				</div>
 			)}
-			{!edit && <div className="col">{entry[1]}</div>}
-			<div className="col-2">
-				<button
-					disabled={isProfilePic ? false : disabled}
-					onClick={editUser}
-					className={edit ? 'btn btn-warning' : 'btn btn-success'}
-					style={{ width: '100%' }}
-				>
-					{edit ? 'Save' : 'Edit'}
-				</button>
-			</div>
+			{edit && (
+				<div className="col-2">
+					{/* col3 => SAVE BUTTON */}
+					<button
+						disabled={isProfilePic ? false : disabled}
+						onClick={saveEditedUser}
+						className={
+							edit && !disabled ? 'btn btn-warning' : 'btn btn-success'
+						}
+					>
+						Save
+					</button>
+				</div>
+			)}
 		</div>
 	)
 }

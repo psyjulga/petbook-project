@@ -26,6 +26,8 @@ const App = (props: any): ReactElement => {
 			<LoadingBar />
 			<div className="app-container">
 				<Navbar />
+				<br />
+				<br />
 				<Routes>
 					{/* <Route path="*" element={<NotFound page="page" />} /> */}
 					<Route path="/" element={<Login />} />
@@ -33,6 +35,7 @@ const App = (props: any): ReactElement => {
 					<Route path="/new_user" element={<NewUser />} />
 					<Route path="/user_profile" element={<UserProfile />} />
 				</Routes>
+				<br />
 				<Footer />
 			</div>
 		</Fragment>

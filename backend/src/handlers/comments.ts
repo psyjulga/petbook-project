@@ -83,9 +83,9 @@ const destroy = async (req: Request, res: Response) => {
 }
 
 const comment_routes = (app: Application) => {
-	app.get('/comments', index)
-	app.get('/comments/:id', show)
-	app.get('/comments/:id/posts', showCommentsByPost)
+	app.get('/comments', verifyAuthToken, index)
+	app.get('/comments/:id', verifyAuthToken, show)
+	app.get('/comments/:id/posts', verifyAuthToken, showCommentsByPost)
 	app.post('/comments', verifyAuthToken, create)
 	app.put('/comments/:id', verifyAuthToken, edit)
 	app.delete('/comments/:id', verifyAuthToken, destroy)

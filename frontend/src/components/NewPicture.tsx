@@ -61,7 +61,10 @@ const NewPicture = (props: any): ReactElement => {
 					id="fileInput"
 					{...register('file')}
 				/>
-				<button disabled={disabled} className="btn btn-success">
+				<button
+					disabled={disabled}
+					className={disabled ? 'btn btn-success' : 'btn btn-warning'}
+				>
 					Upload
 				</button>
 			</form>

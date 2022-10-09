@@ -4,12 +4,14 @@ import Newsfeed from './Newsfeed'
 import UserComponent from './UserComponent'
 import NewPost from './NewPost'
 import { handleReceivePosts } from '../actions/posts'
+import { handleReceiveUsers } from '../actions/users'
 
 const Dashboard = (props: any) => {
 	const { dispatch, authedUser } = props
 
 	useEffect(() => {
 		dispatch(handleReceivePosts(authedUser.token))
+		dispatch(handleReceiveUsers())
 	})
 
 	return (

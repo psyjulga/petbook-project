@@ -40,6 +40,11 @@ const NewPost = (props: any) => {
 		dispatch(handleAddPost(token, post, newKey)).then(() => {
 			setPost(initialPostObject)
 			setDisabled(true)
+			window.scroll({
+				top: 0,
+				left: 0,
+				behavior: 'smooth',
+			})
 		})
 	}
 

@@ -27,7 +27,7 @@ const UserProfile = (props: any) => {
 				}
 			</div>
 			<Link
-				className="btn btn-success m-5 user-profile-back-buttton"
+				className="btn btn-success m-5 user-profile-back-button"
 				to={'/newsfeed'}
 			>
 				Back to Newsfeed

@@ -67,12 +67,8 @@ const Login = (props: any): ReactElement => {
 			</form>
 
 			<Link
-				className="ms-5"
+				className="ms-5 create-account-link"
 				to={'/new_user'}
-				style={{
-					color: 'rgb(25, 135, 84)',
-					fontWeight: 'bold',
-				}}
 				title="Create an Account"
 			>
 				Create an Account
@@ -82,7 +78,7 @@ const Login = (props: any): ReactElement => {
 }
 
 const mapStateToProps = ({ users }: any) => {
-	return { users }
+	return { users } // not needed
 }
 
 export default connect(mapStateToProps)(Login)

@@ -2,12 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { User } from '../../../backend/src/models/user'
-import '../styles/styles.css'
 import NewPicture from './NewPicture'
+import '../styles/styles.css'
 
 const PostComponent = (props: any) => {
 	const { post, postAuthor, authedUser } = props
-	const { post_id, post_title, text, image }: Post = post
+	const { post_id, post_title, date, text, image }: Post = post
 	const { user_name } = authedUser
 	// video
 
@@ -28,7 +28,9 @@ const PostComponent = (props: any) => {
 
 				<div className="card-body">
 					<h5 className="card-title">{post_title}</h5>
-					<h6 className="card-subtitle mb-2 text-muted">{postAuthor}</h6>
+					<h6 className="card-subtitle mb-2 text-muted">
+						{postAuthor} ({date})
+					</h6>
 					<p className="card-text">{text}</p>
 				</div>
 			</div>

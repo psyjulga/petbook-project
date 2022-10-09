@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Post } from '../../../backend/src/models/post'
 import NewPicture from './NewPicture'
 import convertTimestamp from '../util/convertTimestamp'
 import { handleAddPost } from '../actions/posts'
 import { User } from '../../../backend/src/models/user'
+import { Post } from '../../../backend/src/models/post'
 
 const NewPost = (props: any) => {
 	const { dispatch, token, newKey, userID } = props
@@ -15,14 +15,14 @@ const NewPost = (props: any) => {
 		return timestamp
 	}
 
-	const postObject: Post = {
+	const initialPostObject: Post = {
 		date: insertDate(),
 		post_title: '',
 		text: '',
 		user_id: userID,
 	}
 
-	const [post, setPost] = useState(postObject)
+	const [post, setPost] = useState(initialPostObject)
 	const [disabled, setDisabled] = useState(true)
 
 	const checkInput = () => {
@@ -38,7 +38,7 @@ const NewPost = (props: any) => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		dispatch(handleAddPost(token, post, newKey)).then(() => {
-			setPost(postObject)
+			setPost(initialPostObject)
 			setDisabled(true)
 		})
 	}
@@ -76,7 +76,7 @@ const NewPost = (props: any) => {
 				{/* TEXT */}
 				<div className="mb-3">
 					<textarea
-						style={{ height: '120px' }}
+						rows={6}
 						onChange={handleInputChange}
 						name="text"
 						className="form-control"
@@ -99,7 +99,6 @@ const NewPost = (props: any) => {
 						id="videoInput"
 					/>
 				</div> */}
-				{/* author => dropdown user & pets */}
 				{/* BUTTON */}
 				<button type="submit" className="btn btn-success" disabled={disabled}>
 					Publish Post

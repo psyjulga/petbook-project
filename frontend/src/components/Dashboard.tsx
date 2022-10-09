@@ -16,11 +16,12 @@ const Dashboard = (props: any) => {
 		<div className="dashboard m-2">
 			<div className="row">
 				<div className="col-5">
-					<UserComponent /> {/* user with pets, new pet */}
+					<UserComponent /> {/* user card with link to profile */}
 					<br />
+					{/* PETS */}
 					{/* NEW PET */}
 					<br />
-					<NewPost /> {/* new post form */}
+					<NewPost /> {/* create new post form */}
 				</div>
 				<div className="col-7">
 					<Newsfeed /> {/* posts with comments and likes */}

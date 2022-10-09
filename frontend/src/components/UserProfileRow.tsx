@@ -11,6 +11,7 @@ const UserProfileRow = (props: any) => {
 
 	const [edit, setEdit] = useState(false)
 	const [inputValue, setInputValue] = useState(' ')
+	const [disabled, setDisabled] = useState(true)
 
 	const isProfilePic = entry[0] === 'profile_pic'
 
@@ -34,6 +35,7 @@ const UserProfileRow = (props: any) => {
 	const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target
 		setInputValue(value)
+		setDisabled(false)
 	}
 
 	const transformWord = (word: string) => {
@@ -63,6 +65,7 @@ const UserProfileRow = (props: any) => {
 			{!edit && <div className="col">{entry[1]}</div>}
 			<div className="col-2">
 				<button
+					disabled={isProfilePic ? false : disabled}
 					onClick={editUser}
 					className={edit ? 'btn btn-warning' : 'btn btn-success'}
 					style={{ width: '100%' }}

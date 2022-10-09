@@ -1,4 +1,10 @@
-import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react'
+import React, {
+	ChangeEvent,
+	FormEvent,
+	ReactElement,
+	useEffect,
+	useState,
+} from 'react'
 import { handleAddUser } from '../actions/users'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -19,6 +25,15 @@ const NewUser = (props: any): ReactElement => {
 	}
 
 	const [user, setUser] = useState(userObject)
+	const [disabled, setDisabled] = useState(true)
+
+	const checkInput = () => {
+		if (!Object.values(userObject).includes('')) setDisabled(false)
+	}
+
+	useEffect(() => {
+		checkInput()
+	}, [user])
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -133,7 +148,11 @@ const NewUser = (props: any): ReactElement => {
 					/>
 				</div>
 				{/* BUTTON */}
-				<button type="submit" className="btn btn-success">
+				<button
+					disabled={disabled}
+					type="submit"
+					className="btn btn-success mt-3"
+				>
 					Create an Account
 				</button>
 			</form>

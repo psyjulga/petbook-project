@@ -9,11 +9,6 @@ const Footer = () => {
 				target="_blank"
 				rel="noreferrer"
 				title="Code on Github"
-				style={{
-					color: 'rgb(25, 135, 84)',
-					marginRight: '5px',
-					fontWeight: 'bold',
-				}}
 			>
 				Open-source code
 			</a>

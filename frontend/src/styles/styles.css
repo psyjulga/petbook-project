@@ -1,5 +1,6 @@
 body {
 	min-height: 150vh;
+	background-color: rgb(223, 199, 247);
 }
 
 .footer {
@@ -11,8 +12,21 @@ body {
 	background-color: rgb(248, 249, 250);
 }
 
-.newsfeed ul {
+.footer a,
+.login .create-account-link {
+	color: rgb(25, 135, 84);
+	margin-right: 5px;
+	font-weight: bold;
+}
+
+.newsfeed ul,
+.user-profile ul {
 	list-style: none;
+}
+
+.user-profile .user-profile-back-button {
+	display: block;
+	text-align: center;
 }
 
 .card-user {
@@ -22,4 +36,9 @@ body {
 .card-post {
 	width: 36rem;
 	max-width: 80%;
+}
+
+.new-picture {
+	width: 300px;
+	max-width: 90%;
 }

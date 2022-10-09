@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import '../styles/styles.css'
 import NewPicture from './NewPicture'
 import { User } from '../../../backend/src/models/user'
+import '../styles/styles.css'
 
 const UserComponent = (props: any) => {
 	// current logged in user

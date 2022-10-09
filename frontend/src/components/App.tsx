@@ -11,12 +11,8 @@ import NewUser from './NewUser'
 import UserProfile from './UserProfile'
 import { handleReceiveUsers } from '../actions/users'
 
-// on load: login form
-// => authenticate user
-// link to signup form
-// => create user
-
-// if logged in: dashboard / neewsfeed => DATA
+// on load: login form => authenticate user
+// link to signup form => create new user
 
 const App = (props: any): ReactElement => {
 	const { loading } = props

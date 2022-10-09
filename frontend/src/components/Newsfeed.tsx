@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
-import { handleReceiveComments } from '../actions/comments'
 import PostComponent from './PostComponent'
 import '../styles/styles.css'
 
 const Newsfeed = (props: any) => {
-	const { reversedPosts, token, dispatch } = props
-
-	useEffect(() => {
-		dispatch(handleReceiveComments(token))
-	})
+	const { reversedPosts } = props
 
 	return (
-		<div className="newsfeed mt-4 mb-5">
+		<div className="newsfeed mt-5 mb-5">
 			<ul>
 				{reversedPosts.map((post: Post) => (
 					<li key={post.post_id} className="m-2">
@@ -25,11 +20,11 @@ const Newsfeed = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ posts, authedUser }: any) => {
+const mapStateToProps = ({ posts }: any) => {
 	const postsArr: Post[] = Object.values(posts)
 	const reversedPosts = postsArr.reverse()
-	const { token } = authedUser
-	return { reversedPosts, token }
+
+	return { reversedPosts }
 }
 
 export default connect(mapStateToProps)(Newsfeed)

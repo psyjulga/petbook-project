@@ -15,10 +15,10 @@ import { handleReceiveUsers } from '../actions/users'
 // link to signup form => create new user
 
 const App = (props: any): ReactElement => {
-	const { loading } = props
+	const { loading, dispatch } = props
 
 	useEffect(() => {
-		props.dispatch(handleReceiveUsers())
+		dispatch(handleReceiveUsers())
 	}, [loading])
 
 	return (

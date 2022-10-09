@@ -5,21 +5,21 @@ import { Comment } from '../../../backend/src/models/comment'
 import { User } from '../../../backend/src/models/user'
 import displayTimeInFrontend from '../util/displayTimeInFrontend'
 import NewPicture from './NewPicture'
-import '../styles/styles.css'
 import CommentComponent from './CommentComponent'
+import '../styles/styles.css'
 
 const PostComponent = (props: any) => {
-	const { post, postAuthor, postComments, authedUser, dispatch } = props
+	const { post, postAuthor, postComments, authedUser } = props
 	const { post_id, post_title, date, text, image }: Post = post
-	const { user_name, token } = authedUser
+	const { user_name } = authedUser
 	// video
 	const localDate = new Date(date).toString()
-
+	const postHasComments: boolean = postComments.length > 0
 	const authedToLoadPicture: boolean =
 		image === null && user_name === postAuthor
 
 	return (
-		<div className="post">
+		<div className="post mb-4">
 			<div className="card card-post">
 				{image && (
 					<img
@@ -39,7 +39,7 @@ const PostComponent = (props: any) => {
 				</div>
 			</div>
 			{/* COMMENTS & LIKES */}
-			{postComments && (
+			{postHasComments && (
 				<ul>
 					{postComments.map((comment: Comment) => (
 						<li key={comment.comment_id}>
@@ -63,7 +63,7 @@ const mapStateToProps = (
 
 	const commentsArr: Comment[] = Object.values(comments)
 	const postComments = commentsArr.filter(
-		(comment) => comment.post_id === post.post_id
+		(comment) => comment.post_id === post.post_id.toString()
 	)
 
 	return {

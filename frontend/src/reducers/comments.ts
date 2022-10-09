@@ -1,12 +1,12 @@
-// // Comment MODEL METHODS:
-// // index
-// // show
-// // create
-// // showByPost
-// // edit
-// // delete
+// Comment MODEL METHODS:
+// index => RECEIVE_COMMENTS
+// show
+// create
+// showByPost
+// edit
+// delete
 
-// REDUCER => update the store
+// REDUCER => updates the store
 // is triggered with store.dispatch(action)
 
 import { RECEIVE_COMMENTS } from '../actions/comments'
@@ -14,7 +14,7 @@ import { RECEIVE_COMMENTS } from '../actions/comments'
 import { Comment } from '../../../backend/src/models/comment'
 
 // use UNIONS
-type CommentAction = { type: string; comments: Comment[] }
+type CommentAction = { type: string; payload: Comment[] }
 
 export default function comments(state = {}, action: CommentAction) {
 	// is put into "combined reducer"
@@ -25,7 +25,7 @@ export default function comments(state = {}, action: CommentAction) {
 		case RECEIVE_COMMENTS: {
 			return {
 				...state,
-				...action.comments,
+				...action.payload,
 			}
 		}
 

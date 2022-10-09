@@ -1,7 +1,7 @@
 # PETBOOK PROJECT
 
 - **Final Fullstack Project** for the Masterschool Web Development program
-- **Tech Stack:** React, Redux, JavaScript, Typescript, Node, Express, PostgreSQL, Jest
+- **Tech Stack:** React, Redux, JavaScript, Typescript, NodeJS, Express, PostgreSQL, Jest
 
 After two backend courses with an image API project and a shopping app API project, where we used NodeJS, Express, Typescript and Jest, we combined our knowledge of front- and backend development to build a fullstack project. The very last - the final Masterschool project. Petbook is a facebook for pet owners - come and create an account yourself! 🐹
 
@@ -35,7 +35,7 @@ After two backend courses with an image API project and a shopping app API proje
 ## LOGIN
 
 - to login you can either create your own account
-- or use one of the following credentials:
+- or use one of the following credentials: (⚠ not working yet)
 
 | **username** | **password** |
 | ------------ | ------------ |
@@ -44,4 +44,4 @@ After two backend courses with an image API project and a shopping app API proje
 
 ## API information
 
-- all endpoints with a description of their functionality in `backend/API.md`
+- all endpoints with a description of their functionality in `API.md`

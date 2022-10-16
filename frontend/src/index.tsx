@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
+import ErrorBoundary from './ErrorBoundary'
 import App from './components/App'
 import store from './store'
 
@@ -11,7 +12,9 @@ const root = createRoot(container!) // createRoot(container!) if you use TypeScr
 root.render(
 	<Provider store={store}>
 		<Router>
-			<App />
+			<ErrorBoundary>
+				<App />
+			</ErrorBoundary>
 		</Router>
 	</Provider>
 )

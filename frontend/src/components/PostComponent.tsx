@@ -19,7 +19,7 @@ const PostComponent = (props: any) => {
 		image === null && user_name === postAuthor
 
 	return (
-		<div className="post mb-4">
+		<article className="post mb-4">
 			<div className="card card-post">
 				{image && (
 					<img
@@ -48,7 +48,7 @@ const PostComponent = (props: any) => {
 					))}
 				</ul>
 			)}
-		</div>
+		</article>
 	)
 }
 

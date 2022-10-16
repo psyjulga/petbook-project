@@ -3,7 +3,7 @@ import '../styles/styles.css'
 
 const Footer = () => {
 	return (
-		<div className="footer">
+		<footer className="footer">
 			<a
 				href="https://github.com/psyjulga/petbook-project"
 				target="_blank"
@@ -13,7 +13,7 @@ const Footer = () => {
 				Open-source code
 			</a>
 			🐞by Julia Bestgen💃
-		</div>
+		</footer>
 	)
 }
 

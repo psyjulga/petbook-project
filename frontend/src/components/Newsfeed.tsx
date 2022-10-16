@@ -8,7 +8,7 @@ const Newsfeed = (props: any) => {
 	const { reversedPosts } = props
 
 	return (
-		<div className="newsfeed mt-5 mb-5">
+		<section className="newsfeed mt-5 mb-5">
 			<ul>
 				{reversedPosts.map((post: Post) => (
 					<li key={post.post_id} className="m-2">
@@ -16,7 +16,7 @@ const Newsfeed = (props: any) => {
 					</li>
 				))}
 			</ul>
-		</div>
+		</section>
 	)
 }
 

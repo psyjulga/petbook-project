@@ -18,7 +18,7 @@ const UserComponent = (props: any) => {
 	}: User = user
 
 	return (
-		<div className="user m-4">
+		<section className="user m-4">
 			<div className="card card-user">
 				{profile_pic && (
 					<img
@@ -36,7 +36,7 @@ const UserComponent = (props: any) => {
 					</Link>
 				</div>
 			</div>
-		</div>
+		</section>
 	)
 }
 const mapStateToProps = ({ authedUser, users }: any) => {

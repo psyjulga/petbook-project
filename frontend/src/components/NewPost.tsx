@@ -61,7 +61,7 @@ const NewPost = (props: any) => {
 	if (error) throw error
 
 	return (
-		<div className="new-post m-3 border border-2 border-success border-opacity-25 rounded p-3">
+		<section className="new-post m-3 border border-2 border-success border-opacity-25 rounded p-3">
 			<h1>NEW POST</h1>
 			{/* IMAGE */}
 			{/* <NewPicture id={} table={'posts'} />  */}
@@ -114,7 +114,7 @@ const NewPost = (props: any) => {
 					Publish Post
 				</button>
 			</form>
-		</div>
+		</section>
 	)
 }
 

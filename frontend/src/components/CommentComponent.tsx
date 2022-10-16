@@ -12,7 +12,7 @@ const CommentComponent = (props: any) => {
 	const localDate = new Date(date).toString()
 
 	return (
-		<div className="comment-component">
+		<aside className="comment-component">
 			<div className="card card-comment">
 				<div className="card-body">
 					<h6 className="card-subtitle mb-2 text-muted">
@@ -21,7 +21,7 @@ const CommentComponent = (props: any) => {
 					<p className="card-text">{text}</p>
 				</div>
 			</div>
-		</div>
+		</aside>
 	)
 }
 

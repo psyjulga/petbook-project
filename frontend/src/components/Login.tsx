@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { handleAuthUser } from '../actions/authedUser'
 
 const Login = (props: any): ReactElement => {
-	const { users, dispatch } = props
+	const { dispatch } = props
 	const navigate = useNavigate()
 
 	const [username, setUsername] = useState('')

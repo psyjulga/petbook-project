@@ -13,6 +13,7 @@ const UserProfileRow = (props: any) => {
 	const [edit, setEdit] = useState(false)
 	const [inputValue, setInputValue] = useState(' ')
 	const [disabled, setDisabled] = useState(true)
+	const [error, setError] = useState(null)
 
 	const isProfilePic = entry[0] === 'profile_pic'
 
@@ -26,7 +27,9 @@ const UserProfileRow = (props: any) => {
 					token,
 					keyOfUserObject
 				)
-			).then(setInputValue(' '))
+			)
+				.then(setInputValue(' '))
+				.catch((e: any) => setError(e))
 		}
 
 		setEdit(!edit)
@@ -44,6 +47,8 @@ const UserProfileRow = (props: any) => {
 			.map((w) => w.toUpperCase())
 			.join(' ')
 	}
+
+	if (error) throw error
 
 	return (
 		<div className="user-profile-row row">

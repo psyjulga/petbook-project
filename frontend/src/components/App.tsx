@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { ReactElement } from 'react'
 import { connect } from 'react-redux'
 import { LoadingBar } from 'react-redux-loading-bar'
@@ -16,10 +16,16 @@ import { handleReceiveUsers } from '../actions/users'
 
 const App = (props: any): ReactElement => {
 	const { loading, dispatch } = props
+	// check loading logic
+
+	const [error, setError] = useState(null)
 
 	useEffect(() => {
-		dispatch(handleReceiveUsers())
+		dispatch(handleReceiveUsers()).catch((e: any) => setError(e))
 	}, [loading])
+
+	if (error) throw error
+	// so the error boundary will catch async errors too
 
 	return (
 		<Fragment>
@@ -28,13 +34,16 @@ const App = (props: any): ReactElement => {
 				<Navbar />
 				<br />
 				<br />
-				<Routes>
-					{/* <Route path="*" element={<NotFound page="page" />} /> */}
-					<Route path="/" element={<Login />} />
-					<Route path="/newsfeed" element={<Dashboard />} />
-					<Route path="/new_user" element={<NewUser />} />
-					<Route path="/user_profile" element={<UserProfile />} />
-				</Routes>
+				<main>
+					<Routes>
+						{/* <Route path="*" element={<NotFound page="page" />} /> */}
+						<Route path="/" element={<Login />} />
+						<Route path="/newsfeed" element={<Dashboard />} />
+						<Route path="/new_user" element={<NewUser />} />
+						<Route path="/user_profile" element={<UserProfile />} />
+					</Routes>
+				</main>
+				<br />
 				<br />
 				<Footer />
 			</div>

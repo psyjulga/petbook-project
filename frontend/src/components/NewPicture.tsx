@@ -11,6 +11,7 @@ const NewPicture = (props: any): ReactElement => {
 	const { dispatch, keyOfObject, id, table } = props // id & table (users, pets, posts) from parent component
 	const { register, handleSubmit } = useForm()
 	const [disabled, setDisabled] = useState(true)
+	const [error, setError] = useState(null)
 
 	// USAGE of this component
 	// a) user profile picture
@@ -28,23 +29,29 @@ const NewPicture = (props: any): ReactElement => {
 		formData.append('table', table)
 
 		if (isUser) {
-			dispatch(handleAddUserPicture(id, formData, keyOfObject)).then(() => {
-				setDisabled(true)
-			})
+			dispatch(handleAddUserPicture(id, formData, keyOfObject))
+				.then(() => {
+					setDisabled(true)
+				})
+				.catch((e: any) => setError(e))
 		}
 
 		// if (isPet) {
 		// 	dispatch(handleAddPetPicture(id, formData, keyOfObject)).then(() => {
 		// 		setPic(true)
-		// 	})
+		// 	}).catch((e:any)=>setError(e))
 		// }
 
 		if (isPost) {
-			dispatch(handleAddPostImage(id, formData, keyOfObject)).then(() => {
-				setDisabled(true)
-			})
+			dispatch(handleAddPostImage(id, formData, keyOfObject))
+				.then(() => {
+					setDisabled(true)
+				})
+				.catch((e: any) => setError(e))
 		}
 	}
+
+	if (error) throw error
 
 	return (
 		<div className="new-picture m-3 border border-2 border-success border-opacity-25 rounded p-3">

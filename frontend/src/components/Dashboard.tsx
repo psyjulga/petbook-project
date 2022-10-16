@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import Newsfeed from './Newsfeed'
 import UserComponent from './UserComponent'
@@ -11,11 +11,15 @@ const Dashboard = (props: any) => {
 	const { dispatch, authedUser } = props
 	const { token } = authedUser
 
+	const [error, setError] = useState(null)
+
 	useEffect(() => {
-		dispatch(handleReceiveUsers())
-		dispatch(handleReceivePosts(token))
-		dispatch(handleReceiveComments(token))
-	})
+		dispatch(handleReceiveUsers()).catch((e: any) => setError(e))
+		dispatch(handleReceivePosts(token)).catch((e: any) => setError(e))
+		dispatch(handleReceiveComments(token)).catch((e: any) => setError(e))
+	}, [])
+
+	if (error) throw error
 
 	return (
 		<div className="dashboard m-2">
@@ -23,8 +27,8 @@ const Dashboard = (props: any) => {
 				<div className="col-5">
 					<UserComponent /> {/* user card with link to profile */}
 					<br />
-					{/* PETS */}
-					{/* NEW PET */}
+					{/* todo PETS */}
+					{/* todo NEW PET */}
 					<br />
 					<NewPost /> {/* create new post form */}
 				</div>

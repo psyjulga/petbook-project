@@ -24,6 +24,7 @@ const NewPost = (props: any) => {
 
 	const [post, setPost] = useState(initialPostObject)
 	const [disabled, setDisabled] = useState(true)
+	const [error, setError] = useState(null)
 
 	const checkInput = () => {
 		if (post.post_title !== '' && post.text !== '') {
@@ -37,15 +38,17 @@ const NewPost = (props: any) => {
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		dispatch(handleAddPost(token, post, newKey)).then(() => {
-			setPost(initialPostObject)
-			setDisabled(true)
-			window.scroll({
-				top: 0,
-				left: 0,
-				behavior: 'smooth',
+		dispatch(handleAddPost(token, post, newKey))
+			.then(() => {
+				setPost(initialPostObject)
+				setDisabled(true)
+				window.scroll({
+					top: 0,
+					left: 0,
+					behavior: 'smooth',
+				})
 			})
-		})
+			.catch((e: any) => setError(e))
 	}
 
 	const handleInputChange = (
@@ -54,6 +57,8 @@ const NewPost = (props: any) => {
 		const { name, value } = e.target
 		setPost({ ...post, [name]: value })
 	}
+
+	if (error) throw error
 
 	return (
 		<div className="new-post m-3 border border-2 border-success border-opacity-25 rounded p-3">

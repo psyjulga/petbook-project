@@ -10,22 +10,23 @@ import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
 
+const initialUserObject: User = {
+	user_name: '',
+	first_name: '',
+	last_name: '',
+	email: '',
+	country: '',
+	city: '',
+	password: '',
+}
+
 const NewUser = (props: any): ReactElement => {
 	const { dispatch, newKey } = props
 	const navigate = useNavigate()
 
-	const initialUserObject: User = {
-		user_name: '',
-		first_name: '',
-		last_name: '',
-		email: '',
-		country: '',
-		city: '',
-		password: '',
-	}
-
 	const [user, setUser] = useState(initialUserObject)
 	const [disabled, setDisabled] = useState(true)
+	const [error, setError] = useState(null)
 
 	const checkInput = () => {
 		const userDataComplete = !Object.values(user).includes('')
@@ -39,15 +40,19 @@ const NewUser = (props: any): ReactElement => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		dispatch(handleAddUser(user, newKey)).then(() => {
-			navigate('/newsfeed')
-		})
+		dispatch(handleAddUser(user, newKey))
+			.then(() => {
+				navigate('/newsfeed')
+			})
+			.catch((e: any) => setError(e))
 	}
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setUser({ ...user, [name]: value })
 	}
+
+	if (error) throw error
 
 	return (
 		<div className="new-user">

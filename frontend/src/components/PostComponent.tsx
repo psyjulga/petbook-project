@@ -12,7 +12,7 @@ const PostComponent = (props: any) => {
 	const { post, postAuthor, postComments, authedUser } = props
 	const { post_id, post_title, date, text, image }: Post = post
 	const { user_name } = authedUser
-	// video
+	// TODO video
 	const localDate = new Date(date).toString()
 	const postHasComments: boolean = postComments.length > 0
 	const authedToLoadPicture: boolean =

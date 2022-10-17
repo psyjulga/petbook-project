@@ -7,6 +7,7 @@ import displayTimeInFrontend from '../util/displayTimeInFrontend'
 import NewPicture from './NewPicture'
 import CommentComponent from './CommentComponent'
 import '../styles/styles.css'
+import { StoreObject } from '../util/types'
 
 const PostComponent = (props: any) => {
 	const { post, postAuthor, postComments, authedUser } = props
@@ -52,9 +53,13 @@ const PostComponent = (props: any) => {
 	)
 }
 
+type Props = {
+	post: Post
+}
+
 const mapStateToProps = (
-	{ users, authedUser, comments }: any,
-	{ post }: any
+	{ users, authedUser, comments }: StoreObject,
+	{ post }: Props
 ) => {
 	const usersArr: User[] = Object.values(users)
 	const postAuthor = usersArr.find(
@@ -63,7 +68,7 @@ const mapStateToProps = (
 
 	const commentsArr: Comment[] = Object.values(comments)
 	const postComments = commentsArr.filter(
-		(comment) => comment.post_id === post.post_id.toString()
+		(comment) => comment.post_id === post.post_id?.toString()
 	)
 
 	return {

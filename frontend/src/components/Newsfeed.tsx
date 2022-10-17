@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import PostComponent from './PostComponent'
 import '../styles/styles.css'
+import { StoreObject } from '../util/types'
 
 const Newsfeed = (props: any) => {
 	const { reversedPosts } = props
@@ -20,7 +21,7 @@ const Newsfeed = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ posts }: any) => {
+const mapStateToProps = ({ posts }: StoreObject) => {
 	const postsArr: Post[] = Object.values(posts)
 	const reversedPosts = postsArr.reverse()
 

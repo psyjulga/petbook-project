@@ -5,6 +5,8 @@ import convertTimestamp from '../util/convertTimestamp'
 import { handleAddPost } from '../actions/posts'
 import { User } from '../../../backend/src/models/user'
 import { Post } from '../../../backend/src/models/post'
+import { StoreObject } from '../util/types'
+import { returnNewKey } from '../util/returnNewKey'
 
 const NewPost = (props: any) => {
 	const { dispatch, token, newKey, userID } = props
@@ -118,15 +120,13 @@ const NewPost = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ posts, authedUser, users }: any) => {
-	const postsArr: Post[] = Object.values(posts)
-	const postIDs = postsArr.map((p) => p.post_id)
-	//@ts-ignore
-	const newKey: number = Math.max(...postIDs)
+const mapStateToProps = ({ posts, authedUser, users }: StoreObject) => {
+	const newKey = returnNewKey(posts)
 
 	const token = authedUser.token
 
 	const usersArr: User[] = Object.values(users)
+
 	const userID = usersArr.find(
 		(u) => u.user_name === authedUser.user_name
 	)?.user_id

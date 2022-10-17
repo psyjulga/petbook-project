@@ -6,6 +6,7 @@ import NewPost from './NewPost'
 import { handleReceivePosts } from '../actions/posts'
 import { handleReceiveComments } from '../actions/comments'
 import { handleReceiveUsers } from '../actions/users'
+import { StoreObject } from '../util/types'
 
 const Dashboard = (props: any) => {
 	const { dispatch, authedUser } = props
@@ -40,7 +41,7 @@ const Dashboard = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ authedUser }: any) => ({
+const mapStateToProps = ({ authedUser }: StoreObject) => ({
 	authedUser,
 })
 

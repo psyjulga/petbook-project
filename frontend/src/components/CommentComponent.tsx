@@ -4,6 +4,7 @@ import { Comment } from '../../../backend/src/models/comment'
 import displayTimeInFrontend from '../util/displayTimeInFrontend'
 import '../styles/styles.css'
 import { User } from '../../../backend/src/models/user'
+import { StoreObject } from '../util/types'
 
 const CommentComponent = (props: any) => {
 	const { comment, commentAuthor } = props
@@ -25,7 +26,11 @@ const CommentComponent = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ users }: any, { comment }: any) => {
+type Props = {
+	comment: Comment
+}
+
+const mapStateToProps = ({ users }: StoreObject, { comment }: Props) => {
 	const usersArr: User[] = Object.values(users)
 	const commentAuthor = usersArr.find(
 		(u) => u.user_id === Number(comment.user_id)

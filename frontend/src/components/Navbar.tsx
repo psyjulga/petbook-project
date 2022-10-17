@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { handleLogout } from '../actions/authedUser'
+import { StoreObject } from '../util/types'
 
 const Navbar = (props: any) => {
 	const { loggedIn, dispatch } = props
@@ -63,7 +64,7 @@ const Navbar = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ authedUser }: any) => {
+const mapStateToProps = ({ authedUser }: StoreObject) => {
 	return { loggedIn: authedUser !== null }
 }
 

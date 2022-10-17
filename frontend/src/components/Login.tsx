@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleAuthUser } from '../actions/authedUser'
+import { StoreObject } from '../util/types'
 
 const Login = (props: any): ReactElement => {
 	const { dispatch } = props
@@ -77,7 +78,7 @@ const Login = (props: any): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ users }: any) => {
+const mapStateToProps = ({ users }: StoreObject) => {
 	return { users } // not needed
 }
 

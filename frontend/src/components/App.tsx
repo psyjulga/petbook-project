@@ -10,6 +10,7 @@ import Footer from './Footer'
 import NewUser from './NewUser'
 import UserProfile from './UserProfile'
 import { handleReceiveUsers } from '../actions/users'
+import { StoreObject } from '../util/types'
 
 // on load: login form => authenticate user
 // link to signup form => create new user
@@ -51,7 +52,7 @@ const App = (props: any): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ users, authedUser }: any) => ({
+const mapStateToProps = ({ users, authedUser }: StoreObject) => ({
 	loading: authedUser === null,
 	users,
 })

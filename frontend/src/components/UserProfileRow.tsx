@@ -4,6 +4,7 @@ import { User } from '../../../backend/src/models/user'
 import { handleEditUser } from '../actions/users'
 import NewPicture from './NewPicture'
 import '../styles/styles.css'
+import { StoreObject } from '../util/types'
 
 const UserProfileRow = (props: any) => {
 	const { dispatch, authedUser, entry, user, keyOfUserObject } = props
@@ -101,7 +102,7 @@ const UserProfileRow = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ authedUser, users }: any) => {
+const mapStateToProps = ({ authedUser, users }: StoreObject) => {
 	const usersArr: User[] = Object.values(users)
 
 	const keyOfUserObject: number = usersArr.findIndex(

@@ -9,6 +9,8 @@ import { handleAddUser } from '../actions/users'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
+import { StoreObject } from '../util/types'
+import { returnNewKey } from '../util/returnNewKey'
 
 const initialUserObject: User = {
 	user_name: '',
@@ -166,11 +168,8 @@ const NewUser = (props: any): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ users }: any) => {
-	const usersArr: User[] = Object.values(users)
-	const userIDs = usersArr.map((u) => u.user_id)
-	//@ts-ignore
-	const newKey: number = Math.max(...userIDs)
+const mapStateToProps = ({ users }: StoreObject) => {
+	const newKey = returnNewKey(users)
 
 	return { newKey }
 }

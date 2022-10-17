@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import NewPicture from './NewPicture'
 import { User } from '../../../backend/src/models/user'
 import '../styles/styles.css'
+import { StoreObject } from '../util/types'
 
 const UserComponent = (props: any) => {
 	// current logged in user
@@ -39,10 +40,11 @@ const UserComponent = (props: any) => {
 		</section>
 	)
 }
-const mapStateToProps = ({ authedUser, users }: any) => {
+const mapStateToProps = ({ authedUser, users }: StoreObject) => {
 	const usersArr: User[] = Object.values(users)
-	// @ts-ignore
-	const user: User = usersArr.find((u) => u.user_name === authedUser.user_name)
+	const user: User | undefined = usersArr.find(
+		(u) => u.user_name === authedUser.user_name
+	)
 
 	return {
 		user,

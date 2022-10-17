@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { User } from '../../../backend/src/models/user'
 import UserProfileRow from './UserProfileRow'
 import '../styles/styles.css'
+import { StoreObject } from '../util/types'
 
 const UserProfile = (props: any) => {
 	const { user } = props
@@ -36,10 +37,12 @@ const UserProfile = (props: any) => {
 	)
 }
 
-const mapStateToProps = ({ users, authedUser }: any) => {
+const mapStateToProps = ({ users, authedUser }: StoreObject) => {
 	const usersArr: User[] = Object.values(users)
-	// @ts-ignore
-	const user: User = usersArr.find((u) => u.user_name === authedUser.user_name)
+
+	const user: User | undefined = usersArr.find(
+		(u) => u.user_name === authedUser.user_name
+	)
 	return {
 		user,
 	}

@@ -6,6 +6,7 @@ import { User } from '../../../backend/src/models/user'
 import { Pet } from '../../../backend/src/models/pet'
 import { Post } from '../../../backend/src/models/post'
 import { handleAddPostImage } from '../actions/posts'
+import { StoreObject } from '../util/types'
 
 const NewPicture = (props: any): ReactElement => {
 	const { dispatch, keyOfObject, id, table } = props // id & table (users, pets, posts) from parent component
@@ -79,7 +80,15 @@ const NewPicture = (props: any): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ users, pets, posts }: any, { id, table }: any) => {
+type Props = {
+	id: number | undefined
+	table: 'users' | 'pets' | 'posts'
+}
+
+const mapStateToProps = (
+	{ users, pets, posts }: StoreObject,
+	{ id, table }: Props
+) => {
 	switch (table) {
 		case 'users': {
 			const usersArr: User[] = Object.values(users)

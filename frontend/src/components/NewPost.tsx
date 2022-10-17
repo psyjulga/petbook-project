@@ -8,7 +8,14 @@ import { Post } from '../../../backend/src/models/post'
 import { StoreObject } from '../util/types'
 import { returnNewKey } from '../util/returnNewKey'
 
-const NewPost = (props: any) => {
+type Props = {
+	dispatch: any
+	token: string
+	newKey: number
+	userID?: string
+}
+
+const NewPost = (props: Props) => {
 	const { dispatch, token, newKey, userID } = props
 
 	const insertDate = () => {
@@ -21,7 +28,7 @@ const NewPost = (props: any) => {
 		date: insertDate(),
 		post_title: '',
 		text: '',
-		user_id: userID,
+		user_id: userID as string,
 	}
 
 	const [post, setPost] = useState(initialPostObject)
@@ -127,9 +134,9 @@ const mapStateToProps = ({ posts, authedUser, users }: StoreObject) => {
 
 	const usersArr: User[] = Object.values(users)
 
-	const userID = usersArr.find(
-		(u) => u.user_name === authedUser.user_name
-	)?.user_id
+	const userID = usersArr
+		.find((u) => u.user_name === authedUser.user_name)
+		?.user_id?.toString()
 
 	return { newKey, token, userID }
 }

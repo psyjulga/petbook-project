@@ -6,18 +6,30 @@ import NewPost from './NewPost'
 import { handleReceivePosts } from '../actions/posts'
 import { handleReceiveComments } from '../actions/comments'
 import { handleReceiveUsers } from '../actions/users'
-import { StoreObject } from '../util/types'
+import { AuthedUser, StoreObject } from '../util/types'
+import { Dispatch } from 'redux'
 
-const Dashboard = (props: any) => {
+type Props = {
+	dispatch: any // !!!!
+	authedUser: AuthedUser
+}
+
+const Dashboard = (props: Props) => {
 	const { dispatch, authedUser } = props
 	const { token } = authedUser
 
-	const [error, setError] = useState(null)
+	const [error, setError] = useState<Error | null>(null)
 
 	useEffect(() => {
-		dispatch(handleReceiveUsers()).catch((e: any) => setError(e))
-		dispatch(handleReceivePosts(token)).catch((e: any) => setError(e))
-		dispatch(handleReceiveComments(token)).catch((e: any) => setError(e))
+		dispatch(handleReceiveUsers())
+			.then(() => console.log('1: users loaded'))
+			.catch((e: Error) => setError(e))
+		dispatch(handleReceivePosts(token))
+			.then(() => console.log('2: posts loaded'))
+			.catch((e: Error) => setError(e))
+		dispatch(handleReceiveComments(token))
+			.then(() => console.log('3: comments loaded'))
+			.catch((e: Error) => setError(e))
 	}, [])
 
 	if (error) throw error

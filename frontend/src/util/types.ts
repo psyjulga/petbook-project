@@ -4,8 +4,13 @@ import { Post } from '../../../backend/src/models/post'
 import { Comment } from '../../../backend/src/models/comment'
 import { Like } from '../../../backend/src/models/like'
 
+export type AuthedUser = {
+	token: string
+	user_name: string
+}
+
 export type StoreObject = {
-	authedUser: { token: string; user_name: string }
+	authedUser: AuthedUser
 	users: User[]
 	pets: Pet[]
 	posts: Post[]

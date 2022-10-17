@@ -11,16 +11,13 @@ export const returnNewKey = (
 
 	const arr = Object.values(currentStoreObject)
 
-	const id_name = Object.keys(arr[0])[0]
-
 	if (arr.length > 0) {
+		const id_name = Object.keys(arr[0])[0]
 		const ids = arr?.map((obj) => obj[id_name])
 
 		if (ids.length === 1) newKey = 2
-
 		if (ids.length > 1) newKey = Math.max(...ids)
 	}
 
-	console.log('new key in util: ', newKey)
 	return newKey
 }

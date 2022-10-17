@@ -15,14 +15,19 @@ import { StoreObject } from '../util/types'
 // on load: login form => authenticate user
 // link to signup form => create new user
 
-const App = (props: any): ReactElement => {
+type Props = {
+	loading: boolean
+	dispatch: any
+}
+
+const App = (props: Props): ReactElement => {
 	const { loading, dispatch } = props
 	// check loading logic
 
-	const [error, setError] = useState(null)
+	const [error, setError] = useState<Error | null>(null)
 
 	useEffect(() => {
-		dispatch(handleReceiveUsers()).catch((e: any) => setError(e))
+		dispatch(handleReceiveUsers()).catch((e: Error) => setError(e))
 	}, [loading])
 
 	if (error) throw error

@@ -7,11 +7,18 @@ import displayTimeInFrontend from '../util/displayTimeInFrontend'
 import NewPicture from './NewPicture'
 import CommentComponent from './CommentComponent'
 import '../styles/styles.css'
-import { StoreObject } from '../util/types'
+import { AuthedUser, StoreObject } from '../util/types'
 
-const PostComponent = (props: any) => {
+type Props = {
+	post: Post
+	postAuthor?: string
+	postComments: Comment[]
+	authedUser: AuthedUser
+}
+
+const PostComponent = (props: Props) => {
 	const { post, postAuthor, postComments, authedUser } = props
-	const { post_id, post_title, date, text, image }: Post = post
+	const { post_id, post_title, date, text, image } = post
 	const { user_name } = authedUser
 	// TODO video
 	const localDate = new Date(date).toString()
@@ -53,13 +60,13 @@ const PostComponent = (props: any) => {
 	)
 }
 
-type Props = {
+type DrilledProps = {
 	post: Post
 }
 
 const mapStateToProps = (
 	{ users, authedUser, comments }: StoreObject,
-	{ post }: Props
+	{ post }: DrilledProps
 ) => {
 	const usersArr: User[] = Object.values(users)
 	const postAuthor = usersArr.find(
@@ -67,7 +74,7 @@ const mapStateToProps = (
 	)?.user_name
 
 	const commentsArr: Comment[] = Object.values(comments)
-	const postComments = commentsArr.filter(
+	const postComments: Comment[] = commentsArr.filter(
 		(comment) => comment.post_id === post.post_id?.toString()
 	)
 

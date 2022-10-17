@@ -22,16 +22,21 @@ const initialUserObject: User = {
 	password: '',
 }
 
-const NewUser = (props: any): ReactElement => {
+type Props = {
+	dispatch: any
+	newKey: number
+}
+
+const NewUser = (props: Props): ReactElement => {
 	const { dispatch, newKey } = props
 	const navigate = useNavigate()
 
 	const [user, setUser] = useState(initialUserObject)
 	const [disabled, setDisabled] = useState(true)
-	const [error, setError] = useState(null)
+	const [error, setError] = useState<Error | null>(null)
 
 	const checkInput = () => {
-		const userDataComplete = !Object.values(user).includes('')
+		const userDataComplete: boolean = !Object.values(user).includes('')
 		if (userDataComplete) setDisabled(false)
 	}
 
@@ -46,7 +51,7 @@ const NewUser = (props: any): ReactElement => {
 			.then(() => {
 				navigate('/newsfeed')
 			})
-			.catch((e: any) => setError(e))
+			.catch((e: Error) => setError(e))
 	}
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -4,8 +4,14 @@ import { Link } from 'react-router-dom'
 import { handleLogout } from '../actions/authedUser'
 import { StoreObject } from '../util/types'
 
-const Navbar = (props: any) => {
+type Props = {
+	loggedIn: boolean
+	dispatch: any
+}
+
+const Navbar = (props: Props) => {
 	const { loggedIn, dispatch } = props
+	// logout button still visible when logged out !!
 
 	const logOut = () => {
 		dispatch(handleLogout())

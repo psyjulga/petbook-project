@@ -4,7 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { handleAuthUser } from '../actions/authedUser'
 import { StoreObject } from '../util/types'
 
-const Login = (props: any): ReactElement => {
+type Props = {
+	dispatch: any
+}
+
+const Login = (props: Props): ReactElement => {
 	const { dispatch } = props
 	const navigate = useNavigate()
 
@@ -15,6 +19,7 @@ const Login = (props: any): ReactElement => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
+		// ANY
 		dispatch(handleAuthUser(username, password)).then((res: any) => {
 			setUsername('')
 			setPassword('')

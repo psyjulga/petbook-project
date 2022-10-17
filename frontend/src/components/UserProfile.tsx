@@ -6,10 +6,14 @@ import UserProfileRow from './UserProfileRow'
 import '../styles/styles.css'
 import { StoreObject } from '../util/types'
 
-const UserProfile = (props: any) => {
+type Props = {
+	user?: User
+}
+
+const UserProfile = (props: Props) => {
 	const { user } = props
 
-	const userAllEntries = Object.entries(user)
+	const userAllEntries = Object.entries(user as User)
 	// user_id and password not shown / editable
 	const userEntries = userAllEntries.slice(1, 9)
 
@@ -20,8 +24,7 @@ const UserProfile = (props: any) => {
 					<ul className="mt-4 me-4">
 						{userEntries.map((entry) => (
 							<li key={entry[0]} className="m-2">
-								{/* @ts-ignore */}
-								<UserProfileRow entry={entry} user={user} />
+								<UserProfileRow entry={entry} user={user as User} />
 							</li>
 						))}
 					</ul>

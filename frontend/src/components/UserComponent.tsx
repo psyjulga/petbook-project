@@ -6,7 +6,11 @@ import { User } from '../../../backend/src/models/user'
 import '../styles/styles.css'
 import { StoreObject } from '../util/types'
 
-const UserComponent = (props: any) => {
+type Props = {
+	user?: User
+}
+
+const UserComponent = (props: Props) => {
 	// current logged in user
 	const { user } = props
 	const {
@@ -16,7 +20,7 @@ const UserComponent = (props: any) => {
 		about_paragraph,
 		profile_pic,
 		user_id,
-	}: User = user
+	} = user as User
 
 	return (
 		<section className="user m-4">

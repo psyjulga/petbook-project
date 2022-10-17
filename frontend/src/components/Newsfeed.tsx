@@ -5,7 +5,11 @@ import PostComponent from './PostComponent'
 import '../styles/styles.css'
 import { StoreObject } from '../util/types'
 
-const Newsfeed = (props: any) => {
+type Props = {
+	reversedPosts: Post[]
+}
+
+const Newsfeed = (props: Props) => {
 	const { reversedPosts } = props
 
 	return (

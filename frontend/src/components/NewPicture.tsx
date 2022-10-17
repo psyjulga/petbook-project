@@ -8,11 +8,18 @@ import { Post } from '../../../backend/src/models/post'
 import { handleAddPostImage } from '../actions/posts'
 import { StoreObject } from '../util/types'
 
-const NewPicture = (props: any): ReactElement => {
+type Props = {
+	dispatch: any
+	keyOfObject: number
+	id: number | undefined
+	table: 'users' | 'pets' | 'posts'
+}
+
+const NewPicture = (props: Props): ReactElement => {
 	const { dispatch, keyOfObject, id, table } = props // id & table (users, pets, posts) from parent component
 	const { register, handleSubmit } = useForm()
 	const [disabled, setDisabled] = useState(true)
-	const [error, setError] = useState(null)
+	const [error, setError] = useState<Error | null>(null)
 
 	// USAGE of this component
 	// a) user profile picture
@@ -24,31 +31,36 @@ const NewPicture = (props: any): ReactElement => {
 	const isPost: boolean = table === 'posts'
 
 	const onSubmit = (data: any) => {
+		// ANY
 		const pic: File = data.file[0]
 		const formData = new FormData()
 		formData.append('file', pic)
 		formData.append('table', table)
 
 		if (isUser) {
-			dispatch(handleAddUserPicture(id, formData, keyOfObject))
+			dispatch(
+				handleAddUserPicture(id?.toString() as string, formData, keyOfObject)
+			)
 				.then(() => {
 					setDisabled(true)
 				})
-				.catch((e: any) => setError(e))
+				.catch((e: Error) => setError(e))
 		}
 
 		// if (isPet) {
-		// 	dispatch(handleAddPetPicture(id, formData, keyOfObject)).then(() => {
+		// 	dispatch(handleAddPetPicture(id?.toString() as string, formData, keyOfObject)).then(() => {
 		// 		setPic(true)
-		// 	}).catch((e:any)=>setError(e))
+		// 	}).catch((e:Error)=>setError(e))
 		// }
 
 		if (isPost) {
-			dispatch(handleAddPostImage(id, formData, keyOfObject))
+			dispatch(
+				handleAddPostImage(id?.toString() as string, formData, keyOfObject)
+			)
 				.then(() => {
 					setDisabled(true)
 				})
-				.catch((e: any) => setError(e))
+				.catch((e: Error) => setError(e))
 		}
 	}
 
@@ -80,14 +92,14 @@ const NewPicture = (props: any): ReactElement => {
 	)
 }
 
-type Props = {
+type DrilledProps = {
 	id: number | undefined
 	table: 'users' | 'pets' | 'posts'
 }
 
 const mapStateToProps = (
 	{ users, pets, posts }: StoreObject,
-	{ id, table }: Props
+	{ id, table }: DrilledProps
 ) => {
 	switch (table) {
 		case 'users': {

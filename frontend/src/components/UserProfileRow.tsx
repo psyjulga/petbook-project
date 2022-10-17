@@ -4,17 +4,27 @@ import { User } from '../../../backend/src/models/user'
 import { handleEditUser } from '../actions/users'
 import NewPicture from './NewPicture'
 import '../styles/styles.css'
-import { StoreObject } from '../util/types'
+import { AuthedUser, StoreObject } from '../util/types'
 
-const UserProfileRow = (props: any) => {
-	const { dispatch, authedUser, entry, user, keyOfUserObject } = props
-	const { user_id }: User = user
+type Entry = string | number | null
+
+type Props = {
+	dispatch: any
+	authedUser: AuthedUser
+	entry: Entry[]
+	user: User
+	keyOfUserObject: number
+}
+
+const UserProfileRow = (props: Props) => {
+	const { dispatch, authedUser, entry, user, keyOfUserObject } = props // entry and user from parent component
+	const { user_id } = user
 	const { token } = authedUser
 
 	const [edit, setEdit] = useState(false)
 	const [inputValue, setInputValue] = useState(' ')
 	const [disabled, setDisabled] = useState(true)
-	const [error, setError] = useState(null)
+	const [error, setError] = useState<Error | null>(null)
 
 	const isProfilePic = entry[0] === 'profile_pic'
 
@@ -23,14 +33,14 @@ const UserProfileRow = (props: any) => {
 			dispatch(
 				handleEditUser(
 					user_id as number,
-					entry[0],
+					entry[0] as string,
 					inputValue,
 					token,
-					keyOfUserObject
+					keyOfUserObject.toString()
 				)
 			)
 				.then(setInputValue(' '))
-				.catch((e: any) => setError(e))
+				.catch((e: Error) => setError(e))
 		}
 
 		setEdit(!edit)
@@ -54,7 +64,7 @@ const UserProfileRow = (props: any) => {
 	return (
 		<div className="user-profile-row row">
 			{/* col1 => the field's name (e.g. first name) */}
-			<div className="col-3">{transformWord(entry[0])}</div>
+			<div className="col-3">{transformWord(entry[0] as string)}</div>
 
 			{/* VIEW 1 => edit === false */}
 			{/* col2 => the field's current value (to be edited) */}

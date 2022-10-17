@@ -6,9 +6,14 @@ import '../styles/styles.css'
 import { User } from '../../../backend/src/models/user'
 import { StoreObject } from '../util/types'
 
-const CommentComponent = (props: any) => {
+type Props = {
+	comment: Comment
+	commentAuthor?: string
+}
+
+const CommentComponent = (props: Props) => {
 	const { comment, commentAuthor } = props
-	const { date, text }: Comment = comment
+	const { date, text } = comment
 
 	const localDate = new Date(date).toString()
 
@@ -24,10 +29,6 @@ const CommentComponent = (props: any) => {
 			</div>
 		</aside>
 	)
-}
-
-type Props = {
-	comment: Comment
 }
 
 const mapStateToProps = ({ users }: StoreObject, { comment }: Props) => {

@@ -33,7 +33,7 @@ const NewPost = (props: Props) => {
 
 	const [post, setPost] = useState(initialPostObject)
 	const [disabled, setDisabled] = useState(true)
-	const [error, setError] = useState(null)
+	const [error, setError] = useState<Error | null>(null)
 
 	const checkInput = () => {
 		if (post.post_title !== '' && post.text !== '') {
@@ -47,17 +47,19 @@ const NewPost = (props: Props) => {
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
 		dispatch(handleAddPost(token, post, newKey))
 			.then(() => {
 				setPost(initialPostObject)
 				setDisabled(true)
 				window.scroll({
+					// does not work !!
 					top: 0,
 					left: 0,
 					behavior: 'smooth',
 				})
 			})
-			.catch((e: any) => setError(e))
+			.catch((e: Error) => setError(e))
 	}
 
 	const handleInputChange = (
@@ -133,7 +135,6 @@ const mapStateToProps = ({ posts, authedUser, users }: StoreObject) => {
 	const token = authedUser.token
 
 	const usersArr: User[] = Object.values(users)
-
 	const userID = usersArr
 		.find((u) => u.user_name === authedUser.user_name)
 		?.user_id?.toString()

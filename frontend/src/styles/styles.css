@@ -47,6 +47,20 @@ body {
 	max-width: 80%;
 }
 
+.new-comment {
+	width: 13.5rem;
+	max-width: 80%;
+}
+
+/* .new-comment-button-container {
+	display: grid;
+} */
+
+.new-comment-button {
+	display: block;
+	text-align: center;
+}
+
 .new-picture {
 	width: 300px;
 	max-width: 90%;

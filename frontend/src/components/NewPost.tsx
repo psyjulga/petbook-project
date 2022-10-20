@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import NewPicture from './NewPicture'
-import { convertTimestamp, insertDate } from '../util/timeFunctions'
+import { insertDate } from '../util/timeFunctions'
 import { handleAddPost } from '../actions/posts'
 import { User } from '../../../backend/src/models/user'
 import { Post } from '../../../backend/src/models/post'

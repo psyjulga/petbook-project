@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { insertDate } from '../util/timeFunctions'
 import { handleAddComment } from '../actions/comments'
 import { User } from '../../../backend/src/models/user'
-import { Comment } from '../../../backend/src/models/comment'
 import { StoreObject } from '../util/types'
 import { returnNewKey } from '../util/returnNewKey'
+import '../styles/styles.css'
 
 type Props = {
 	dispatch: any
@@ -64,24 +64,23 @@ const NewComment = (props: Props) => {
 	if (error) throw error
 
 	return (
-		<section className="new-comment m-3 border border-2 border-success border-opacity-25 rounded p-3">
-			<h1>NEW COMMENT</h1>
-
+		<section className="new-comment border border-1 border-success border-opacity-25 rounded">
 			<form onSubmit={handleFormSubmit} className="m-4">
 				{/* COMMENT TEXT */}
 				<div className="mb-3">
 					<textarea
-						rows={4}
+						rows={2}
 						onChange={handleInputChange}
 						name="text"
 						className="form-control"
 						id="textInput"
 						value={commentText}
-						placeholder="Write some text ..."
+						placeholder="Write a comment ..."
 						required
 					/>
 				</div>
 				{/* BUTTON */}
+
 				<button type="submit" className="btn btn-success" disabled={disabled}>
 					Publish Comment
 				</button>

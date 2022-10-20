@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { Comment } from '../../../backend/src/models/comment'
@@ -22,6 +22,13 @@ const PostComponent = (props: Props) => {
 	const { post_id, post_title, date, text, image } = post
 	const { user_name } = authedUser
 	// TODO video
+
+	const [add, setAdd] = useState(false)
+
+	useEffect(() => {
+		setAdd(false)
+	}, [postComments])
+
 	const localDate = new Date(date).toString()
 	const postHasComments: boolean = postComments.length > 0
 	const authedToLoadPicture: boolean =
@@ -48,8 +55,6 @@ const PostComponent = (props: Props) => {
 				</div>
 			</div>
 			{/* COMMENTS & LIKES */}
-			{/* add a comment */}
-			<NewComment post_id={post_id} />
 			{/* list of comments */}
 			{postHasComments && (
 				<ul>
@@ -59,6 +64,19 @@ const PostComponent = (props: Props) => {
 						</li>
 					))}
 				</ul>
+			)}
+			{/* add a comment */}
+			{add && <NewComment post_id={post_id} />}
+			{!add && (
+				<div className="new-comment-button-container">
+					<button
+						type="submit"
+						className="new-comment-button btn btn-success"
+						onClick={() => setAdd(true)}
+					>
+						➕
+					</button>
+				</div>
 			)}
 		</article>
 	)

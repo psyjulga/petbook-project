@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import { connect } from 'react-redux'
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { handleAddUserPicture } from '../actions/users'
 import { User } from '../../../backend/src/models/user'
 import { Pet } from '../../../backend/src/models/pet'
@@ -30,21 +30,29 @@ const NewPicture = (props: Props): ReactElement => {
 	const isPet: boolean = table === 'pets'
 	const isPost: boolean = table === 'posts'
 
-	const onSubmit = (data: any) => {
-		// ANY
+	const addPicture = (action: Function, formData: FormData) => {
+		dispatch(action(id?.toString() as string, formData, keyOfObject))
+			.then(() => {
+				setDisabled(true)
+			})
+			.catch((e: Error) => setError(e))
+	}
+
+	const onSubmit = (data: FieldValues) => {
 		const pic: File = data.file[0]
-		const formData = new FormData()
+		const formData: FormData = new FormData()
 		formData.append('file', pic)
 		formData.append('table', table)
 
 		if (isUser) {
-			dispatch(
-				handleAddUserPicture(id?.toString() as string, formData, keyOfObject)
-			)
-				.then(() => {
-					setDisabled(true)
-				})
-				.catch((e: Error) => setError(e))
+			addPicture(handleAddUserPicture, formData)
+			// dispatch(
+			// 	handleAddUserPicture(id?.toString() as string, formData, keyOfObject)
+			// )
+			// 	.then(() => {
+			// 		setDisabled(true)
+			// 	})
+			// 	.catch((e: Error) => setError(e))
 		}
 
 		// if (isPet) {
@@ -54,13 +62,14 @@ const NewPicture = (props: Props): ReactElement => {
 		// }
 
 		if (isPost) {
-			dispatch(
-				handleAddPostImage(id?.toString() as string, formData, keyOfObject)
-			)
-				.then(() => {
-					setDisabled(true)
-				})
-				.catch((e: Error) => setError(e))
+			addPicture(handleAddPostImage, formData)
+			// 	dispatch(
+			// 		handleAddPostImage(id?.toString() as string, formData, keyOfObject)
+			// 	)
+			// 		.then(() => {
+			// 			setDisabled(true)
+			// 		})
+			// 		.catch((e: Error) => setError(e))
 		}
 	}
 

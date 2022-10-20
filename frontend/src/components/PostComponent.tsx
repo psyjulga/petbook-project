@@ -11,7 +11,7 @@ import { AuthedUser, StoreObject } from '../util/types'
 
 type Props = {
 	post: Post
-	postAuthor?: string
+	postAuthor: string
 	postComments: Comment[]
 	authedUser: AuthedUser
 }
@@ -69,9 +69,13 @@ const mapStateToProps = (
 	{ post }: DrilledProps
 ) => {
 	const usersArr: User[] = Object.values(users)
-	const postAuthor = usersArr.find(
+
+	const postAuthorFound = usersArr.find(
 		(u) => u.user_id === Number(post.user_id)
 	)?.user_name
+
+	const postAuthor =
+		postAuthorFound !== undefined ? postAuthorFound : authedUser.user_name
 
 	const commentsArr: Comment[] = Object.values(comments)
 	const postComments: Comment[] = commentsArr.filter(

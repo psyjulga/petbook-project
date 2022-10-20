@@ -1,4 +1,4 @@
-export default function convertTimestamp(timestamp: string): string {
+export function convertTimestamp(timestamp: string): string {
 	const splitTimestamp = timestamp.split(' ')
 
 	let yearXXXX = splitTimestamp[3]
@@ -39,4 +39,17 @@ export default function convertTimestamp(timestamp: string): string {
 	const timeString = newTimestamp.join(' ')
 
 	return timeString
+}
+
+export const insertDate = () => {
+	const date = new Date().toString()
+	const timestamp = convertTimestamp(date)
+	return timestamp
+}
+
+export const displayTimeInFrontend = (timestring: string) => {
+	const timeArr = timestring.split(' ')
+	const time = timeArr.slice(1, 5).join(' ')
+
+	return time
 }

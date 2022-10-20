@@ -11,7 +11,6 @@ type Props = {
 
 const Navbar = (props: Props) => {
 	const { loggedIn, dispatch } = props
-	// logout button still visible when logged out !!
 
 	const logOut = () => {
 		dispatch(handleLogout())

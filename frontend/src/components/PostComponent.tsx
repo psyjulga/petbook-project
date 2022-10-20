@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { Comment } from '../../../backend/src/models/comment'
 import { User } from '../../../backend/src/models/user'
-import displayTimeInFrontend from '../util/displayTimeInFrontend'
+import { displayTimeInFrontend } from '../util/timeFunctions'
 import NewPicture from './NewPicture'
 import CommentComponent from './CommentComponent'
 import '../styles/styles.css'
 import { AuthedUser, StoreObject } from '../util/types'
+import NewComment from './NewComment'
 
 type Props = {
 	post: Post
@@ -47,6 +48,9 @@ const PostComponent = (props: Props) => {
 				</div>
 			</div>
 			{/* COMMENTS & LIKES */}
+			{/* add a comment */}
+			<NewComment post_id={post_id} />
+			{/* list of comments */}
 			{postHasComments && (
 				<ul>
 					{postComments.map((comment: Comment) => (

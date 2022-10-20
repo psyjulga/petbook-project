@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import NewPicture from './NewPicture'
-import convertTimestamp from '../util/convertTimestamp'
+import { convertTimestamp, insertDate } from '../util/timeFunctions'
 import { handleAddPost } from '../actions/posts'
 import { User } from '../../../backend/src/models/user'
 import { Post } from '../../../backend/src/models/post'
@@ -17,12 +17,6 @@ type Props = {
 
 const NewPost = (props: Props) => {
 	const { dispatch, token, newKey, userID } = props
-
-	const insertDate = () => {
-		const date = new Date().toString()
-		const timestamp = convertTimestamp(date)
-		return timestamp
-	}
 
 	const initialPostObject: Post = {
 		date: insertDate(),

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Comment } from '../../../backend/src/models/comment'
-import displayTimeInFrontend from '../util/displayTimeInFrontend'
+import { displayTimeInFrontend } from '../util/timeFunctions'
 import '../styles/styles.css'
 import { User } from '../../../backend/src/models/user'
 import { StoreObject } from '../util/types'

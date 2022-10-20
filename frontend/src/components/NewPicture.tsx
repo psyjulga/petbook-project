@@ -32,9 +32,7 @@ const NewPicture = (props: Props): ReactElement => {
 
 	const addPicture = (action: Function, formData: FormData) => {
 		dispatch(action(id?.toString() as string, formData, keyOfObject))
-			.then(() => {
-				setDisabled(true)
-			})
+			.then(() => setDisabled(true))
 			.catch((e: Error) => setError(e))
 	}
 
@@ -44,33 +42,9 @@ const NewPicture = (props: Props): ReactElement => {
 		formData.append('file', pic)
 		formData.append('table', table)
 
-		if (isUser) {
-			addPicture(handleAddUserPicture, formData)
-			// dispatch(
-			// 	handleAddUserPicture(id?.toString() as string, formData, keyOfObject)
-			// )
-			// 	.then(() => {
-			// 		setDisabled(true)
-			// 	})
-			// 	.catch((e: Error) => setError(e))
-		}
-
-		// if (isPet) {
-		// 	dispatch(handleAddPetPicture(id?.toString() as string, formData, keyOfObject)).then(() => {
-		// 		setPic(true)
-		// 	}).catch((e:Error)=>setError(e))
-		// }
-
-		if (isPost) {
-			addPicture(handleAddPostImage, formData)
-			// 	dispatch(
-			// 		handleAddPostImage(id?.toString() as string, formData, keyOfObject)
-			// 	)
-			// 		.then(() => {
-			// 			setDisabled(true)
-			// 		})
-			// 		.catch((e: Error) => setError(e))
-		}
+		if (isUser) addPicture(handleAddUserPicture, formData)
+		// if (isPet) addPicture(handleAddPetPicture, formData)
+		if (isPost) addPicture(handleAddPostImage, formData)
 	}
 
 	if (error) throw error

@@ -8,7 +8,7 @@ import { StoreObject } from '../util/types'
 
 type Props = {
 	comment: Comment
-	commentAuthor?: string
+	commentAuthor: string
 }
 
 const CommentComponent = (props: Props) => {
@@ -31,11 +31,21 @@ const CommentComponent = (props: Props) => {
 	)
 }
 
-const mapStateToProps = ({ users }: StoreObject, { comment }: Props) => {
+type DrilledProps = {
+	comment: Comment
+}
+
+const mapStateToProps = (
+	{ users, authedUser }: StoreObject,
+	{ comment }: DrilledProps
+) => {
 	const usersArr: User[] = Object.values(users)
-	const commentAuthor = usersArr.find(
+	const commentAuthorFound = usersArr.find(
 		(u) => u.user_id === Number(comment.user_id)
 	)?.user_name
+
+	const commentAuthor =
+		commentAuthorFound !== undefined ? commentAuthorFound : authedUser.user_name
 
 	return {
 		comment,

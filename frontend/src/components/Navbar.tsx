@@ -71,7 +71,7 @@ const Navbar = (props: Props) => {
 }
 
 const mapStateToProps = ({ authedUser }: StoreObject) => {
-	return { loggedIn: authedUser !== null }
+	return { loggedIn: authedUser.token !== null }
 }
 
 export default connect(mapStateToProps)(Navbar)

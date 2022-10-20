@@ -45,6 +45,14 @@ const NewPost = (props: Props) => {
 		checkInput()
 	}, [post])
 
+	// not working !!
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		})
+	}
+
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
@@ -52,12 +60,8 @@ const NewPost = (props: Props) => {
 			.then(() => {
 				setPost(initialPostObject)
 				setDisabled(true)
-				window.scroll({
-					// does not work !!
-					top: 0,
-					left: 0,
-					behavior: 'smooth',
-				})
+				scrollToTop()
+				console.log('added post')
 			})
 			.catch((e: Error) => setError(e))
 	}

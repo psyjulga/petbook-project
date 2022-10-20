@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleAuthUser } from '../actions/authedUser'
 import { StoreObject } from '../util/types'
+import '../styles/styles.css'
 
 type Props = {
 	dispatch: any
@@ -19,8 +20,12 @@ const Login = (props: Props): ReactElement => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		// ANY
-		dispatch(handleAuthUser(username, password)).then((res: any) => {
+		type Res = {
+			type: 'loading-bar/HIDE'
+			payload: { scope: 'default' }
+		}
+
+		dispatch(handleAuthUser(username, password)).then((res: Res) => {
 			setUsername('')
 			setPassword('')
 			setDisabled(true)

@@ -1,22 +1,23 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import NewPicture from './NewPicture'
 import { insertDate } from '../util/timeFunctions'
 import { handleAddPost } from '../actions/posts'
 import { User } from '../../../backend/src/models/user'
 import { Post } from '../../../backend/src/models/post'
 import { StoreObject } from '../util/types'
 import { returnNewKey } from '../util/returnNewKey'
+import '../styles/styles.css'
 
 type Props = {
 	dispatch: any
 	token: string
 	newKey: number
 	userID?: string
+	scrollCallback: Function
 }
 
 const NewPost = (props: Props) => {
-	const { dispatch, token, newKey, userID } = props
+	const { dispatch, token, newKey, userID, scrollCallback } = props
 
 	const initialPostObject: Post = {
 		date: insertDate(),
@@ -34,18 +35,10 @@ const NewPost = (props: Props) => {
 			setDisabled(false)
 		}
 	}
-
+	// !!!!
 	useEffect(() => {
 		checkInput()
 	}, [post])
-
-	// not working !!
-	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth',
-		})
-	}
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -54,8 +47,7 @@ const NewPost = (props: Props) => {
 			.then(() => {
 				setPost(initialPostObject)
 				setDisabled(true)
-				scrollToTop()
-				console.log('added post')
+				scrollCallback()
 			})
 			.catch((e: Error) => setError(e))
 	}
@@ -72,10 +64,6 @@ const NewPost = (props: Props) => {
 	return (
 		<section className="new-post m-3 border border-2 border-success border-opacity-25 rounded p-3">
 			<h1>NEW POST</h1>
-			{/* IMAGE */}
-			{/* <NewPicture id={} table={'posts'} />  */}
-			{/* after post is created, => we need the post_id */}
-
 			<form onSubmit={handleFormSubmit} className="m-4">
 				{/* POST TITLE */}
 				<div className="mb-3">

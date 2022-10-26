@@ -1,11 +1,11 @@
-// // PET MODEL METHODS:
-// // index
-// // show
-// // create
-// // showByUser
-// // showByProp
-// // edit
-// // delete
+// PET MODEL METHODS:
+// index => RECEIVE_PETS
+// show
+// create
+// showByUser
+// showByProp
+// edit
+// delete
 
 // REDUCER => update the store
 // is triggered with store.dispatch(action)
@@ -15,7 +15,7 @@ import { RECEIVE_PETS } from '../actions/pets'
 import { Pet } from '../../../backend/src/models/pet'
 
 // use UNIONS
-type PetAction = { type: string; pets: Pet[] }
+type PetAction = { type: string; payload: Pet[] }
 
 export default function pets(state = {}, action: PetAction) {
 	// is put into "combined reducer"
@@ -26,7 +26,7 @@ export default function pets(state = {}, action: PetAction) {
 		case RECEIVE_PETS: {
 			return {
 				...state,
-				...action.pets,
+				...action.payload,
 			}
 		}
 

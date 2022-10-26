@@ -27,13 +27,29 @@
 
 ### PET ROUTES
 
-index: all pets
-show: one pet by id
-showPetsByUser: to display all of the users pets
-showPetsByProp: for filtering the pets (e.g. all with type dog)
-create: create a new pet !! addToUser should be called automatically
-edit: update a certain field of a certain pet with a value
-destroy: delete a pet !! message to user when pet only removed but not deleted
+| VERB   | ROUTE           | METHOD         | PROTECTED | DESCRIPTION                                                    |
+| ------ | --------------- | -------------- | --------- | -------------------------------------------------------------- | --- |
+| get    | /pets           | index          | ✔         | all pets => to show on all pets page                           |
+| get    | /pets/:id       | show           | ✔         | one pet by id                                                  |
+| get    | /pets/:id/users | showPetsByUser | ✔         | to display all of the user's pets on the main page             |
+| get    | /filter_pets    | showPetsByProp | ✔         | to filter pets by their props (search field)                   |
+| post   | /pets           | create         | ✔         | create a new pet (triggers add pet to user)                    |     |
+| put    | /pets/:id       | edit           | ✔         | update a certein field of a certain pet with a value           |
+| delete | /pets/:id       | destroy        | ✔         | delete a pet (if pet has multiple users: remove pet from user) |     |
+
+### PET DATABASE SCHEMA => table pets
+
+| COLUMN          | DATA TYPE          | CONSTRAINT |
+| --------------- | ------------------ | ---------- |
+| pet_id          | SERIAL PRIMARY KEY | -          |
+| type            | VARCHAR(25)        | NOT NULL   |
+| breed           | VARCHAR(25)        | -          |
+| pet_name        | VARCHAR(25)        | NOT NULL   |
+| birthday        | DATE               | -          |
+| color           | VARCHAR(25)        | -          |
+| eye_color       | VARCHAR(25)        | -          |
+| profile_pic     | VARCHAR(50)        | -          |
+| about_paragraph | text               | -          |
 
 ### POST ROUTES
 

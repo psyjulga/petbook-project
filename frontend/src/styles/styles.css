@@ -1,3 +1,9 @@
+:root {
+	--light-green: rgb(227, 248, 238);
+	--standard-green: rgb(25, 135, 84);
+	--light-rose: rgb(248, 249, 250);
+}
+
 body {
 	min-height: 150vh;
 	background-color: rgb(245, 224, 242);
@@ -9,18 +15,19 @@ body {
 	width: 100%;
 	text-align: center;
 	padding: 20px;
-	background-color: rgb(248, 249, 250);
+	background-color: var(--light-rose);
 }
 
 .footer a,
 .login .create-account-link {
-	color: rgb(25, 135, 84);
+	color: var(--standard-green);
 	margin-right: 5px;
 	font-weight: bold;
 }
 
 .newsfeed ul,
-.user-profile ul {
+.user-profile ul,
+.pets ul {
 	list-style: none;
 }
 
@@ -31,6 +38,10 @@ body {
 
 .user-profile-row button {
 	width: 100%;
+}
+
+.card-pet {
+	width: 12rem;
 }
 
 .card-user {
@@ -62,11 +73,15 @@ body {
 }
 
 .new-picture {
-	background-color: rgb(227, 248, 238);
+	background-color: var(--light-green);
 	width: 260px;
 	max-width: 90%;
 }
 
 .login input {
 	max-width: 50%;
+}
+
+.new-post {
+	background-color: var(--light-green);
 }

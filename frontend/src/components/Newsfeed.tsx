@@ -7,13 +7,15 @@ import { StoreObject } from '../util/types'
 
 type Props = {
 	reversedPosts: Post[]
+	newsfeedRef: any
 }
 
 const Newsfeed = (props: Props) => {
-	const { reversedPosts } = props
+	const { reversedPosts, newsfeedRef } = props
 
 	return (
 		<section className="newsfeed mt-5 mb-5">
+			<div className="scroll-to-div" ref={newsfeedRef}></div>
 			<ul>
 				{reversedPosts.map((post: Post) => (
 					<li key={post.post_id} className="m-2">

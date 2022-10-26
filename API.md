@@ -27,14 +27,15 @@
 
 ### PET ROUTES
 
-| VERB | ROUTE | METHOD | PROTECTED | DESCRIPTION |
-| get | /pets | index | ✔ | all pets => to show on all pets page |
-| get | /pets/:id | show | ✔ | one pet by id |
-| get | /pets/:id/users | showPetsByUser | ✔ | to display all of the user's pets on the main page |
-| get | /filter_pets | showPetsByProp | ✔ | to filter pets by their props (search field) |
-| post | /pets | create | ✔ | create a new pet (triggers add pet to user) |
-| put | /pets/:id | edit | ✔ | update a certein field of a certain pet with a value |
-| delete | /pets/:id | destroy | ✔ | delete a pet (if pet has multiple users: remove pet from user) |
+| VERB   | ROUTE           | METHOD         | PROTECTED | DESCRIPTION                                                    |
+| ------ | --------------- | -------------- | --------- | -------------------------------------------------------------- |
+| get    | /pets           | index          | ✔         | all pets => to show on all pets page                           |
+| get    | /pets/:id       | show           | ✔         | one pet by id                                                  |
+| get    | /pets/:id/users | showPetsByUser | ✔         | to display all of the user's pets on the main page             |
+| get    | /filter_pets    | showPetsByProp | ✔         | to filter pets by their props (search field)                   |
+| post   | /pets           | create         | ✔         | create a new pet (triggers add pet to user)                    |
+| put    | /pets/:id       | edit           | ✔         | update a certein field of a certain pet with a value           |
+| delete | /pets/:id       | destroy        | ✔         | delete a pet (if pet has multiple users: remove pet from user) |
 
 ### PET DATABASE SCHEMA => table pets
 

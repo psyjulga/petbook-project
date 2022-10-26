@@ -50,17 +50,26 @@ const showPetsByProp = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
-	const { type, breed, name, birthday, color, eye_color, profile_pic } =
-		req.body
-
-	const pet = {
+	const {
 		type,
 		breed,
-		name,
+		pet_name,
 		birthday,
 		color,
 		eye_color,
 		profile_pic,
+		about_paragraph,
+	} = req.body
+
+	const pet = {
+		type,
+		breed,
+		pet_name,
+		birthday,
+		color,
+		eye_color,
+		profile_pic,
+		about_paragraph,
 	}
 
 	try {
@@ -101,10 +110,10 @@ const destroy = async (req: Request, res: Response) => {
 }
 
 const pet_routes = (app: Application) => {
-	app.get('/pets', index)
-	app.get('/pets/:id', show)
+	app.get('/pets', verifyAuthToken, index)
+	app.get('/pets/:id', verifyAuthToken, show)
 	app.get('/pets/:id/users', verifyAuthToken, showPetsByUser)
-	app.get('/filter_pets', showPetsByProp)
+	app.get('/filter_pets', verifyAuthToken, showPetsByProp)
 	app.post('/pets', verifyAuthToken, create)
 	app.put('/pets/:id', verifyAuthToken, edit)
 	app.delete('/pets/:id', verifyAuthToken, destroy)

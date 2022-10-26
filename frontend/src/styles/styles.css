@@ -62,7 +62,8 @@ body {
 }
 
 .new-picture {
-	width: 300px;
+	background-color: rgb(227, 248, 238);
+	width: 260px;
 	max-width: 90%;
 }
 

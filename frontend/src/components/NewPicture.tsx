@@ -1,6 +1,6 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useState, useRef, RefObject } from 'react'
 import { connect } from 'react-redux'
-import { FieldValues, useForm } from 'react-hook-form'
+import { FieldValues, RefCallBack, useForm } from 'react-hook-form'
 import { handleAddUserPicture } from '../actions/users'
 import { User } from '../../../backend/src/models/user'
 import { Pet } from '../../../backend/src/models/pet'
@@ -18,8 +18,12 @@ type Props = {
 const NewPicture = (props: Props): ReactElement => {
 	const { dispatch, keyOfObject, id, table } = props // id & table (users, pets, posts) from parent component
 	const { register, handleSubmit } = useForm()
+	const { onChange, onBlur, name, ref } = register('file')
+	const inputRef = useRef<HTMLInputElement>(null) // for input styling
+
 	const [disabled, setDisabled] = useState(true)
 	const [error, setError] = useState<Error | null>(null)
+	const [clicked, setClicked] = useState(false)
 
 	// USAGE of this component
 	// a) user profile picture
@@ -52,21 +56,37 @@ const NewPicture = (props: Props): ReactElement => {
 	return (
 		<div className="new-picture m-3 border border-2 border-success border-opacity-25 rounded p-3">
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<label htmlFor="fileInput" className="form-label">
-					{isPost
-						? 'Choose an Image for your Post'
-						: 'Choose a Profile Picture'}
-				</label>
 				<input
-					onInput={() => setDisabled(false)}
+					onInput={(e) => setDisabled(false)}
 					className="form-control"
 					type="file"
 					id="fileInput"
-					{...register('file')}
+					style={{ display: 'none' }}
+					onChange={onChange}
+					onBlur={onBlur}
+					name={name}
+					// {...register('file')}
+					ref={clicked ? ref : inputRef}
 				/>
+
+				{/* style this button to style file input */}
 				<button
+					type="button"
+					className="select-image-button btn btn-success"
+					style={{ width: 120, marginRight: 5, borderRadius: 25 }}
+					onClick={() => {
+						inputRef.current?.click()
+						setClicked(true)
+					}}
+				>
+					{clicked ? 'Select and click upload:' : 'Select an Image'}
+				</button>
+
+				<button
+					type="submit"
 					disabled={disabled}
 					className={disabled ? 'btn btn-success' : 'btn btn-warning'}
+					style={{ borderRadius: 50, marginLeft: 5 }}
 				>
 					Upload
 				</button>

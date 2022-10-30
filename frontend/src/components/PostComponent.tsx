@@ -12,6 +12,7 @@ import NewComment from './NewComment'
 import EditButton from './EditButton'
 import DeleteButton from './DeleteButton'
 import '../styles/styles.css'
+import { handleReceiveComments } from '../actions/comments'
 
 type Props = {
 	post: Post
@@ -52,10 +53,15 @@ const PostComponent = (props: Props) => {
 	}
 
 	const deletePost = () => {
-		window.confirm(
+		const confirmed = window.confirm(
 			'Do you really want to delete this post? All comments and likes will also be removed.'
 		)
-		dispatch(handleDeletePost(token, post_id as number))
+		if (confirmed) {
+			dispatch(handleDeletePost(token, post_id as number)).then(() => {
+				dispatch(handleReceiveComments(token))
+				// and likes !!
+			})
+		}
 	}
 
 	return (

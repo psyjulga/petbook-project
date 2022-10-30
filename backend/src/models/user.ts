@@ -219,8 +219,8 @@ export class UserStore {
 	// helper methods for deleting a user
 	// 1. delete the users' pets
 	// 2. delete the users' posts
-	// 3. handle the users' comments (preserve the comments => "deleted user")
-	// 4. handle the users' likes (preserve the likes => "deleted likes")
+	// 3. handle the users' comments (set the user_id to null)
+	// 4. handle the users' likes (set the user_id to null)
 
 	async deleteUsersPets(user_id: string): Promise<void> {
 		const pet_ids = await selectFromTable(
@@ -253,57 +253,29 @@ export class UserStore {
 	}
 
 	async handleUsersComments(user_id: string): Promise<void> {
-		// 1. insert comments into table commentsFromDeletedUsers
+		// set the user_id to null
 		const comments = await selectFromTable('*', 'comments', 'user_id', user_id)
-		comments?.forEach(async (comment: Comment) => {
-			const { date, text, post_id } = comment
-			const convertedDate = convertTimestamp(date.toString())
-			const user_id = 'deleted_user'
-			await insertIntoTable(
-				'commentsFromDeletedUsers',
-				['comment_id', 'date', 'text', 'post_id', 'user_id'],
-				[convertedDate, text, post_id, user_id]
-			)
-		})
 
-		// 2. delete comments from comments table
-		const comment_ids = await selectFromTable(
-			'comment_id',
-			'comments',
-			'user_id',
-			user_id
-		)
-		comment_ids?.forEach(async (comment_id_obj: { comment_id: string }) => {
-			const comment_id = comment_id_obj.comment_id
-			const deletedComment = await commentStore.delete(comment_id)
-			console.log('deleted comment: ', deletedComment)
+		comments?.forEach(async (comment: Comment) => {
+			const { comment_id } = comment
+			const editedComment = await commentStore.edit(
+				comment_id as number,
+				'user_id',
+				null
+			)
+			console.log('edited comment from deleted user: ', editedComment)
 		})
 	}
 
 	async handleUsersLikes(user_id: string): Promise<void> {
-		// 1. insert likes into table likesFromDeletedUsers
+		// set the user_id to null
 		const likes = await selectFromTable('*', 'likes', 'user_id', user_id)
-		likes?.forEach(async (like: Like) => {
-			const { post_id } = like
-			const user_id = 'deleted_user'
-			await insertIntoTable(
-				'likesFromDeletedUsers',
-				['like_id', 'user_id', 'post_id'],
-				[user_id, post_id]
-			)
-		})
 
-		// 2. delete likes from likes table
-		const like_ids = await selectFromTable(
-			'like_id',
-			'likes',
-			'user_id',
-			user_id
-		)
-		like_ids?.forEach(async (like_id_obj: { like_id: string }) => {
-			const like_id = like_id_obj.like_id
-			const deletedLike = await likeStore.delete(like_id)
-			console.log('deleted like: ', deletedLike)
+		likes?.forEach(async (like: Like) => {
+			const { like_id } = like
+
+			const editedLike = await likeStore.edit(like_id as number)
+			console.log('edited like from deleted user: ', editedLike)
 		})
 	}
 

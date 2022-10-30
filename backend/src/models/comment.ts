@@ -5,7 +5,7 @@ export type Comment = {
 	date: string
 	text: string
 	post_id: string
-	user_id: string
+	user_id?: string | null
 }
 
 export class CommentStore {
@@ -13,13 +13,9 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql1 = 'SELECT * FROM comments'
-			const res1 = await conn.query(sql1)
-			const sql2 = 'SELECT * FROM commentsFromDeletedUsers'
-			const res2 = await conn.query(sql2)
-			const res = res1.rows.concat(res2.rows)
-			console.log('concatenated comments in model index: ', res)
-			return res
+			const sql = 'SELECT * FROM comments'
+			const res = await conn.query(sql)
+			return res.rows
 		} catch (e) {
 			throw new Error(`Error in CommentStore index(): ${e}`)
 		} finally {
@@ -45,13 +41,9 @@ export class CommentStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql1 = 'SELECT * FROM comments WHERE post_id=($1)'
-			const res1 = await conn.query(sql1, [post_id])
-			const sql2 = 'SELECT * FROM commentsFromDeletedUsers WHERE post_id=($1)'
-			const res2 = await conn.query(sql2, [post_id])
-			const res = res1.rows.concat(res2.rows)
-			console.log('concatenated comments in model showByPost: ', res)
-			return res
+			const sql = 'SELECT * FROM comments WHERE post_id=($1)'
+			const res = await conn.query(sql, [post_id])
+			return res.rows
 		} catch (e) {
 			throw new Error(
 				`Error in CommentStore showCommentsByPost(${post_id}): ${e}`
@@ -78,12 +70,21 @@ export class CommentStore {
 		}
 	}
 
-	async edit(id: string, value: string): Promise<Comment> {
+	async edit(
+		id: number,
+		field: string,
+		value: string | null
+	): Promise<Comment> {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql =
+			const sqlText =
 				'UPDATE comments SET text = ($1) WHERE comment_id = ($2) RETURNING *'
+			// when a user is deleted, comments are preserved and shown as 'deleted user'
+			const sqlUser =
+				'UPDATE comments SET user_id = ($1) WHERE comment_id = ($2) RETURNING *'
+
+			const sql = field === 'text' ? sqlText : sqlUser
 			const res = await conn.query(sql, [value, id])
 			const updatedComment = res.rows[0]
 			return updatedComment

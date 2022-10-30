@@ -131,11 +131,13 @@ export function handleDeletePost(token: string, id: number) {
 		dispatch(showLoading())
 
 		return fetch(`http://localhost:8000/posts/${id}`, {
+			method: 'DELETE',
 			headers: {
 				authorization: `Bearer ${token}`,
 			},
 		})
 			.then((res) => {
+				console.log('RES: ', res)
 				if (res.status === 403) {
 					throw new Error('no access to posts - protected route')
 				}

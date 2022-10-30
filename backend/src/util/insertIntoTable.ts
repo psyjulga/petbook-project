@@ -3,7 +3,8 @@ import client from '../database'
 export default async function insertIntoTable(
 	table: string,
 	fields: string[],
-	values: string[]
+	values: string[],
+	defaultID: boolean
 ): Promise<any> {
 	let conn
 
@@ -13,7 +14,10 @@ export default async function insertIntoTable(
 		const fieldsList = fields.join(', ')
 		const valuesList = values.join(`', '`)
 
-		const sql = `INSERT INTO ${table}(${fieldsList}) VALUES (default, '${valuesList}') RETURNING *`
+		const sqlWithDefault = `INSERT INTO ${table}(${fieldsList}) VALUES (default, '${valuesList}') RETURNING *`
+		const sqlWithoutDefault = `INSERT INTO ${table}(${fieldsList}) VALUES ('${valuesList}') RETURNING *`
+
+		const sql = defaultID ? sqlWithDefault : sqlWithoutDefault
 
 		const res = await conn.query(sql)
 		const inserted = res.rows[0]

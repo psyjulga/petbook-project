@@ -27,3 +27,9 @@ INSERT INTO likes(
 ) VALUES (
   default, '4', '5'
 );
+
+INSERT INTO likes(
+  like_id, post_id, user_id
+) VALUES (
+ default, '2', null
+);

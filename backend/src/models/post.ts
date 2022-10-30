@@ -105,54 +105,24 @@ export class PostStore {
 
 	async delete(id: string): Promise<Post> {
 		const postHasComments = await tableHasRelations('comments', 'post_id', id)
-		const postHasCommentsFromDeletedUsers = await tableHasRelations(
-			'commentsFromDeletedUsers',
-			'post_id',
-			id
-		)
+		console.log('post has comments: ', postHasComments)
 
 		if (postHasComments) {
 			const deletedComments = await deleteFromTable('comments', 'post_id', id)
 			console.log('deleted comments from deleted post: ', deletedComments)
 		}
-		if (postHasCommentsFromDeletedUsers) {
-			const deletedComments = await deleteFromTable(
-				'commentsFromDeletedUsers',
-				'post_id',
-				id
-			)
-			console.log(
-				'deleted comments from deleted post - deleted user table: ',
-				deletedComments
-			)
-		}
 
 		const postHasLikes = await tableHasRelations('likes', 'post_id', id)
-		const postHasLikesFromDeletedUsers = await tableHasRelations(
-			'likesFromDeletedUsers',
-			'post_id',
-			id
-		)
 
 		if (postHasLikes) {
 			const deletedLikes = await deleteFromTable('likes', 'post_id', id)
 			console.log('deleted likes from deleted post: ', deletedLikes)
 		}
-		if (postHasLikesFromDeletedUsers) {
-			const deletedLikes = await deleteFromTable(
-				'likesFromDeletedUsers',
-				'post_id',
-				id
-			)
-			console.log(
-				'deleted likes from deleted post - deleted user table: ',
-				deletedLikes
-			)
-		}
 
 		const deletedPosts = await deleteFromTable('posts', 'post_id', id)
 		const deletedPost = deletedPosts[0]
 		console.log('deleted post: ', deletedPost)
+
 		return deletedPost
 	}
 

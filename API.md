@@ -9,7 +9,7 @@
 | post   | /users/:id/pets    | addPetToUser      | ✔         | create a relation between a pet and a user !! how handle when pet already exists ?                                                                                                            |
 | delete | /users/:id/pets    | removePetFromUser | ✔         | cancel a relation between user and pet (e.g. before deleting a pet => FK constraints!)                                                                                                        |
 | put    | /users/:id         | edit              | ✔         | update a certain field of a certain user with a value                                                                                                                                         |
-| delete | /users/:id         | destroy           | ✔         | delete a user => delete users' pets, posts, comments, likes => comments and likes preserved in new table => shown as "deleted user"                                                           |
+| delete | /users/:id         | destroy           | ✔         | delete a user => delete users' pets, posts, comments, likes first => the user_id in comments and likes is set to null => shown as "deleted user"                                              |
 
 ### USER DATABASE SCHEMA => table users
 
@@ -76,14 +76,14 @@
 
 ### COMMENT ROUTES
 
-| VERB   | ROUTE               | METHOD             | PROTECTED | DESCRIPTION                                                                |
-| ------ | ------------------- | ------------------ | --------- | -------------------------------------------------------------------------- |
-| get    | /comments           | index              | ✔         | all comments (active and deleted users)                                    |
-| get    | /comments/:id       | show               | ✔         | one comment by id (not for deleted users)                                  |
-| get    | /comments/:id/posts | showCommentsByPost | ✔         | returns all comments related to a specific post (active and deleted users) |
-| post   | /comments           | create             | ✔         | create a new comment                                                       |
-| put    | /comments/:id       | edit               | ✔         | update the text field of a certain comment with a value                    |
-| delete | /comments/:id       | destroy            | ✔         | delete a comment                                                           |
+| VERB   | ROUTE               | METHOD             | PROTECTED | DESCRIPTION                                                                                               |
+| ------ | ------------------- | ------------------ | --------- | --------------------------------------------------------------------------------------------------------- |
+| get    | /comments           | index              | ✔         | all comments (active and deleted users)                                                                   |
+| get    | /comments/:id       | show               | ✔         | one comment by id (not for deleted users)                                                                 |
+| get    | /comments/:id/posts | showCommentsByPost | ✔         | returns all comments related to a specific post (active and deleted users)                                |
+| post   | /comments           | create             | ✔         | create a new comment                                                                                      |
+| put    | /comments/:id       | edit               | ✔         | update the text field of a certain comment with a value OR set the user_id to null when a user is deleted |
+| delete | /comments/:id       | destroy            | ✔         | delete a comment                                                                                          |
 
 ### COMMENT DATABASE SCHEMA => table comments
 
@@ -95,11 +95,20 @@
 | post_id    | bigint             | REFERENCES posts(post_id) |
 | user_id    | bigint             | REFERENCES users(user_id) |
 
+when a user is deleted, the user_id of the comment is set to null
+
 ### LIKE ROUTES
 
 index: all likes (active and deleted users)
 showLikesByPost: returns all likes related to a specific post => arr.length & list usernames (active and deleted users)
 create: create a new like - LIKE
 destroy: delete a like - UNLIKE
+
+model
+edit: set user_id to null, when a like is deleted
+
+### LIKE DATABASE SCHEMA
+
+when a user is deleted, the user_id of the like is set to null
 
 ### SHARED ROUTES => for file upload

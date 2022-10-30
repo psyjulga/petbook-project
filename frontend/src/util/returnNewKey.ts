@@ -7,7 +7,7 @@ type separateStoreObject = Post[] | User[] | Comment[]
 export const returnNewKey = (
 	currentStoreObject: separateStoreObject
 ): number => {
-	let newKey: number = 1
+	let newKey: number = 0
 
 	const arr = Object.values(currentStoreObject)
 
@@ -15,7 +15,7 @@ export const returnNewKey = (
 		const id_name = Object.keys(arr[0])[0]
 		const ids = arr?.map((obj) => obj[id_name])
 
-		if (ids.length === 1) newKey = 2
+		if (ids.length === 1) newKey = 1
 		if (ids.length > 1) newKey = Math.max(...ids)
 	}
 

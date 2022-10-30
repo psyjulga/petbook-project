@@ -9,6 +9,12 @@ CREATE TABLE comments(
 INSERT INTO comments(
   comment_id, date, text, post_id, user_id
 ) VALUES (
+ default , '2022-05-01 12:00:34', 'thanks as always buddy!!', '1', null
+);
+
+INSERT INTO comments(
+  comment_id, date, text, post_id, user_id
+) VALUES (
   default, '2022-08-01 08:10:04', 'absolutely - even now in the morning, my rabbit is hiding in the shadow', '2', '2'
 );
 
@@ -35,3 +41,4 @@ INSERT INTO comments(
 ) VALUES (
   default, '2022-08-23 20:28:54', 'DELETE', '4', '4'
 );
+

@@ -23,9 +23,16 @@ export default function comments(state = {}, action: any) {
 	// => {users, pets, posts, ..}
 	switch (action.type) {
 		case RECEIVE_COMMENTS: {
+			const { payload } = action // Comment[]
+
+			const arrWithNumericIds: Comment[] = payload.map((comment: Comment) => {
+				const newId = Number(comment.comment_id)
+
+				return { ...comment, comment_id: newId }
+			})
+
 			return {
-				...state,
-				...action.payload,
+				...arrWithNumericIds,
 			}
 		}
 

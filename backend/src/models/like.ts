@@ -2,7 +2,7 @@ import client from '../database'
 
 export type Like = {
 	like_id?: number
-	user_id: string
+	user_id?: string | null
 	post_id: string
 }
 
@@ -11,13 +11,9 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql1 = 'SELECT * FROM likes'
-			const res1 = await conn.query(sql1)
-			const sql2 = 'SELECT * FROM likesFromDeletedUsers'
-			const res2 = await conn.query(sql2)
-			const res = res1.rows.concat(res2.rows)
-			console.log('concatenated likes in model index: ', res)
-			return res
+			const sql = 'SELECT * FROM likes'
+			const res = await conn.query(sql)
+			return res.rows
 		} catch (e) {
 			throw new Error(`Error in LikeStore index(): ${e}`)
 		} finally {
@@ -29,13 +25,9 @@ export class LikeStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql1 = 'SELECT * FROM likes WHERE post_id=($1)'
-			const res1 = await conn.query(sql1, [post_id])
-			const sql2 = 'SELECT * FROM likesFromDeletedUsers WHERE post_id=($1)'
-			const res2 = await conn.query(sql2, [post_id])
-			const res = res1.rows.concat(res2.rows)
-			console.log('concatenated likes in model showByPost: ', res)
-			return res
+			const sql = 'SELECT * FROM likes WHERE post_id=($1)'
+			const res = await conn.query(sql, [post_id])
+			return res.rows
 		} catch (e) {
 			throw new Error(`Error in LikeStore showLikesByPost(${post_id}): ${e}`)
 		} finally {
@@ -55,6 +47,25 @@ export class LikeStore {
 			return res.rows[0]
 		} catch (e) {
 			throw new Error(`Error in LikeStore create(like): ${e}`)
+		} finally {
+			conn?.release()
+		}
+	}
+
+	async edit(id: number): Promise<Like> {
+		let conn
+		try {
+			conn = await client.connect()
+			const sql =
+				'UPDATE likes SET user_id = null WHERE like_id = ($1) RETURNING *'
+			// when a user is deleted, likes are preserved and shown as 'deleted user'
+
+			const res = await conn.query(sql, [id])
+			const updatedLike = res.rows[0]
+			return updatedLike
+		} catch (e) {
+			console.log('Error in LikeStore edit', e)
+			throw new Error(`Error in LikeStore edit(${id}): ${e}`)
 		} finally {
 			conn?.release()
 		}

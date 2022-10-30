@@ -1,12 +1,12 @@
 // Post MODEL METHODS:
 // index => RECEIVE_POSTS ✔
 // show
-// create => ADD_POST
+// create => ADD_POST ✔
 // showByUser
 // edit
-// delete
+// delete => DELETE_POST
 
-// addPostImage => ADD_POST_IMAGE (shared)
+// addPostImage => ADD_POST_IMAGE (shared) ✔
 
 import { Dispatch } from 'redux'
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
@@ -15,6 +15,7 @@ import { Post } from '../../../backend/src/models/post'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const ADD_POST_IMAGE = 'ADD_POST_IMAGE'
+export const DELETE_POST = 'DELETE_POST'
 
 export function receivePosts(payload: Post[]) {
 	return {
@@ -36,6 +37,13 @@ export function addPostImage(payload: string, key: number) {
 		type: ADD_POST_IMAGE,
 		payload,
 		key,
+	}
+}
+
+export function deletePost(payload: number) {
+	return {
+		type: DELETE_POST,
+		payload,
 	}
 }
 
@@ -114,6 +122,31 @@ export function handleAddPostImage(
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
 				console.log('error in handleAddPostImage: ', e)
+			})
+	}
+}
+
+export function handleDeletePost(token: string, id: number) {
+	return (dispatch: Dispatch) => {
+		dispatch(showLoading())
+
+		return fetch(`http://localhost:8000/posts/${id}`, {
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		})
+			.then((res) => {
+				if (res.status === 403) {
+					throw new Error('no access to posts - protected route')
+				}
+				return res.json()
+			})
+			.then(() => {
+				dispatch(deletePost(id))
+			})
+			.then(() => dispatch(hideLoading()))
+			.catch((e) => {
+				console.log('error in deletePost: ', e)
 			})
 	}
 }

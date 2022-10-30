@@ -1,17 +1,22 @@
 // Post MODEL METHODS:
 // index => RECEIVE_POSTS ✔
 // show
-// create => ADD_POST
+// create => ADD_POST ✔
 // showByUser
 // edit
-// delete
+// delete => DELETE_POST
 
-// addPostImage => ADD_POST_IMAGE (shared)
+// addPostImage => ADD_POST_IMAGE (shared) ✔
 
 // REDUCER => updates the store
 // is triggered with store.dispatch(action)
 
-import { RECEIVE_POSTS, ADD_POST, ADD_POST_IMAGE } from '../actions/posts'
+import {
+	RECEIVE_POSTS,
+	ADD_POST,
+	ADD_POST_IMAGE,
+	DELETE_POST,
+} from '../actions/posts'
 
 import { Post } from '../../../backend/src/models/post'
 
@@ -55,6 +60,18 @@ export default function posts(state = {}, action: any) {
 				...state,
 				// @ts-ignore
 				[key]: postImage(state[key], action),
+			}
+		}
+
+		case DELETE_POST: {
+			const { payload } = action // id
+
+			const copiedState = { ...state } // copies current state
+			const stateArr: Post[] = Object.values(copiedState)
+			const newState = stateArr.filter((post: Post) => post.post_id !== payload)
+
+			return {
+				...newState,
 			}
 		}
 

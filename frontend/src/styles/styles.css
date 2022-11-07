@@ -2,6 +2,8 @@
 	--light-green: rgb(227, 248, 238);
 	--standard-green: rgb(25, 135, 84);
 	--light-rose: rgb(248, 249, 250);
+	--dark-purple: rgb(76, 11, 90);
+	--headline-font: 'Rock Salt', cursive;
 }
 
 body {
@@ -18,6 +20,8 @@ body {
 	background-color: var(--light-rose);
 }
 
+/* LINKS */
+
 .footer a,
 .login .create-account-link {
 	color: var(--standard-green);
@@ -25,11 +29,15 @@ body {
 	font-weight: bold;
 }
 
+/* LISTS */
+
 .newsfeed ul,
 .user-profile ul,
 .pets ul {
 	list-style: none;
 }
+
+/* USER */
 
 .user-profile-back-button {
 	display: block;
@@ -40,18 +48,52 @@ body {
 	width: 100%;
 }
 
-.card-pet {
-	width: 12rem;
-}
-
 .card-user {
 	width: 18rem;
 }
 
-.card-post {
-	width: 36rem;
-	max-width: 80%;
+/* PETS */
+
+.pets {
+	margin-bottom: 10px;
+	background-color: var(--light-green);
 }
+
+.pets li {
+	display: inline-block;
+}
+
+.card-pet {
+	width: 12rem;
+}
+
+/* POSTS */
+
+.newsfeed h1 {
+	padding: 10px;
+	color: var(--dark-purple);
+	font-weight: 900;
+	font-family: var(--headline-font);
+}
+
+.new-post {
+	background-color: var(--light-green);
+}
+
+.new-post h1 {
+	margin-top: 3px;
+	color: var(--standard-green);
+	font-weight: 900;
+	font-family: var(--headline-font);
+}
+
+.post-container {
+	background-color: var(--light-green);
+	border-radius: 7px;
+	padding: 7px;
+}
+
+/* COMMENTS */
 
 .card-comment {
 	width: 27rem;
@@ -72,16 +114,16 @@ body {
 	text-align: center;
 }
 
+/* PICTURE */
+
 .new-picture {
 	background-color: var(--light-green);
 	width: 260px;
 	max-width: 90%;
 }
 
+/* LOGIN */
+
 .login input {
 	max-width: 50%;
-}
-
-.new-post {
-	background-color: var(--light-green);
 }

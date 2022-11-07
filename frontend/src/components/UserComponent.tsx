@@ -23,7 +23,7 @@ const UserComponent = (props: Props) => {
 	} = user as User
 
 	return (
-		<section className="user m-4">
+		<section className="user m-3">
 			<div className="card card-user">
 				{profile_pic && (
 					<img

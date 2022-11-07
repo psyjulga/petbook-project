@@ -1,5 +1,6 @@
 import React from 'react'
 import { Post } from '../../../backend/src/models/post'
+import '../styles/styles.css'
 import CommentList from './CommentsList'
 import PostComponent from './PostComponent'
 
@@ -11,7 +12,7 @@ const PostContainer = (props: Props) => {
 	const { post } = props
 
 	return (
-		<div className="post-container">
+		<div className="post-container mb-5">
 			{/* POST */}
 			<PostComponent post={post} />
 			{/* COMMENTS */}

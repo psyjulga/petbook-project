@@ -24,7 +24,7 @@ const CommentsList = (props: Props) => {
 	const postHasComments: boolean = postComments.length > 0
 
 	return (
-		<div className="comment-container">
+		<div className="comments-list">
 			{/* list of comments */}
 			{postHasComments && (
 				<ul>

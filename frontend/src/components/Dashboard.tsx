@@ -50,12 +50,12 @@ const Dashboard = (props: Props) => {
 	return (
 		<div className="dashboard m-2">
 			<div className="row">
+				<Pets /> {/* all of the users pets */}
+			</div>
+			<div className="row mt-2">
 				<div className="col-5">
 					<UserComponent /> {/* user card with link to profile */}
-					<br />
-					<Pets /> {/* all of the users pets */}
 					{/* todo NEW PET */}
-					<br />
 					<NewPost scrollCallback={scrollCallback} />{' '}
 					{/* create new post form */}
 				</div>

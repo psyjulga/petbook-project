@@ -62,7 +62,7 @@ const NewPost = (props: Props) => {
 	if (error) throw error
 
 	return (
-		<section className="new-post m-3 border border-2 border-success border-opacity-25 rounded p-3">
+		<section className="new-post mt-5 ms-3 border border-2 border-success border-opacity-25 rounded p-3">
 			<h1>NEW POST</h1>
 			<form onSubmit={handleFormSubmit} className="m-4">
 				{/* POST TITLE */}

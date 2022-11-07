@@ -14,7 +14,8 @@ const Newsfeed = (props: Props) => {
 	const { reversedPosts, newsfeedRef } = props
 
 	return (
-		<section className="newsfeed mt-5 mb-5">
+		<section className="newsfeed">
+			<h1>NEWSFEED</h1>
 			<div className="scroll-to-div" ref={newsfeedRef}></div>
 			<ul>
 				{reversedPosts.map((post: Post) => (

@@ -47,7 +47,7 @@ const PostComponent = (props: Props) => {
 		)
 		if (confirmed) {
 			dispatch(handleDeletePost(token, post_id as number)).then(() => {
-				dispatch(handleReceiveComments(token))
+				dispatch(handleReceiveComments(token)) // to sync redux store with db
 				// and likes !!
 			})
 		}

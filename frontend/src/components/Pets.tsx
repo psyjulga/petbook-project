@@ -16,7 +16,7 @@ const Pets = (props: Props) => {
 		<section className="pets">
 			<ul>
 				{petsArr.map((pet: Pet) => (
-					<li key={pet.pet_id} className="m-2">
+					<li key={pet.pet_id}>
 						<PetComponent pet={pet} />
 					</li>
 				))}

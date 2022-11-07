@@ -40,9 +40,11 @@ const mapStateToProps = (
 	{ comment }: DrilledProps
 ) => {
 	const usersArr: User[] = Object.values(users)
-	const commentAuthorFound = usersArr.find(
-		(u) => u.user_id === Number(comment.user_id)
-	)?.user_name
+
+	const commentAuthorFound =
+		comment.user_id === null
+			? 'deleted user'
+			: usersArr.find((u) => u.user_id === Number(comment.user_id))?.user_name
 
 	const commentAuthor =
 		commentAuthorFound !== undefined ? commentAuthorFound : authedUser.user_name

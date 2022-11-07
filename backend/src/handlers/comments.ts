@@ -59,9 +59,9 @@ const create = async (req: Request, res: Response) => {
 
 const edit = async (req: Request, res: Response) => {
 	const { id } = req.params
-	const { value } = req.body
+	const { field, value } = req.body
 	try {
-		const editedComment = await store.edit(id, value)
+		const editedComment = await store.edit(Number(id), field, value)
 		res.status(200)
 		res.json(editedComment)
 	} catch (e) {

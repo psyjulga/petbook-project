@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
-import PostComponent from './PostComponent'
-import '../styles/styles.css'
 import { StoreObject } from '../util/types'
+import '../styles/styles.css'
+import PostContainer from './PostContainer'
 
 type Props = {
 	reversedPosts: Post[]
@@ -19,7 +19,7 @@ const Newsfeed = (props: Props) => {
 			<ul>
 				{reversedPosts.map((post: Post) => (
 					<li key={post.post_id} className="m-2">
-						<PostComponent post={post} />
+						<PostContainer post={post} />
 					</li>
 				))}
 			</ul>

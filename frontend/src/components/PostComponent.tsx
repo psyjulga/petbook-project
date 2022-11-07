@@ -1,41 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
-import { Comment } from '../../../backend/src/models/comment'
 import { User } from '../../../backend/src/models/user'
 import { AuthedUser, StoreObject } from '../util/types'
 import { displayTimeInFrontend } from '../util/timeFunctions'
 import { handleDeletePost } from '../actions/posts'
+import { handleReceiveComments } from '../actions/comments'
+import '../styles/styles.css'
 import NewPicture from './NewPicture'
-import CommentComponent from './CommentComponent'
-import NewComment from './NewComment'
 import EditButton from './EditButton'
 import DeleteButton from './DeleteButton'
-import '../styles/styles.css'
-import { handleReceiveComments } from '../actions/comments'
 
 type Props = {
 	post: Post
 	postAuthor: string
-	postComments: Comment[]
 	authedUser: AuthedUser
 	dispatch: Function
 }
 
 const PostComponent = (props: Props) => {
-	const { post, postAuthor, postComments, authedUser, dispatch } = props
+	const { post, postAuthor, authedUser, dispatch } = props
 	const { post_id, post_title, date, text, image } = post
 	const { user_name, token } = authedUser
 	// TODO video
 
-	const [add, setAdd] = useState(false)
-
-	useEffect(() => {
-		setAdd(false)
-	}, [postComments])
-
 	const localDate = new Date(date).toString()
-	const postHasComments: boolean = postComments.length > 0
 
 	const authedToLoadPicture: boolean =
 		image === null && user_name === postAuthor
@@ -85,33 +74,8 @@ const PostComponent = (props: Props) => {
 					<p className="card-text">{text}</p>
 					{authedToEditAndDelete && <EditButton edit={editPostText} />}
 				</div>
-
 				{authedToEditAndDelete && <DeleteButton destroy={deletePost} />}
 			</div>
-
-			{/* COMMENTS & LIKES */}
-			{/* list of comments */}
-			{postHasComments && (
-				<ul>
-					{postComments.map((comment: Comment) => (
-						<li key={comment.comment_id}>
-							<CommentComponent comment={comment} />
-						</li>
-					))}
-				</ul>
-			)}
-			{/* add a comment */}
-			{add && <NewComment post_id={post_id} />}
-			{!add && (
-				<div className="new-comment-button-container">
-					<button
-						className="new-comment-button btn btn-success"
-						onClick={() => setAdd(true)}
-					>
-						➕
-					</button>
-				</div>
-			)}
 		</article>
 	)
 }
@@ -121,7 +85,7 @@ type DrilledProps = {
 }
 
 const mapStateToProps = (
-	{ users, authedUser, comments }: StoreObject,
+	{ users, authedUser }: StoreObject,
 	{ post }: DrilledProps
 ) => {
 	const usersArr: User[] = Object.values(users)
@@ -133,15 +97,9 @@ const mapStateToProps = (
 	const postAuthor =
 		postAuthorFound !== undefined ? postAuthorFound : authedUser.user_name
 
-	const commentsArr: Comment[] = Object.values(comments)
-	const postComments: Comment[] = commentsArr.filter(
-		(comment) => comment.post_id === post.post_id?.toString()
-	)
-
 	return {
 		post,
 		postAuthor,
-		postComments,
 		authedUser,
 	}
 }

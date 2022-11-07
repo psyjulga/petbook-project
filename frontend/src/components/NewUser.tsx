@@ -5,12 +5,10 @@ import React, {
 	useEffect,
 	useState,
 } from 'react'
+import { connect } from 'react-redux'
 import { handleAddUser } from '../actions/users'
 import { useNavigate } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
-import { StoreObject } from '../util/types'
-import { returnNewKey } from '../util/returnNewKey'
 
 const initialUserObject: User = {
 	user_name: '',
@@ -23,12 +21,12 @@ const initialUserObject: User = {
 }
 
 type Props = {
-	dispatch: any
-	newKey: number
+	dispatch: Function
 }
 
 const NewUser = (props: Props): ReactElement => {
-	const { dispatch, newKey } = props
+	const { dispatch } = props
+
 	const navigate = useNavigate()
 
 	const [user, setUser] = useState(initialUserObject)
@@ -47,7 +45,7 @@ const NewUser = (props: Props): ReactElement => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		dispatch(handleAddUser(user, newKey))
+		dispatch(handleAddUser(user))
 			.then(() => {
 				navigate('/newsfeed')
 			})
@@ -173,10 +171,6 @@ const NewUser = (props: Props): ReactElement => {
 	)
 }
 
-const mapStateToProps = ({ users }: StoreObject) => {
-	const newKey = returnNewKey(users)
-
-	return { newKey }
-}
+const mapStateToProps = () => {}
 
 export default connect(mapStateToProps)(NewUser)

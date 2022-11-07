@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { Pet } from '../../../backend/src/models/pet'
 import NewPicture from './NewPicture'
 

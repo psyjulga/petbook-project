@@ -7,7 +7,7 @@ import PostContainer from './PostContainer'
 
 type Props = {
 	reversedPosts: Post[]
-	newsfeedRef: any
+	newsfeedRef: any // !!
 }
 
 const Newsfeed = (props: Props) => {

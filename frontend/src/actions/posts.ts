@@ -24,11 +24,10 @@ export function receivePosts(payload: Post[]) {
 	}
 }
 
-export function addPost(payload: Post, key: number) {
+export function addPost(payload: Post) {
 	return {
 		type: ADD_POST,
 		payload,
-		key,
 	}
 }
 
@@ -40,10 +39,10 @@ export function addPostImage(payload: string, key: number) {
 	}
 }
 
-export function deletePost(payload: number) {
+export function deletePost(id: number) {
 	return {
 		type: DELETE_POST,
-		payload,
+		id,
 	}
 }
 
@@ -75,7 +74,7 @@ export function handleReceivePosts(token: string) {
 	}
 }
 
-export function handleAddPost(token: string, post: Post, newKey: number) {
+export function handleAddPost(token: string, post: Post) {
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
 
@@ -91,7 +90,7 @@ export function handleAddPost(token: string, post: Post, newKey: number) {
 				return res.json()
 			})
 			.then((newPost) => {
-				dispatch(addPost(newPost, newKey))
+				dispatch(addPost(newPost))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {

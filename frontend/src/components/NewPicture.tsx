@@ -9,7 +9,7 @@ import { handleAddPostImage } from '../actions/posts'
 import { StoreObject } from '../util/types'
 
 type Props = {
-	dispatch: any
+	dispatch: Function
 	keyOfObject: number
 	id: number | undefined
 	table: 'users' | 'pets' | 'posts'

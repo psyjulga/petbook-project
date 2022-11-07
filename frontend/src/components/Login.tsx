@@ -6,7 +6,7 @@ import { StoreObject } from '../util/types'
 import '../styles/styles.css'
 
 type Props = {
-	dispatch: any
+	dispatch: Function
 }
 
 const Login = (props: Props): ReactElement => {

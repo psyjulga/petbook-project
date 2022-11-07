@@ -5,19 +5,17 @@ import { handleAddPost } from '../actions/posts'
 import { User } from '../../../backend/src/models/user'
 import { Post } from '../../../backend/src/models/post'
 import { StoreObject } from '../util/types'
-import { returnNewKey } from '../util/returnNewKey'
 import '../styles/styles.css'
 
 type Props = {
-	dispatch: any
+	dispatch: Function
 	token: string
-	newKey: number
 	userID?: string
 	scrollCallback: Function
 }
 
 const NewPost = (props: Props) => {
-	const { dispatch, token, newKey, userID, scrollCallback } = props
+	const { dispatch, token, userID, scrollCallback } = props
 
 	const initialPostObject: Post = {
 		date: insertDate(),
@@ -43,7 +41,7 @@ const NewPost = (props: Props) => {
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		dispatch(handleAddPost(token, post, newKey))
+		dispatch(handleAddPost(token, post))
 			.then(() => {
 				setPost(initialPostObject)
 				setDisabled(true)
@@ -115,9 +113,7 @@ const NewPost = (props: Props) => {
 	)
 }
 
-const mapStateToProps = ({ posts, authedUser, users }: StoreObject) => {
-	const newKey = returnNewKey(posts)
-
+const mapStateToProps = ({ authedUser, users }: StoreObject) => {
 	const token = authedUser.token
 
 	const usersArr: User[] = Object.values(users)
@@ -125,7 +121,7 @@ const mapStateToProps = ({ posts, authedUser, users }: StoreObject) => {
 		.find((u) => u.user_name === authedUser.user_name)
 		?.user_id?.toString()
 
-	return { newKey, token, userID }
+	return { token, userID }
 }
 
 export default connect(mapStateToProps)(NewPost)

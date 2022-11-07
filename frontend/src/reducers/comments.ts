@@ -1,26 +1,17 @@
 // Comment MODEL METHODS:
 // index => RECEIVE_COMMENTS ✔
 // show
-// create => ADD_COMMENT
+// create => ADD_COMMENT ✔
 // showByPost
 // edit
 // delete
 
-// REDUCER => updates the store
-// is triggered with store.dispatch(action)
-
+import { Comment } from '../../../backend/src/models/comment'
 import { RECEIVE_COMMENTS, ADD_COMMENT } from '../actions/comments'
 
-import { Comment } from '../../../backend/src/models/comment'
+type CommentAction = { type: string; payload: Comment | Comment[] }
 
-// use UNIONS
-type CommentAction = { type: string; payload: Comment[] } // !!
-
-export default function comments(state = {}, action: any) {
-	// is put into "combined reducer"
-	// and loaded into the store
-	// one single state object:
-	// => {users, pets, posts, ..}
+export default function comments(state = {}, action: CommentAction) {
 	switch (action.type) {
 		case RECEIVE_COMMENTS: {
 			const { payload } = action // Comment[]
@@ -30,11 +21,13 @@ export default function comments(state = {}, action: any) {
 		}
 
 		case ADD_COMMENT: {
-			const { payload, key } = action
+			const { payload } = action // Comment
+			const copiedState = { ...state }
+			const stateArr: Comment[] = Object.values(copiedState)
+			stateArr.push(payload as Comment)
 
 			return {
-				...state,
-				[key]: payload, // comment
+				...stateArr,
 			}
 		}
 

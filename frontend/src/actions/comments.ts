@@ -1,7 +1,7 @@
 // Comment MODEL METHODS:
 // index => RECEIVE_COMMENTS ✔
 // show
-// create => ADD_COMMENT
+// create => ADD_COMMENT ✔
 // showByPost
 // edit
 // delete
@@ -23,11 +23,10 @@ export function receiveComments(payload: Comment[]) {
 	}
 }
 
-export function addComment(payload: Comment, key: number) {
+export function addComment(payload: Comment) {
 	return {
 		type: ADD_COMMENT, // action.type
 		payload, // action.payload
-		key,
 	}
 }
 
@@ -59,14 +58,12 @@ export function handleReceiveComments(token: string) {
 	}
 }
 
-// handleAddComment(token, date, commentText, userID, postID, newCommentKey)
 export function handleAddComment(
 	token: string,
 	date: string,
 	text: string,
 	user_id: string,
-	post_id: string,
-	newKey: number
+	post_id: string
 ) {
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
@@ -90,7 +87,7 @@ export function handleAddComment(
 				return res.json()
 			})
 			.then((newComment) => {
-				dispatch(addComment(newComment, newKey))
+				dispatch(addComment(newComment))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {

@@ -5,7 +5,7 @@
 // authenticate => authedUser.ts ✔
 // addPetToUser
 // removePetFromUser
-// edit => EDIT_USER
+// edit => EDIT_USER ✔
 // delete
 
 // addUserPicture => ADD_USER_PICTURE ✔
@@ -33,7 +33,9 @@ import { User } from '../../../backend/src/models/user'
 // 	}
 // }
 
-function profilePic(state = {}, action: any) {
+type UserAction = { type: string; payload: User | User[]; key: string | number }
+
+function profilePic(state = {}, action: UserAction) {
 	const { payload } = action
 	return {
 		...state,
@@ -41,20 +43,7 @@ function profilePic(state = {}, action: any) {
 	}
 }
 
-// function userQuestion(state = {}, action) {
-// 	const { id } = action
-// 	const { questions } = state
-
-// 	return {
-// 		...state,
-// 		questions: questions.concat(id),
-// 	}
-// }
-
-// use UNIONS
-type UserAction = { type: string; payload: User | User[] | string } // ??? !!! ???
-
-export default function users(state = {}, action: any) {
+export default function users(state = {}, action: UserAction) {
 	// is put into "combined reducer"
 	// and loaded into the store
 	// one single state object:
@@ -63,17 +52,17 @@ export default function users(state = {}, action: any) {
 		case RECEIVE_USERS: {
 			return {
 				...state,
-				...action.payload, // users
+				...action.payload, // User[]
 			}
 		}
 
 		case ADD_USER: {
-			const { payload, key } = action
+			const { payload } = action // User
+			const copiedState = { ...state }
+			const stateArr: User[] = Object.values(copiedState)
+			stateArr.push(payload as User)
 
-			return {
-				...state,
-				[key]: payload, // user
-			}
+			return { ...stateArr }
 		}
 
 		case ADD_USER_PICTURE: {
@@ -94,24 +83,6 @@ export default function users(state = {}, action: any) {
 				[key]: payload, // edited user
 			}
 		}
-
-		// case UPDATE_USERS_ANSWERS: {
-		// 	const { authedUser } = action
-
-		// 	return {
-		// 		...state,
-		// 		[authedUser]: userAnswer(state[authedUser], action),
-		// 	}
-		// }
-
-		// case UPDATE_USERS_QUESTIONS: {
-		// 	const { authedUser } = action
-
-		// 	return {
-		// 		...state,
-		// 		[authedUser]: userQuestion(state[authedUser], action),
-		// 	}
-		// }
 
 		default:
 			return state

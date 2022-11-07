@@ -4,12 +4,9 @@
 // create => ADD_POST ✔
 // showByUser
 // edit
-// delete => DELETE_POST
+// delete => DELETE_POST ✔
 
 // addPostImage => ADD_POST_IMAGE (shared) ✔
-
-// REDUCER => updates the store
-// is triggered with store.dispatch(action)
 
 import {
 	RECEIVE_POSTS,
@@ -20,7 +17,14 @@ import {
 
 import { Post } from '../../../backend/src/models/post'
 
-function postImage(state = {}, action: any) {
+type PostAction = {
+	type: string
+	payload: Post | Post[]
+	key: string | number
+	id: number
+}
+
+function postImage(state = {}, action: PostAction) {
 	const { payload } = action
 	return {
 		...state,
@@ -28,28 +32,23 @@ function postImage(state = {}, action: any) {
 	}
 }
 
-// use UNIONS ??? => ANY !!!
-type PostAction = { type: string; payload: Post | Post[] | string }
-
-export default function posts(state = {}, action: any) {
-	// is put into "combined reducer"
-	// and loaded into the store
-	// one single state object:
-	// => {users, pets, posts, ..}
+export default function posts(state = {}, action: PostAction) {
 	switch (action.type) {
 		case RECEIVE_POSTS: {
 			return {
 				...state,
-				...action.payload, // posts
+				...action.payload, // Post[]
 			}
 		}
 
 		case ADD_POST: {
-			const { payload, key } = action
+			const { payload } = action // Post
+			const copiedState = { ...state }
+			const stateArr: Post[] = Object.values(copiedState)
+			stateArr.push(payload as Post)
 
 			return {
-				...state,
-				[key]: payload, // post
+				...stateArr,
 			}
 		}
 
@@ -64,11 +63,11 @@ export default function posts(state = {}, action: any) {
 		}
 
 		case DELETE_POST: {
-			const { payload } = action // id
+			const { id } = action // id
 
 			const copiedState = { ...state } // copies current state
 			const stateArr: Post[] = Object.values(copiedState)
-			const newState = stateArr.filter((post: Post) => post.post_id !== payload)
+			const newState = stateArr.filter((post: Post) => post.post_id !== id)
 
 			return {
 				...newState,

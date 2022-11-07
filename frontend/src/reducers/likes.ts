@@ -11,8 +11,7 @@ import { RECEIVE_LIKES } from '../actions/likes'
 
 import { Like } from '../../../backend/src/models/like'
 
-// use UNIONS
-type LikeAction = { type: string; likes: Like[] }
+type LikeAction = { type: string; payload: Like | Like[] }
 
 export default function likes(state = {}, action: LikeAction) {
 	// is put into "combined reducer"
@@ -23,7 +22,7 @@ export default function likes(state = {}, action: LikeAction) {
 		case RECEIVE_LIKES: {
 			return {
 				...state,
-				...action.likes,
+				...action.payload,
 			}
 		}
 

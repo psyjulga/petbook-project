@@ -6,7 +6,7 @@ import { StoreObject } from '../util/types'
 
 type Props = {
 	loggedIn: boolean
-	dispatch: any
+	dispatch: Function
 }
 
 const Navbar = (props: Props) => {
@@ -19,8 +19,8 @@ const Navbar = (props: Props) => {
 	return (
 		<nav className="navbar fixed-top navbar-expand-md bg-light">
 			<div className="container-fluid">
-				<a className="navbar-brand" href="#">
-					🐶PETBOOK🐱
+				<a className="navbar-brand petbook" href="#">
+					🐾PETBOOK 💜
 				</a>
 				<button
 					className="navbar-toggler"

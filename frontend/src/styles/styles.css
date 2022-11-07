@@ -1,3 +1,4 @@
+/* MY FAVOURITES */
 :root {
 	--light-green: rgb(227, 248, 238);
 	--standard-green: rgb(25, 135, 84);
@@ -6,54 +7,25 @@
 	--headline-font: 'Rock Salt', cursive;
 }
 
+/* BODY */
 body {
 	min-height: 150vh;
 	background-color: rgb(245, 224, 242);
 }
 
-.footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	text-align: center;
-	padding: 20px;
-	background-color: var(--light-rose);
+/* NAVBAR */
+.navbar .petbook {
+	font-family: var(--headline-font);
+	font-weight: 900;
+	color: var(--dark-purple);
 }
 
-/* LINKS */
-
-.footer a,
-.login .create-account-link {
-	color: var(--standard-green);
-	margin-right: 5px;
-	font-weight: bold;
-}
-
-/* LISTS */
-
-.newsfeed ul,
-.user-profile ul,
-.pets ul {
-	list-style: none;
-}
-
-/* USER */
-
-.user-profile-back-button {
-	display: block;
-	text-align: center;
-}
-
-.user-profile-row button {
-	width: 100%;
-}
-
-.card-user {
-	width: 18rem;
+/* LOGIN */
+.login input {
+	max-width: 50%;
 }
 
 /* PETS */
-
 .pets {
 	margin-bottom: 10px;
 	background-color: var(--light-green);
@@ -67,15 +39,21 @@ body {
 	width: 12rem;
 }
 
-/* POSTS */
-
-.newsfeed h1 {
-	padding: 10px;
-	color: var(--dark-purple);
-	font-weight: 900;
-	font-family: var(--headline-font);
+/* USER */
+.user-profile-back-button {
+	display: block;
+	text-align: center;
 }
 
+.user-profile-row button {
+	width: 100%;
+}
+
+.card-user {
+	width: 18rem;
+}
+
+/* POSTS */
 .new-post {
 	background-color: var(--light-green);
 }
@@ -87,6 +65,13 @@ body {
 	font-family: var(--headline-font);
 }
 
+.newsfeed h1 {
+	padding: 10px;
+	color: var(--dark-purple);
+	font-weight: 900;
+	font-family: var(--headline-font);
+}
+
 .post-container {
 	background-color: var(--light-green);
 	border-radius: 7px;
@@ -94,7 +79,6 @@ body {
 }
 
 /* COMMENTS */
-
 .card-comment {
 	width: 27rem;
 	max-width: 80%;
@@ -114,16 +98,34 @@ body {
 	text-align: center;
 }
 
-/* PICTURE */
+/* LISTS */
+.newsfeed ul,
+.user-profile ul,
+.pets ul {
+	list-style: none;
+}
 
+/* PICTURE */
 .new-picture {
 	background-color: var(--light-green);
 	width: 260px;
 	max-width: 90%;
 }
 
-/* LOGIN */
+/* FOOTER */
+.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	padding: 20px;
+	background-color: var(--light-rose);
+}
 
-.login input {
-	max-width: 50%;
+/* LINKS */
+.footer a,
+.login .create-account-link {
+	color: var(--standard-green);
+	margin-right: 5px;
+	font-weight: bold;
 }

@@ -1,15 +1,15 @@
 import React, { ChangeEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
+import { AuthedUser, StoreObject } from '../util/types'
 import { handleEditUser } from '../actions/users'
 import NewPicture from './NewPicture'
 import '../styles/styles.css'
-import { AuthedUser, StoreObject } from '../util/types'
 
 type Entry = string | number | null
 
 type Props = {
-	dispatch: any
+	dispatch: Function
 	authedUser: AuthedUser
 	entry: Entry[]
 	user: User

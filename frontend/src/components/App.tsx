@@ -17,7 +17,7 @@ import { StoreObject } from '../util/types'
 
 type Props = {
 	loading: boolean
-	dispatch: any
+	dispatch: Function
 }
 
 const App = (props: Props): ReactElement => {

@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { User } from '../../../backend/src/models/user'
+import { StoreObject } from '../util/types'
 import UserProfileRow from './UserProfileRow'
 import '../styles/styles.css'
-import { StoreObject } from '../util/types'
 
 type Props = {
 	user?: User

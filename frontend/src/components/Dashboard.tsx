@@ -9,14 +9,18 @@ import { handleReceiveComments } from '../actions/comments'
 import { handleReceiveUsers } from '../actions/users'
 import { handleReceivePets } from '../actions/pets'
 import { AuthedUser, StoreObject } from '../util/types'
+import { Post } from '../../../backend/src/models/post'
+import { Comment } from '../../../backend/src/models/comment'
 
 type Props = {
-	dispatch: any // !!!!
+	dispatch: Function
 	authedUser: AuthedUser
+	postsArr: Post[]
+	commentsArr: Comment[]
 }
 
 const Dashboard = (props: Props) => {
-	const { dispatch, authedUser } = props
+	const { dispatch, authedUser, postsArr, commentsArr } = props
 	const { token } = authedUser
 
 	// scrolling to:
@@ -34,16 +38,22 @@ const Dashboard = (props: Props) => {
 		dispatch(handleReceiveUsers())
 			.then(() => console.log('1: users loaded'))
 			.catch((e: Error) => setError(e))
-		dispatch(handleReceivePosts(token))
-			.then(() => console.log('2: posts loaded'))
-			.catch((e: Error) => setError(e))
-		dispatch(handleReceiveComments(token))
-			.then(() => console.log('3: comments loaded'))
-			.catch((e: Error) => setError(e))
 		dispatch(handleReceivePets(token))
 			.then(() => console.log('4: pets loaded'))
 			.catch((e: Error) => setError(e))
 	}, [])
+
+	useEffect(() => {
+		dispatch(handleReceivePosts(token))
+			.then(() => console.log('2: POSTS loaded'))
+			.catch((e: Error) => setError(e))
+	}, [postsArr.length])
+
+	useEffect(() => {
+		dispatch(handleReceiveComments(token))
+			.then(() => console.log('3: COMMENTS loaded'))
+			.catch((e: Error) => setError(e))
+	}, [commentsArr.length])
 
 	if (error) throw error
 
@@ -68,8 +78,15 @@ const Dashboard = (props: Props) => {
 	)
 }
 
-const mapStateToProps = ({ authedUser }: StoreObject) => ({
-	authedUser,
-})
+const mapStateToProps = ({ authedUser, posts, comments }: StoreObject) => {
+	const postsArr: Post[] = Object.values(posts)
+	const commentsArr: Comment[] = Object.values(comments)
+
+	return {
+		authedUser,
+		postsArr,
+		commentsArr,
+	}
+}
 
 export default connect(mapStateToProps)(Dashboard)

@@ -4,19 +4,17 @@ import { insertDate } from '../util/timeFunctions'
 import { handleAddComment } from '../actions/comments'
 import { User } from '../../../backend/src/models/user'
 import { StoreObject } from '../util/types'
-import { returnNewKey } from '../util/returnNewKey'
 import '../styles/styles.css'
 
 type Props = {
-	dispatch: any
+	dispatch: Function
 	token: string
-	newCommentKey: number
 	userID?: string
 	postID?: string
 }
 
 const NewComment = (props: Props) => {
-	const { dispatch, token, newCommentKey, userID, postID } = props
+	const { dispatch, token, userID, postID } = props
 
 	const [commentText, setCommentText] = useState('')
 	const [disabled, setDisabled] = useState(true)
@@ -43,8 +41,7 @@ const NewComment = (props: Props) => {
 				date,
 				commentText,
 				userID as string,
-				postID as string,
-				newCommentKey
+				postID as string
 			)
 		)
 			.then(() => {
@@ -94,11 +91,9 @@ type DrilledProps = {
 }
 
 const mapStateToProps = (
-	{ comments, authedUser, users }: StoreObject,
+	{ authedUser, users }: StoreObject,
 	{ post_id }: DrilledProps
 ) => {
-	const newCommentKey = returnNewKey(comments)
-
 	const token = authedUser.token
 
 	const usersArr: User[] = Object.values(users)
@@ -108,7 +103,7 @@ const mapStateToProps = (
 
 	const postID = post_id?.toString()
 
-	return { newCommentKey, token, userID, postID }
+	return { token, userID, postID }
 }
 
 export default connect(mapStateToProps)(NewComment)

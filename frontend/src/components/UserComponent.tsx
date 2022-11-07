@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import NewPicture from './NewPicture'
 import { User } from '../../../backend/src/models/user'
-import '../styles/styles.css'
 import { StoreObject } from '../util/types'
+import NewPicture from './NewPicture'
+import '../styles/styles.css'
 
 type Props = {
 	user?: User
@@ -36,9 +36,6 @@ const UserComponent = (props: Props) => {
 				<div className="card-body">
 					<h5 className="card-title">{`${first_name} ${last_name} (${user_name})`}</h5>
 					<p className="card-text">{about_paragraph}</p>
-					<Link className="btn btn-success" to={'/user_profile'}>
-						My Profile
-					</Link>
 				</div>
 			</div>
 		</section>

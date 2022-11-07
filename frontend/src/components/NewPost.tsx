@@ -114,9 +114,10 @@ const NewPost = (props: Props) => {
 }
 
 const mapStateToProps = ({ authedUser, users }: StoreObject) => {
-	const token = authedUser.token
+	const { token } = authedUser
 
 	const usersArr: User[] = Object.values(users)
+
 	const userID = usersArr
 		.find((u) => u.user_name === authedUser.user_name)
 		?.user_id?.toString()

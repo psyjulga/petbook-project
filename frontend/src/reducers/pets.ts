@@ -4,13 +4,13 @@
 // create
 // showByUser
 // showByProp
-// edit
+// edit => EDIT_PET
 // delete
 
-import { RECEIVE_PETS } from '../actions/pets'
+import { EDIT_PET, RECEIVE_PETS } from '../actions/pets'
 import { Pet } from '../../../backend/src/models/pet'
 
-type PetAction = { type: string; payload: Pet | Pet[] }
+type PetAction = { type: string; payload: Pet | Pet[]; key: string }
 
 export default function pets(state = {}, action: PetAction) {
 	switch (action.type) {
@@ -18,6 +18,15 @@ export default function pets(state = {}, action: PetAction) {
 			return {
 				...state,
 				...action.payload,
+			}
+		}
+
+		case EDIT_PET: {
+			const { payload, key } = action
+
+			return {
+				...state,
+				[key]: payload, // edited pet
 			}
 		}
 

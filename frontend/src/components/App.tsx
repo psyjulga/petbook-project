@@ -8,7 +8,7 @@ import Login from './Login'
 import Dashboard from './Dashboard'
 import Footer from './Footer'
 import NewUser from './NewUser'
-import UserProfile from './UserProfile'
+
 import { handleReceiveUsers } from '../actions/users'
 import { StoreObject } from '../util/types'
 
@@ -46,7 +46,6 @@ const App = (props: Props): ReactElement => {
 						<Route path="/" element={<Login />} />
 						<Route path="/newsfeed" element={<Dashboard />} />
 						<Route path="/new_user" element={<NewUser />} />
-						<Route path="/user_profile" element={<UserProfile />} />
 					</Routes>
 				</main>
 				<br />

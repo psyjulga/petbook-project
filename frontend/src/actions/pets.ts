@@ -1,10 +1,10 @@
 // PET MODEL METHODS:
-// index => RECEIVE_PETS
+// index => RECEIVE_PETS ✔
 // show
 // create
 // showByUser
 // showByProp
-// edit
+// edit => EDIT_PET
 // delete
 
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
@@ -12,11 +12,20 @@ import { Dispatch } from 'redux'
 import { Pet } from '../../../backend/src/models/pet'
 
 export const RECEIVE_PETS = 'RECEIVE_PETS'
+export const EDIT_PET = 'EDIT_PET'
 
 export function receivePets(payload: Pet[]) {
 	return {
 		type: RECEIVE_PETS, // action.type
 		payload, // action.payload
+	}
+}
+
+export function editPet(payload: Pet, key: string) {
+	return {
+		type: EDIT_PET,
+		payload,
+		key,
 	}
 }
 
@@ -44,6 +53,39 @@ export function handleReceivePets(token: string) {
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
 				console.log('error in handleReceivePets: ', e)
+			})
+	}
+}
+
+export function handleEditPet(
+	id: number,
+	field: string,
+	value: string,
+	token: string,
+	key: string
+) {
+	const data = { field, value }
+
+	return (dispatch: Dispatch) => {
+		dispatch(showLoading())
+
+		return fetch(`http://localhost:8000/pets/${id}`, {
+			method: 'PUT',
+			headers: {
+				authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		})
+			.then((res) => {
+				return res.json()
+			})
+			.then((editedPet) => {
+				dispatch(editPet(editedPet, key))
+			})
+			.then(() => dispatch(hideLoading()))
+			.catch((e) => {
+				console.log('error in handleEditPet: ', e)
 			})
 	}
 }

@@ -11,16 +11,21 @@ import { handleReceivePets } from '../actions/pets'
 import { AuthedUser, StoreObject } from '../util/types'
 import { Post } from '../../../backend/src/models/post'
 import { Comment } from '../../../backend/src/models/comment'
+import { Pet } from '../../../backend/src/models/pet'
+import { User } from '../../../backend/src/models/user'
 
 type Props = {
 	dispatch: Function
 	authedUser: AuthedUser
 	postsArr: Post[]
 	commentsArr: Comment[]
+	usersArr: User[]
+	petsArr: Pet[]
 }
 
 const Dashboard = (props: Props) => {
-	const { dispatch, authedUser, postsArr, commentsArr } = props
+	const { dispatch, authedUser, postsArr, commentsArr, usersArr, petsArr } =
+		props
 	const { token } = authedUser
 
 	// scrolling to:
@@ -36,12 +41,15 @@ const Dashboard = (props: Props) => {
 
 	useEffect(() => {
 		dispatch(handleReceiveUsers())
-			.then(() => console.log('1: users loaded'))
+			.then(() => console.log('1: USERS loaded'))
 			.catch((e: Error) => setError(e))
+	}, [usersArr.length])
+
+	useEffect(() => {
 		dispatch(handleReceivePets(token))
-			.then(() => console.log('4: pets loaded'))
+			.then(() => console.log('4: PETS loaded'))
 			.catch((e: Error) => setError(e))
-	}, [])
+	}, [petsArr.length])
 
 	useEffect(() => {
 		dispatch(handleReceivePosts(token))
@@ -78,14 +86,24 @@ const Dashboard = (props: Props) => {
 	)
 }
 
-const mapStateToProps = ({ authedUser, posts, comments }: StoreObject) => {
+const mapStateToProps = ({
+	authedUser,
+	posts,
+	comments,
+	users,
+	pets,
+}: StoreObject) => {
 	const postsArr: Post[] = Object.values(posts)
 	const commentsArr: Comment[] = Object.values(comments)
+	const usersArr: User[] = Object.values(users)
+	const petsArr: Pet[] = Object.values(pets)
 
 	return {
 		authedUser,
 		postsArr,
 		commentsArr,
+		usersArr,
+		petsArr,
 	}
 }
 

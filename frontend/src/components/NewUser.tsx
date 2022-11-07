@@ -171,6 +171,8 @@ const NewUser = (props: Props): ReactElement => {
 	)
 }
 
-const mapStateToProps = () => {}
+const mapStateToProps = () => {
+	return {}
+}
 
 export default connect(mapStateToProps)(NewUser)

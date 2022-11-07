@@ -39,6 +39,12 @@ body {
 	width: 12rem;
 }
 
+.pet .pet-name {
+	font-family: var(--headline-font);
+	font-weight: 500;
+	color: var(--standard-green);
+}
+
 /* USER */
 .user-profile-back-button {
 	display: block;

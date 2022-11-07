@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
 import { AuthedUser, StoreObject } from '../util/types'
 import { handleEditUser } from '../actions/users'
+import { handleEditPet } from '../actions/pets'
 import NewPicture from './NewPicture'
 import '../styles/styles.css'
+import { Pet } from '../../../backend/src/models/pet'
 
 type Entry = string | number | null
 
@@ -12,14 +14,23 @@ type Props = {
 	dispatch: Function
 	authedUser: AuthedUser
 	entry: Entry[]
-	user: User
-	keyOfUserObject: number
+	table: 'users' | 'pets'
+	object: User | Pet
+	usersArr: User[]
+	petsArr: Pet[]
 }
 
-const UserProfileRow = (props: Props) => {
-	const { dispatch, authedUser, entry, user, keyOfUserObject } = props // entry and user from parent component
-	const { user_id } = user
-	const { token } = authedUser
+const ProfileRow = (props: Props) => {
+	const { dispatch, authedUser, entry, table, object, usersArr, petsArr } =
+		props
+	// entry, table, object from parent component
+	const { token, user_name } = authedUser
+
+	const id = Object.values(object)[0]
+	const keyOfObject =
+		table === 'users'
+			? usersArr.findIndex((u) => u.user_name === user_name)
+			: petsArr.findIndex((p) => p.pet_id === id)
 
 	const [edit, setEdit] = useState(false)
 	const [inputValue, setInputValue] = useState(' ')
@@ -28,19 +39,34 @@ const UserProfileRow = (props: Props) => {
 
 	const isProfilePic = entry[0] === 'profile_pic'
 
-	const saveEditedUser = () => {
+	const saveEditedObject = () => {
 		if (!isProfilePic) {
-			dispatch(
-				handleEditUser(
-					user_id as number,
-					entry[0] as string,
-					inputValue,
-					token,
-					keyOfUserObject.toString()
+			if (table === 'users') {
+				dispatch(
+					handleEditUser(
+						id as number,
+						entry[0] as string,
+						inputValue,
+						token,
+						keyOfObject.toString()
+					)
 				)
-			)
-				.then(setInputValue(' '))
-				.catch((e: Error) => setError(e))
+					.then(setInputValue(' '))
+					.catch((e: Error) => setError(e))
+			}
+			if (table === 'pets') {
+				dispatch(
+					handleEditPet(
+						id as number,
+						entry[0] as string,
+						inputValue,
+						token,
+						keyOfObject.toString()
+					)
+				)
+					.then(setInputValue(' '))
+					.catch((e: Error) => setError(e))
+			}
 		}
 
 		setEdit(!edit)
@@ -62,7 +88,7 @@ const UserProfileRow = (props: Props) => {
 	if (error) throw error
 
 	return (
-		<div className="user-profile-row row">
+		<div className="profile-row row">
 			{/* col1 => the field's name (e.g. first name) */}
 			<div className="col-3">{transformWord(entry[0] as string)}</div>
 
@@ -84,7 +110,7 @@ const UserProfileRow = (props: Props) => {
 				<div className="col">
 					{' '}
 					{isProfilePic ? (
-						<NewPicture id={user_id} table={'users'} />
+						<NewPicture id={id as number} table={table} />
 					) : (
 						<input
 							type="text"
@@ -99,7 +125,7 @@ const UserProfileRow = (props: Props) => {
 					{/* col3 => SAVE BUTTON */}
 					<button
 						disabled={isProfilePic ? false : disabled}
-						onClick={saveEditedUser}
+						onClick={saveEditedObject}
 						className={
 							edit && !disabled ? 'btn btn-warning' : 'btn btn-success'
 						}
@@ -112,13 +138,14 @@ const UserProfileRow = (props: Props) => {
 	)
 }
 
-const mapStateToProps = ({ authedUser, users }: StoreObject) => {
+const mapStateToProps = ({ authedUser, users, pets }: StoreObject) => {
 	const usersArr: User[] = Object.values(users)
-
-	const keyOfUserObject: number = usersArr.findIndex(
-		(u) => u.user_name === authedUser.user_name
-	)
-	return { authedUser, keyOfUserObject }
+	const petsArr: Pet[] = Object.values(pets)
+	return {
+		authedUser,
+		usersArr,
+		petsArr,
+	}
 }
 
-export default connect(mapStateToProps)(UserProfileRow)
+export default connect(mapStateToProps)(ProfileRow)

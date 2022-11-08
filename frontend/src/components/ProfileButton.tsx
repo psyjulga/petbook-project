@@ -9,7 +9,10 @@ const ProfileButton = (props: Props) => {
 	const { text, handleClick } = props
 
 	return (
-		<button onClick={handleClick} className="profile-button btn btn-success">
+		<button
+			onClick={handleClick}
+			className="profile-back-button btn btn-success"
+		>
 			{text}
 		</button>
 	)

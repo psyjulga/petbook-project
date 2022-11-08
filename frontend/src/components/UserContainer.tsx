@@ -29,10 +29,12 @@ const UserContainer = (props: Props) => {
 			) : (
 				<UserComponent />
 			)}
-			<ProfileButton
-				text={`${user_name}'s Profile`}
-				handleClick={() => setShowProfile(true)}
-			/>
+			{!showProfile && (
+				<ProfileButton
+					text={`${user_name}'s Profile`}
+					handleClick={() => setShowProfile(true)}
+				/>
+			)}
 		</div>
 	)
 }

@@ -19,8 +19,8 @@ const Profile = (props: Props) => {
 	const entriesWithoutId = entries.slice(1, 9)
 
 	return (
-		<div className="profile mb-5">
-			<div className="m-5 border border-3 border-success border-opacity-25 rounded">
+		<div className="profile">
+			<div className="border border-3 border-success border-opacity-25 rounded">
 				{
 					<ul className="mt-4 me-4">
 						{entriesWithoutId.map((entry) => (

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Pet } from '../../../backend/src/models/pet'
 import { StoreObject } from '../util/types'
-import PetComponent from './PetComponent'
+import PetContainer from './PetContainer'
 import '../styles/styles.css'
 
 type Props = {
@@ -16,8 +16,8 @@ const Pets = (props: Props) => {
 		<section className="pets">
 			<ul>
 				{petsArr.map((pet: Pet) => (
-					<li key={pet.pet_id}>
-						<PetComponent pet={pet} />
+					<li className="pet-list-item" key={pet.pet_id}>
+						<PetContainer pet={pet} />
 					</li>
 				))}
 			</ul>

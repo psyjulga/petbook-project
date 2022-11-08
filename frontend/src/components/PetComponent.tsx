@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Pet } from '../../../backend/src/models/pet'
 import NewPicture from './NewPicture'
 import '../styles/styles.css'
+import ProfileButton from './ProfileButton'
 
 type Props = {
 	pet: Pet
@@ -34,11 +35,6 @@ const PetComponent = (props: Props) => {
 					<h5 className="card-title pet-name">{`${pet_name} 💚`}</h5>
 					<h6>{`${age}-year-old ${type}`}</h6>
 					<p className="card-text">{about}</p>
-
-					{/* to pet profile */}
-					<Link className="btn btn-success" to={'/user_profile'}>
-						{`${pet_name}'s Profile`}
-					</Link>
 				</div>
 			</div>
 		</section>

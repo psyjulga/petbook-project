@@ -96,7 +96,7 @@ const ProfileRow = (props: Props) => {
 			{/* col2 => the field's current value (to be edited) */}
 			{!edit && <div className="col">{entry[1]}</div>}
 			{!edit && (
-				<div className="col-2">
+				<div className="col-3">
 					{/* col3 => EDIT BUTTON */}
 					<button onClick={() => setEdit(true)} className="btn btn-success">
 						Edit
@@ -121,7 +121,7 @@ const ProfileRow = (props: Props) => {
 				</div>
 			)}
 			{edit && (
-				<div className="col-2">
+				<div className="col-3">
 					{/* col3 => SAVE BUTTON */}
 					<button
 						disabled={isProfilePic ? false : disabled}

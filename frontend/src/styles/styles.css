@@ -5,6 +5,7 @@
 	--light-rose: rgb(248, 249, 250);
 	--dark-purple: rgb(76, 11, 90);
 	--headline-font: 'Rock Salt', cursive;
+	--neutral-bg: rgb(248, 249, 250);
 }
 
 /* BODY */
@@ -31,7 +32,7 @@ body {
 	background-color: var(--light-green);
 }
 
-.pets li {
+.pets .pet-list-item {
 	display: inline-block;
 }
 
@@ -46,15 +47,6 @@ body {
 }
 
 /* USER */
-.user-profile-back-button {
-	display: block;
-	text-align: center;
-}
-
-.user-profile-row button {
-	width: 100%;
-}
-
 .card-user {
 	width: 18rem;
 }
@@ -106,9 +98,25 @@ body {
 
 /* LISTS */
 .newsfeed ul,
-.user-profile ul,
+.profile ul,
 .pets ul {
 	list-style: none;
+}
+
+/* PROFILE */
+.profile {
+	display: block !important;
+	background-color: var(--neutral-bg);
+	width: 100%;
+}
+
+.profile-back-button {
+	display: block;
+	text-align: center;
+}
+
+.profile-row button {
+	width: 100%;
 }
 
 /* PICTURE */

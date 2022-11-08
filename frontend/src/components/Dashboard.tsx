@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import Newsfeed from './Newsfeed'
-import UserComponent from './UserComponent'
+import UserContainer from './UserContainer'
 import NewPost from './NewPost'
 import Pets from './Pets'
 import { handleReceivePosts } from '../actions/posts'
@@ -72,7 +72,7 @@ const Dashboard = (props: Props) => {
 			</div>
 			<div className="row mt-2">
 				<div className="col-5">
-					<UserComponent /> {/* user card with link to profile */}
+					<UserContainer /> {/* user card with link to profile */}
 					{/* todo NEW PET */}
 					<NewPost scrollCallback={scrollCallback} />{' '}
 					{/* create new post form */}

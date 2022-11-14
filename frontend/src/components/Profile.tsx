@@ -31,7 +31,13 @@ const Profile = (props: Props) => {
 					</ul>
 				}
 			</div>
-			<ProfileButton text="Save everything !" handleClick={handleClick} />
+			<div className="button-container text-center mt-2">
+				<ProfileButton
+					text="Go back / display changes"
+					handleClick={handleClick}
+					buttonStyle="btn-success"
+				/>
+			</div>
 		</div>
 	)
 }

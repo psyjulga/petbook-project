@@ -33,7 +33,7 @@ const create = async (req: Request, res: Response) => {
 }
 
 const shared_routes = (app: Application) => {
-	app.post('/shared/:id', create)
+	app.post('/shared/:id', create) // same logic as edit ??
 	// app.put('/shared/:id', edit)
 	// app.delete('/shared/:id', destroy)
 }

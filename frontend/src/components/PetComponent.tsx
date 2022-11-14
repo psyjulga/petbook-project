@@ -22,7 +22,7 @@ const PetComponent = (props: Props) => {
 	const age = yearCurrent - yearBirth
 
 	return (
-		<section className="pet me-3 mb-3">
+		<section className="pet m-2">
 			<div className="card card-pet">
 				<img
 					src={window.location.origin + `/images/${pic}`}

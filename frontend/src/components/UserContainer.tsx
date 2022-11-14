@@ -5,6 +5,7 @@ import { AuthedUser, StoreObject } from '../util/types'
 import Profile from './Profile'
 import ProfileButton from './ProfileButton'
 import UserComponent from './UserComponent'
+import '../styles/styles.css'
 
 type Props = {
 	usersArr: User[]
@@ -30,10 +31,13 @@ const UserContainer = (props: Props) => {
 				<UserComponent />
 			)}
 			{!showProfile && (
-				<ProfileButton
-					text={`${user_name}'s Profile`}
-					handleClick={() => setShowProfile(true)}
-				/>
+				<div className="button-container text-center mt-2">
+					<ProfileButton
+						text={`${user_name}'s Profile`}
+						handleClick={() => setShowProfile(true)}
+						buttonStyle="user-button"
+					/>
+				</div>
 			)}
 		</div>
 	)

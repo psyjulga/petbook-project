@@ -4,8 +4,10 @@
 // create
 // showByUser
 // showByProp
-// edit => EDIT_PET
+// edit => EDIT_PET ✔
 // delete
+
+// addPictureToPet => ADD_PET_PICTURE
 
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
 import { Dispatch } from 'redux'
@@ -13,6 +15,7 @@ import { Pet } from '../../../backend/src/models/pet'
 
 export const RECEIVE_PETS = 'RECEIVE_PETS'
 export const EDIT_PET = 'EDIT_PET'
+export const ADD_PET_PICTURE = 'ADD_PET_PICTURE'
 
 export function receivePets(payload: Pet[]) {
 	return {
@@ -24,6 +27,13 @@ export function receivePets(payload: Pet[]) {
 export function editPet(payload: Pet, key: string) {
 	return {
 		type: EDIT_PET,
+		payload,
+		key,
+	}
+}
+export function addPetPicture(payload: string, key: number) {
+	return {
+		type: ADD_PET_PICTURE,
 		payload,
 		key,
 	}
@@ -86,6 +96,32 @@ export function handleEditPet(
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
 				console.log('error in handleEditPet: ', e)
+			})
+	}
+}
+
+export function handleAddPetPicture(
+	id: string,
+	formData: FormData,
+	key: number
+) {
+	return (dispatch: Dispatch) => {
+		dispatch(showLoading())
+
+		return fetch(`http://localhost:8000/shared/${id}`, {
+			method: 'POST',
+			body: formData,
+		})
+			.then((res) => {
+				return res.json()
+			})
+			.then((petWithPicture) => {
+				const picture = petWithPicture.profile_pic
+				dispatch(addPetPicture(picture, key))
+			})
+			.then(() => dispatch(hideLoading()))
+			.catch((e) => {
+				console.log('error in handleAddPetPicture: ', e)
 			})
 	}
 }

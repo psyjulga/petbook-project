@@ -1,12 +1,13 @@
 import React, { ChangeEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { User } from '../../../backend/src/models/user'
+import { Pet } from '../../../backend/src/models/pet'
 import { AuthedUser, StoreObject } from '../util/types'
 import { handleEditUser } from '../actions/users'
 import { handleEditPet } from '../actions/pets'
 import NewPicture from './NewPicture'
+import MyEditButton from './MyEditButton'
 import '../styles/styles.css'
-import { Pet } from '../../../backend/src/models/pet'
 
 type Entry = string | number | null
 
@@ -37,7 +38,19 @@ const ProfileRow = (props: Props) => {
 	const [disabled, setDisabled] = useState(true)
 	const [error, setError] = useState<Error | null>(null)
 
+	// 2002-05-21T22:00:00.000Z
 	const isProfilePic = entry[0] === 'profile_pic'
+	const isBirthday = entry[0] === 'birthday'
+
+	const checkIfBirthday = (entry: Entry) => {
+		if (isBirthday) {
+			const birthdayString = entry as string
+			const birthdayFormatted = birthdayString.split('T')[0]
+			return birthdayFormatted
+		}
+		return entry
+	}
+	// !! when user puts in new birthday !! format
 
 	const saveEditedObject = () => {
 		if (!isProfilePic) {
@@ -87,32 +100,40 @@ const ProfileRow = (props: Props) => {
 
 	if (error) throw error
 
+	// ------- col-4 --- col-6 -- col-2
+	// view 1: NAME --- 'Julian' <edit-button/>
+	// ------- entry[0] entry[1]
+
+	// view 2: NAME --- <input/> <save-button/>
+
 	return (
 		<div className="profile-row row">
 			{/* col1 => the field's name (e.g. first name) */}
-			<div className="col-3">{transformWord(entry[0] as string)}</div>
+			<div className="profile-field-name col-4">
+				{transformWord(entry[0] as string)}
+			</div>
 
 			{/* VIEW 1 => edit === false */}
 			{/* col2 => the field's current value (to be edited) */}
-			{!edit && <div className="col">{entry[1]}</div>}
+			{!edit && <div className="col-6">{checkIfBirthday(entry[1])}</div>}
+
+			{/* col3 => EDIT BUTTON */}
 			{!edit && (
-				<div className="col-3">
-					{/* col3 => EDIT BUTTON */}
-					<button onClick={() => setEdit(true)} className="btn btn-success">
-						Edit
-					</button>
+				<div className="col-2 text-center">
+					<MyEditButton onEdit={() => setEdit(true)} symbol="🖍" />
 				</div>
 			)}
 
 			{/* VIEW 2 => edit === true */}
 			{/* col2 => input for new value */}
 			{edit && (
-				<div className="col">
+				<div className="col-6">
 					{' '}
 					{isProfilePic ? (
 						<NewPicture id={id as number} table={table} />
 					) : (
 						<input
+							size={15}
 							type="text"
 							placeholder="Enter new value"
 							onChange={onInputChange}
@@ -120,18 +141,16 @@ const ProfileRow = (props: Props) => {
 					)}
 				</div>
 			)}
+
+			{/* col3 => SAVE BUTTON */}
 			{edit && (
-				<div className="col-3">
-					{/* col3 => SAVE BUTTON */}
-					<button
+				<div className="col-2 text-center">
+					<MyEditButton
+						onEdit={saveEditedObject}
+						symbol="💾"
+						myClass={isProfilePic || !disabled ? 'my-edit-button-save' : null}
 						disabled={isProfilePic ? false : disabled}
-						onClick={saveEditedObject}
-						className={
-							edit && !disabled ? 'btn btn-warning' : 'btn btn-success'
-						}
-					>
-						Save
-					</button>
+					/>
 				</div>
 			)}
 		</div>

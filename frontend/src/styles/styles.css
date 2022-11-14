@@ -10,7 +10,8 @@
 
 /* BODY */
 body {
-	min-height: 150vh;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	background-color: rgb(245, 224, 242);
 }
 
@@ -28,8 +29,9 @@ body {
 
 /* PETS */
 .pets {
-	margin-bottom: 10px;
 	background-color: var(--light-green);
+	border-radius: 7px;
+	padding: 10px 0;
 }
 
 .pets .pet-list-item {
@@ -47,8 +49,14 @@ body {
 }
 
 /* USER */
+.user-container {
+	padding: 12px;
+	border-radius: 7px;
+	background-color: var(--neutral-bg);
+}
+
 .card-user {
-	width: 18rem;
+	width: 100%;
 }
 
 /* POSTS */
@@ -64,6 +72,7 @@ body {
 }
 
 .newsfeed h1 {
+	margin-top: 5px;
 	padding: 10px;
 	color: var(--dark-purple);
 	font-weight: 900;
@@ -87,15 +96,6 @@ body {
 	max-width: 80%;
 }
 
-/* .new-comment-button-container {
-	display: grid;
-} */
-
-.new-comment-button {
-	display: block;
-	text-align: center;
-}
-
 /* LISTS */
 .newsfeed ul,
 .profile ul,
@@ -105,18 +105,45 @@ body {
 
 /* PROFILE */
 .profile {
-	display: block !important;
 	background-color: var(--neutral-bg);
 	width: 100%;
 }
 
-.profile-back-button {
-	display: block;
-	text-align: center;
+.profile-field-name {
+	font-weight: bold;
 }
 
-.profile-row button {
-	width: 100%;
+/* BUTTONS */
+.profile-back-button {
+	width: 90%;
+}
+
+.user-button {
+	color: var(--light-rose);
+	background-color: var(--dark-purple);
+}
+
+.user-button:hover {
+	color: var(--dark-purple);
+	background-color: var(--light-rose);
+}
+
+.my-edit-button {
+	padding: 4px;
+	border-radius: 50%;
+	border: 1px solid var(--standard-green);
+	background-color: var(--standard-green);
+}
+
+.my-edit-button-save {
+	padding: 5px;
+	border-radius: 50%;
+	border: 1px solid black;
+	background-color: yellow;
+}
+
+.my-edit-button:hover {
+	background-color: var(--light-green);
 }
 
 /* PICTURE */

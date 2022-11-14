@@ -38,12 +38,12 @@ const CommentsList = (props: Props) => {
 			{/* add a new comment */}
 			{add && <NewComment post_id={post_id} />}
 			{!add && (
-				<div className="new-comment-button-container">
+				<div className="new-comment-button-container text-center">
 					<button
 						className="new-comment-button btn btn-success"
 						onClick={() => setAdd(true)}
 					>
-						➕
+						➕ add a comment
 					</button>
 				</div>
 			)}

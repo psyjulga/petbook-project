@@ -66,7 +66,7 @@ const Dashboard = (props: Props) => {
 	if (error) throw error
 
 	return (
-		<div className="dashboard m-2">
+		<div className="dashboard container-fluid m-2">
 			<div className="row">
 				<Pets /> {/* all of the users pets */}
 			</div>
@@ -77,6 +77,7 @@ const Dashboard = (props: Props) => {
 					<NewPost scrollCallback={scrollCallback} />{' '}
 					{/* create new post form */}
 				</div>
+
 				<div className="col-7">
 					<Newsfeed newsfeedRef={newsfeedRef} />{' '}
 					{/* posts with comments and likes */}

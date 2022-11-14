@@ -6,10 +6,10 @@ import { AuthedUser, StoreObject } from '../util/types'
 import { displayTimeInFrontend } from '../util/timeFunctions'
 import { handleDeletePost, handleReceivePosts } from '../actions/posts'
 import { handleReceiveComments } from '../actions/comments'
-import '../styles/styles.css'
 import NewPicture from './NewPicture'
-import EditButton from './EditButton'
 import DeleteButton from './DeleteButton'
+import MyEditButton from './MyEditButton'
+import '../styles/styles.css'
 
 type Props = {
 	post: Post
@@ -66,13 +66,26 @@ const PostComponent = (props: Props) => {
 				{authedToLoadPicture && <NewPicture id={post_id} table={'posts'} />}
 
 				<div className="card-body">
-					<h5 className="card-title">{post_title}</h5>
-					{authedToEditAndDelete && <EditButton edit={editPostTitle} />}
+					<h5 className="card-title">
+						{post_title}
+						<span>
+							{authedToEditAndDelete && (
+								<MyEditButton onEdit={editPostTitle} symbol="🖍" />
+							)}
+						</span>
+					</h5>
+
 					<h6 className="card-subtitle mb-2 text-muted">
 						{postAuthor} on {displayTimeInFrontend(localDate)}
 					</h6>
-					<p className="card-text">{text}</p>
-					{authedToEditAndDelete && <EditButton edit={editPostText} />}
+					<p className="card-text">
+						{text}
+						<span>
+							{authedToEditAndDelete && (
+								<MyEditButton onEdit={editPostText} symbol="🖍" />
+							)}
+						</span>
+					</p>
 				</div>
 				{authedToEditAndDelete && <DeleteButton destroy={deletePost} />}
 			</div>

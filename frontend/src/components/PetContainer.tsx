@@ -3,6 +3,7 @@ import Profile from './Profile'
 import ProfileButton from './ProfileButton'
 import PetComponent from './PetComponent'
 import { Pet } from '../../../backend/src/models/pet'
+import '../styles/styles.css'
 
 type Props = {
 	pet: Pet
@@ -14,7 +15,7 @@ const PetContainer = (props: Props) => {
 	const [showProfile, setShowProfile] = useState(false)
 
 	return (
-		<div className="user-container">
+		<div className="pet-container mt-2">
 			{showProfile ? (
 				<Profile
 					table="pets"
@@ -25,10 +26,13 @@ const PetContainer = (props: Props) => {
 				<PetComponent pet={pet} />
 			)}
 			{!showProfile && (
-				<ProfileButton
-					text={`${pet_name}'s Profile`}
-					handleClick={() => setShowProfile(true)}
-				/>
+				<div className="button-container text-center">
+					<ProfileButton
+						text={`${pet_name}'s Profile`}
+						handleClick={() => setShowProfile(true)}
+						buttonStyle="btn-success"
+					/>
+				</div>
 			)}
 		</div>
 	)

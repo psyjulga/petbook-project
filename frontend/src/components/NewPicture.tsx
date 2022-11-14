@@ -1,12 +1,13 @@
 import React, { ReactElement, useState, useRef, RefObject } from 'react'
 import { connect } from 'react-redux'
-import { FieldValues, RefCallBack, useForm } from 'react-hook-form'
-import { handleAddUserPicture } from '../actions/users'
+import { FieldValues, useForm } from 'react-hook-form'
 import { User } from '../../../backend/src/models/user'
 import { Pet } from '../../../backend/src/models/pet'
 import { Post } from '../../../backend/src/models/post'
-import { handleAddPostImage } from '../actions/posts'
 import { StoreObject } from '../util/types'
+import { handleAddUserPicture } from '../actions/users'
+import { handleAddPostImage } from '../actions/posts'
+import { handleAddPetPicture } from '../actions/pets'
 
 type Props = {
 	dispatch: Function
@@ -47,7 +48,7 @@ const NewPicture = (props: Props): ReactElement => {
 		formData.append('table', table)
 
 		if (isUser) addPicture(handleAddUserPicture, formData)
-		// if (isPet) addPicture(handleAddPetPicture, formData)
+		if (isPet) addPicture(handleAddPetPicture, formData)
 		if (isPost) addPicture(handleAddPostImage, formData)
 	}
 

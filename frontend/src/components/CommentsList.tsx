@@ -5,6 +5,7 @@ import { Comment } from '../../../backend/src/models/comment'
 import { StoreObject } from '../util/types'
 import CommentComponent from './CommentComponent'
 import NewComment from './NewComment'
+import AddButton from './AddButton'
 
 type Props = {
 	postComments: Comment[]
@@ -39,12 +40,7 @@ const CommentsList = (props: Props) => {
 			{add && <NewComment post_id={post_id} />}
 			{!add && (
 				<div className="new-comment-button-container text-center">
-					<button
-						className="new-comment-button btn btn-success"
-						onClick={() => setAdd(true)}
-					>
-						➕ add a comment
-					</button>
+					<AddButton onAdd={() => setAdd(true)} />
 				</div>
 			)}
 		</div>

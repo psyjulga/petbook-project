@@ -11,7 +11,7 @@ import {
 } from '../actions/posts'
 import { handleReceiveComments } from '../actions/comments'
 import NewPicture from './NewPicture'
-import DeleteButton from './DeleteButton'
+import MyDeleteButton from './MyDeleteButton'
 import MyEditButton from './MyEditButton'
 import MySaveButton from './MySaveButton'
 
@@ -149,7 +149,7 @@ const PostComponent = (props: Props) => {
 						</span>
 					</p>
 				</div>
-				{authedToEditAndDelete && <DeleteButton destroy={deletePost} />}
+				{authedToEditAndDelete && <MyDeleteButton destroy={deletePost} />}
 			</div>
 		</article>
 	)

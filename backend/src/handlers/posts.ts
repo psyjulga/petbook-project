@@ -62,6 +62,7 @@ const create = async (req: Request, res: Response) => {
 const edit = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const { field, value } = req.body
+
 	try {
 		const editedPost = await store.edit(id, field, value)
 		res.status(200)

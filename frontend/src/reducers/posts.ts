@@ -3,7 +3,7 @@
 // show
 // create => ADD_POST ✔
 // showByUser
-// edit
+// edit => EDIT_POST
 // delete => DELETE_POST ✔
 
 // addPostImage => ADD_POST_IMAGE (shared) ✔
@@ -13,9 +13,12 @@ import {
 	ADD_POST,
 	ADD_POST_IMAGE,
 	DELETE_POST,
+	EDIT_POST,
 } from '../actions/posts'
 
 import { Post } from '../../../backend/src/models/post'
+
+import { StoreObject } from '../util/types'
 
 type PostAction = {
 	type: string
@@ -24,7 +27,7 @@ type PostAction = {
 	id: number
 }
 
-function postImage(state = {}, action: PostAction) {
+function postImage(state: StoreObject, action: PostAction) {
 	const { payload } = action
 	return {
 		...state,
@@ -72,6 +75,14 @@ export default function posts(state = {}, action: PostAction) {
 			return {
 				...newState,
 			}
+		}
+
+		case EDIT_POST: {
+			const { payload, key } = action // editedPost
+
+			const newState = { ...state, [key]: payload }
+
+			return newState
 		}
 
 		default:

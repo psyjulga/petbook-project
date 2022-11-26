@@ -26,7 +26,8 @@ const PetComponent = (props: Props) => {
 			<div className="card card-pet mb-2">
 				<img
 					src={window.location.origin + `/images/${pic}`}
-					className="card-img-top img-fluid"
+					className="card-img-top pet-image"
+					// img-fluid
 					alt={`${pet_name} profile picture`}
 				/>
 

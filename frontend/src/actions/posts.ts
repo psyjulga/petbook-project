@@ -3,8 +3,8 @@
 // show
 // create => ADD_POST ✔
 // showByUser
-// edit
-// delete => DELETE_POST
+// edit => EDIT_POST
+// delete => DELETE_POST ✔
 
 // addPostImage => ADD_POST_IMAGE (shared) ✔
 
@@ -16,6 +16,7 @@ export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const ADD_POST_IMAGE = 'ADD_POST_IMAGE'
 export const DELETE_POST = 'DELETE_POST'
+export const EDIT_POST = 'EDIT_POST'
 
 export function receivePosts(payload: Post[]) {
 	return {
@@ -43,6 +44,14 @@ export function deletePost(id: number) {
 	return {
 		type: DELETE_POST,
 		id,
+	}
+}
+
+export function editPost(payload: Post, key: number) {
+	return {
+		type: EDIT_POST,
+		payload,
+		key,
 	}
 }
 
@@ -148,6 +157,45 @@ export function handleDeletePost(token: string, id: number) {
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
 				console.log('error in deletePost: ', e)
+			})
+	}
+}
+
+export function handleEditPost(
+	id: number,
+	field: string,
+	value: string,
+	token: string,
+	key: number
+) {
+	const data = { field, value }
+
+	console.log('DATA: ', data)
+
+	return (dispatch: Dispatch) => {
+		dispatch(showLoading())
+
+		return fetch(`http://localhost:8000/posts/${id}`, {
+			method: 'PUT',
+			body: JSON.stringify(data),
+			headers: {
+				authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((res) => {
+				if (res.status === 403) {
+					throw new Error('no access to posts - protected route')
+				}
+				return res.json()
+			})
+			.then((editedPost) => {
+				console.log('EDITED POST: ', editedPost)
+				dispatch(editPost(editedPost, key))
+			})
+			.then(() => dispatch(hideLoading()))
+			.catch((e) => {
+				console.log('error in editPost: ', e)
 			})
 	}
 }

@@ -54,10 +54,19 @@ body {
 	width: 12rem;
 }
 
+.pet-image {
+	height: 12rem;
+	object-fit: cover;
+}
+
 .pet .pet-name {
 	font-family: var(--headline-font);
 	font-weight: 500;
 	color: var(--standard-green);
+}
+
+.pet-profile {
+	width: 450px;
 }
 
 /* USER */
@@ -66,8 +75,13 @@ body {
 	padding: 17px;
 	border: 3px solid var(--dark-purple);
 	border-radius: 7px;
-	box-shadow: 5px 5px 5px var(--dark-purple);
+	box-shadow: 3px 3px 3px var(--dark-purple);
 	background-color: var(--neutral-bg);
+	transition: all 300ms ease-in-out;
+}
+
+.user-container:hover {
+	box-shadow: 4px 4px 4px 4px var(--dark-purple);
 }
 
 .card-user {
@@ -123,7 +137,7 @@ body {
 /* PROFILE */
 .profile {
 	background-color: var(--neutral-bg);
-	width: 100%;
+	/* width: 100%; */
 }
 
 .profile-field-name {
@@ -146,22 +160,46 @@ body {
 	background-color: var(--light-rose);
 }
 
-.my-edit-button {
+/* save */
+.my-button-purple {
+	font-size: 20px;
+	color: var(--dark-purple);
 	padding: 4px;
 	border-radius: 50%;
-	border: 1px solid var(--standard-green);
-	background-color: var(--standard-green);
-}
-
-.my-edit-button-save {
-	padding: 5px;
-	border-radius: 50%;
-	border: 1px solid black;
+	border: 2px solid var(--dark-purple);
 	background-color: yellow;
+	transition: all 300ms ease-in-out;
 }
 
-.my-edit-button:hover {
+.my-button-purple:hover {
+	color: yellow;
+	background-color: var(--dark-purple) !important;
+}
+
+/* edit */
+.my-button-green {
+	color: var(--standard-green);
+	padding: 4px;
+	border-radius: 50%;
+	border: 2px solid var(--standard-green);
 	background-color: var(--light-green);
+	transition: all 300ms ease-in-out;
+}
+
+.my-button-green:hover {
+	color: var(--light-green);
+	background-color: var(--standard-green) !important;
+}
+
+.my-button-green-nobg {
+	color: var(--standard-green);
+	background: none;
+	border: none;
+	transition: all 300ms ease-in-out;
+}
+
+.my-button-green-nobg:hover {
+	color: var(--dark-purple);
 }
 
 /* PICTURE */

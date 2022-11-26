@@ -1,28 +1,40 @@
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { User } from '../../../backend/src/models/user'
 import { AuthedUser, StoreObject } from '../util/types'
 import { displayTimeInFrontend } from '../util/timeFunctions'
-import { handleDeletePost, handleReceivePosts } from '../actions/posts'
+import {
+	handleDeletePost,
+	handleEditPost,
+	handleReceivePosts,
+} from '../actions/posts'
 import { handleReceiveComments } from '../actions/comments'
 import NewPicture from './NewPicture'
 import DeleteButton from './DeleteButton'
 import MyEditButton from './MyEditButton'
-import '../styles/styles.css'
+import MySaveButton from './MySaveButton'
 
 type Props = {
 	post: Post
 	postAuthor: string
 	authedUser: AuthedUser
+	keyOfPost: number
 	dispatch: Function
 }
 
+type Category = 'post_title' | 'text'
+
 const PostComponent = (props: Props) => {
-	const { post, postAuthor, authedUser, dispatch } = props
+	const { post, postAuthor, authedUser, keyOfPost, dispatch } = props
 	const { post_id, post_title, date, text, image } = post
 	const { user_name, token } = authedUser
-	// TODO video
+
+	const [editTitle, setEditTitle] = useState(false)
+	const [editText, setEditText] = useState(false)
+	const [disabled, setDisabled] = useState(true)
+
+	const [input, setInput] = useState('')
 
 	const localDate = new Date(date).toString()
 
@@ -33,12 +45,26 @@ const PostComponent = (props: Props) => {
 
 	// edit picture
 
-	const editPostTitle = () => {
-		console.log('editing post titel')
+	const cleanUp = (category: Category) => {
+		if (category === 'post_title') setEditTitle(false)
+		if (category === 'text') setEditText(false)
+		setInput('')
+		setDisabled(false)
 	}
 
-	const editPostText = () => {
-		console.log('editing post text')
+	const editPost = (category: Category) => {
+		const field = category
+		const value = input
+
+		dispatch(
+			handleEditPost(post_id as number, field, value, token, keyOfPost)
+		).then(cleanUp(category))
+	}
+
+	const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { value } = e.target
+		setInput(value)
+		setDisabled(false)
 	}
 
 	const deletePost = () => {
@@ -67,10 +93,28 @@ const PostComponent = (props: Props) => {
 
 				<div className="card-body">
 					<h5 className="card-title">
-						{post_title}
+						{!editTitle ? (
+							post_title
+						) : (
+							<input
+								className="me-2"
+								value={input}
+								type="text"
+								onChange={onInputChange}
+							/>
+						)}
 						<span>
-							{authedToEditAndDelete && (
-								<MyEditButton onEdit={editPostTitle} symbol="🖍" />
+							{authedToEditAndDelete && !editTitle && (
+								<MyEditButton
+									onEdit={() => setEditTitle(true)}
+									myClass="my-button-green-nobg"
+								/>
+							)}
+							{authedToEditAndDelete && editTitle && (
+								<MySaveButton
+									onSave={() => editPost('post_title')}
+									disabled={disabled}
+								/>
 							)}
 						</span>
 					</h5>
@@ -79,10 +123,28 @@ const PostComponent = (props: Props) => {
 						{postAuthor} on {displayTimeInFrontend(localDate)}
 					</h6>
 					<p className="card-text">
-						{text}
+						{!editText ? (
+							text
+						) : (
+							<input
+								className="me-2"
+								value={input}
+								type="text"
+								onChange={onInputChange}
+							/>
+						)}
 						<span>
-							{authedToEditAndDelete && (
-								<MyEditButton onEdit={editPostText} symbol="🖍" />
+							{authedToEditAndDelete && !editText && (
+								<MyEditButton
+									onEdit={() => setEditText(true)}
+									myClass="my-button-green-nobg"
+								/>
+							)}
+							{authedToEditAndDelete && editText && (
+								<MySaveButton
+									onSave={() => editPost('text')}
+									disabled={disabled}
+								/>
 							)}
 						</span>
 					</p>
@@ -98,10 +160,11 @@ type DrilledProps = {
 }
 
 const mapStateToProps = (
-	{ users, authedUser }: StoreObject,
+	{ users, posts, authedUser }: StoreObject,
 	{ post }: DrilledProps
 ) => {
 	const usersArr: User[] = Object.values(users)
+	const postsArr: Post[] = Object.values(posts)
 
 	const postAuthorFound = usersArr.find(
 		(u) => u.user_id === Number(post.user_id)
@@ -110,10 +173,15 @@ const mapStateToProps = (
 	const postAuthor =
 		postAuthorFound !== undefined ? postAuthorFound : authedUser.user_name
 
+	const keyOfPost: number = postsArr.findIndex(
+		(p) => p.post_id === post.post_id
+	)
+
 	return {
 		post,
 		postAuthor,
 		authedUser,
+		keyOfPost,
 	}
 }
 

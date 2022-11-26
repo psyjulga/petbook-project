@@ -1,22 +1,18 @@
 import React, { MouseEventHandler } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 type Props = {
 	onEdit: MouseEventHandler
-	symbol: string
-	myClass?: string | null
-	disabled?: boolean | null
+	myClass?: string
 }
 
 const MyEditButton = (props: Props) => {
-	const { onEdit, symbol, myClass, disabled } = props
+	const { onEdit, myClass } = props
 
 	return (
-		<button
-			className={myClass ? myClass : 'my-edit-button'}
-			onClick={onEdit}
-			disabled={disabled !== null ? disabled : false}
-		>
-			{symbol}
+		<button className={myClass ? myClass : 'my-button-green'} onClick={onEdit}>
+			<FontAwesomeIcon icon={faPen} />
 		</button>
 	)
 }

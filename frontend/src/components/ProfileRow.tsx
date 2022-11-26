@@ -8,6 +8,7 @@ import { handleEditPet } from '../actions/pets'
 import NewPicture from './NewPicture'
 import MyEditButton from './MyEditButton'
 import '../styles/styles.css'
+import MySaveButton from './MySaveButton'
 
 type Entry = string | number | null
 
@@ -120,7 +121,7 @@ const ProfileRow = (props: Props) => {
 			{/* col3 => EDIT BUTTON */}
 			{!edit && (
 				<div className="col-2 text-center">
-					<MyEditButton onEdit={() => setEdit(true)} symbol="🖍" />
+					<MyEditButton onEdit={() => setEdit(true)} />
 				</div>
 			)}
 
@@ -145,10 +146,8 @@ const ProfileRow = (props: Props) => {
 			{/* col3 => SAVE BUTTON */}
 			{edit && (
 				<div className="col-2 text-center">
-					<MyEditButton
-						onEdit={saveEditedObject}
-						symbol="💾"
-						myClass={isProfilePic || !disabled ? 'my-edit-button-save' : null}
+					<MySaveButton
+						onSave={saveEditedObject}
 						disabled={isProfilePic ? false : disabled}
 					/>
 				</div>

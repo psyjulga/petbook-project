@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { StoreObject } from '../util/types'
-import '../styles/styles.css'
 import PostContainer from './PostContainer'
 
 type Props = {

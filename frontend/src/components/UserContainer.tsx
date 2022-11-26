@@ -5,7 +5,6 @@ import { AuthedUser, StoreObject } from '../util/types'
 import Profile from './Profile'
 import ProfileButton from './ProfileButton'
 import UserComponent from './UserComponent'
-import '../styles/styles.css'
 
 type Props = {
 	usersArr: User[]

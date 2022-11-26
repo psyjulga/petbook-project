@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleAuthUser } from '../actions/authedUser'
 import { StoreObject } from '../util/types'
-import '../styles/styles.css'
 
 type Props = {
 	dispatch: Function

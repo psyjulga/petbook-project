@@ -8,9 +8,9 @@ import Login from './Login'
 import Dashboard from './Dashboard'
 import Footer from './Footer'
 import NewUser from './NewUser'
-
 import { handleReceiveUsers } from '../actions/users'
 import { StoreObject } from '../util/types'
+import '../styles/styles.css'
 
 // on load: login form => authenticate user
 // link to signup form => create new user

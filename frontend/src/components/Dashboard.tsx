@@ -66,7 +66,7 @@ const Dashboard = (props: Props) => {
 	if (error) throw error
 
 	return (
-		<div className="dashboard container-fluid m-2">
+		<div className="dashboard container-fluid">
 			<div className="row">
 				<Pets /> {/* all of the users pets */}
 			</div>

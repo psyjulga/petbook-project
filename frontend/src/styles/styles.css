@@ -27,11 +27,23 @@ body {
 	max-width: 50%;
 }
 
+/* DASHBOARD */
+
+.dashboard {
+	max-width: 1400px;
+	margin: 2px auto;
+}
+
 /* PETS */
 .pets {
 	background-color: var(--light-green);
 	border-radius: 7px;
 	padding: 10px 0;
+	margin: 20px 0;
+}
+
+.pet-container {
+	margin: 7px;
 }
 
 .pets .pet-list-item {
@@ -50,8 +62,11 @@ body {
 
 /* USER */
 .user-container {
-	padding: 12px;
+	margin-top: 5px;
+	padding: 17px;
+	border: 3px solid var(--dark-purple);
 	border-radius: 7px;
+	box-shadow: 5px 5px 5px var(--dark-purple);
 	background-color: var(--neutral-bg);
 }
 
@@ -72,17 +87,19 @@ body {
 }
 
 .newsfeed h1 {
-	margin-top: 5px;
-	padding: 10px;
+	margin: 30px 0 40px 20px;
 	color: var(--dark-purple);
 	font-weight: 900;
+	font-size: 45px;
 	font-family: var(--headline-font);
 }
 
 .post-container {
 	background-color: var(--light-green);
 	border-radius: 7px;
-	padding: 7px;
+	border: 3px solid var(--standard-green);
+	box-shadow: 5px 5px 5px var(--standard-green);
+	padding: 17px;
 }
 
 /* COMMENTS */
@@ -115,7 +132,8 @@ body {
 
 /* BUTTONS */
 .profile-back-button {
-	width: 90%;
+	width: 100%;
+	max-width: 100%;
 }
 
 .user-button {

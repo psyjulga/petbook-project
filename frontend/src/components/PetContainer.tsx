@@ -3,7 +3,6 @@ import Profile from './Profile'
 import ProfileButton from './ProfileButton'
 import PetComponent from './PetComponent'
 import { Pet } from '../../../backend/src/models/pet'
-import '../styles/styles.css'
 
 type Props = {
 	pet: Pet
@@ -15,7 +14,7 @@ const PetContainer = (props: Props) => {
 	const [showProfile, setShowProfile] = useState(false)
 
 	return (
-		<div className="pet-container mt-2">
+		<div className="pet-container">
 			{showProfile ? (
 				<Profile
 					table="pets"

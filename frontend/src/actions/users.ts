@@ -5,19 +5,22 @@
 // // authenticate => authedUser.ts ✔
 // // addPetToUser
 // // removePetFromUser
-// // edit => EDIT_USER
+// // edit => EDIT_USER ✔
 // // delete
 
-// addPictureToUser => ADD_USER_PICTURE ✔
+// addUserImage => EDIT_USER_IMAGE (shared) ✔
+// even if the image is added for the first time
+// we EDIT the existing post (from null to value)
 
 import { Dispatch } from 'redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { User } from '../../../backend/src/models/user'
 import { setAuthedUser } from './authedUser'
+import { removeImageFromFrontend } from './helper'
 
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const ADD_USER = 'ADD_USER'
-export const ADD_USER_PICTURE = 'ADD_USER_PICTURE'
+export const EDIT_USER_PICTURE = 'EDIT_USER_PICTURE'
 export const EDIT_USER = 'EDIT_USER'
 
 export function receiveUsers(payload: User[]) {
@@ -34,9 +37,9 @@ export function addUser(payload: User) {
 	}
 }
 
-export function addUserPicture(payload: string, key: number) {
+export function editUserPicture(payload: string, key: number) {
 	return {
-		type: ADD_USER_PICTURE,
+		type: EDIT_USER_PICTURE,
 		payload,
 		key,
 	}
@@ -98,14 +101,16 @@ export function handleAddUser(user: User) {
 	}
 }
 
-export function handleAddUserPicture(
+// "NEW Picture" => upload a picture
+export function handleEditUserPicture(
 	id: string,
 	formData: FormData,
-	key: number
+	key: number,
+	editImage: string | null
+	// string => "edit picture" => old image has to be removed in frontend
+	// null => "add picture"
 ) {
 	return (dispatch: Dispatch) => {
-		dispatch(showLoading())
-
 		return fetch(`http://localhost:8000/shared/${id}`, {
 			method: 'POST',
 			body: formData,
@@ -115,9 +120,13 @@ export function handleAddUserPicture(
 			})
 			.then((userWithPicture) => {
 				const picture = userWithPicture.profile_pic
-				dispatch(addUserPicture(picture, key))
+				dispatch(editUserPicture(picture, key))
 			})
-			.then(() => dispatch(hideLoading()))
+			.then(() => {
+				if (editImage)
+					// @ts-ignore
+					dispatch(removeImageFromFrontend(editImage))
+			})
 			.catch((e) => {
 				console.log('error in handleAddUserPicture: ', e)
 			})

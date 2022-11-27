@@ -5,14 +5,15 @@ import { faPen } from '@fortawesome/free-solid-svg-icons'
 type Props = {
 	onEdit: MouseEventHandler
 	myClass?: string
+	title?: string
 }
 
 const MyEditButton = (props: Props) => {
-	const { onEdit, myClass } = props
+	const { onEdit, myClass, title } = props
 
 	return (
 		<button
-			title="Edit"
+			title={title ? title : 'Edit'}
 			className={myClass ? myClass : 'my-button-green'}
 			onClick={onEdit}
 		>

@@ -53,14 +53,14 @@
 
 ### POST ROUTES
 
-| VERB   | ROUTE            | METHOD          | PROTECTED | DESCRIPTION                                            |
-| ------ | ---------------- | --------------- | --------- | ------------------------------------------------------ |
-| get    | /posts           | index           | ✔         | all posts => to show in newsfeed                       |
-| get    | /posts/:id       | show            | ✔         | one post by id                                         |
-| get    | /posts/:id/users | showPostsByUser | ✔         | to display all of the user's posts on his profile page |
-| post   | /posts           | create          | ✔         | create a new post                                      |
-| put    | /posts/:id       | edit            | ✔         | update title or text of a certain post with a value    |
-| delete | /posts/:id       | destroy         | ✔         | delete a post (comments and likes first)               |
+| VERB   | ROUTE            | METHOD          | PROTECTED | DESCRIPTION                                                      |
+| ------ | ---------------- | --------------- | --------- | ---------------------------------------------------------------- |
+| get    | /posts           | index           | ✔         | all posts => to show in newsfeed                                 |
+| get    | /posts/:id       | show            | ✔         | one post by id                                                   |
+| get    | /posts/:id/users | showPostsByUser | ✔         | to display all of the user's posts on his profile page           |
+| post   | /posts           | create          | ✔         | create a new post                                                |
+| put    | /posts/:id       | edit            | ✔         | update title, text or picture of a certain post with a new value |
+| delete | /posts/:id       | destroy         | ✔         | delete a post (comments and likes first)                         |
 
 ### POST DATABASE SCHEMA => table posts
 

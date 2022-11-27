@@ -85,12 +85,8 @@ export class PostStore {
 		let conn
 		try {
 			conn = await client.connect()
-			const sql_title = `UPDATE posts SET post_title = ($1) WHERE post_id = ($2) RETURNING *`
-			const sql_text = `UPDATE posts SET text = ($1) WHERE post_id = ($2) RETURNING *`
-			const res = await conn.query(field === 'text' ? sql_text : sql_title, [
-				value,
-				id,
-			])
+			const sql = `UPDATE posts SET ${field} = ($1) WHERE post_id = ($2) RETURNING *`
+			const res = await conn.query(sql, [value, id])
 			const updatedPost = res.rows[0]
 			return updatedPost
 		} catch (e) {

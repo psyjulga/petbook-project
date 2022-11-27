@@ -19,8 +19,10 @@ const create = async (req: Request, res: Response) => {
 
 	// save image file to local images folder
 	const imagePath = path.resolve(`../frontend/public/images/${fileName}`)
+
+	if (fs.existsSync(imagePath)) return
 	// @ts-ignore
-	file.mv(imagePath)
+	else file.mv(imagePath)
 
 	// save image path to database
 	try {

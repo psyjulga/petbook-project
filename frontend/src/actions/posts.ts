@@ -6,15 +6,18 @@
 // edit => EDIT_POST ✔
 // delete => DELETE_POST ✔
 
-// addPostImage => ADD_POST_IMAGE (shared) ✔
+// addPostImage => EDIT_POST_IMAGE (shared) ✔
+// even if the image is added for the first time
+// we EDIT the existing post (from null to value)
 
 import { Dispatch } from 'redux'
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
 import { Post } from '../../../backend/src/models/post'
+import { removeImageFromFrontend } from './helper'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
-export const ADD_POST_IMAGE = 'ADD_POST_IMAGE'
+export const EDIT_POST_IMAGE = 'ADD_POST_IMAGE'
 export const DELETE_POST = 'DELETE_POST'
 export const EDIT_POST = 'EDIT_POST'
 
@@ -32,9 +35,9 @@ export function addPost(payload: Post) {
 	}
 }
 
-export function addPostImage(payload: string, key: number) {
+export function editPostImage(payload: string, key: number) {
 	return {
-		type: ADD_POST_IMAGE,
+		type: EDIT_POST_IMAGE,
 		payload,
 		key,
 	}
@@ -108,14 +111,16 @@ export function handleAddPost(token: string, post: Post) {
 	}
 }
 
-export function handleAddPostImage(
+// "NEW Picture" => upload a picture
+export function handleEditPostImage(
 	id: string,
 	formData: FormData,
-	key: number
+	key: number,
+	editImage: string | null
+	// string => "edit picture" => old image has to be removed in frontend
+	// null => "add picture"
 ) {
 	return (dispatch: Dispatch) => {
-		dispatch(showLoading())
-
 		return fetch(`http://localhost:8000/shared/${id}`, {
 			method: 'POST',
 			body: formData,
@@ -125,29 +130,15 @@ export function handleAddPostImage(
 			})
 			.then((postWithImage) => {
 				const image = postWithImage.image
-				dispatch(addPostImage(image, key))
+				dispatch(editPostImage(image, key))
 			})
-			.then(() => dispatch(hideLoading()))
+			.then(() => {
+				if (editImage)
+					// @ts-ignore
+					dispatch(removeImageFromFrontend(editImage))
+			})
 			.catch((e) => {
 				console.log('error in handleAddPostImage: ', e)
-			})
-	}
-}
-
-function removeImageFromFrontend(image: string) {
-	return () => {
-		return fetch(`http://localhost:8000/shared/${image}`, {
-			method: 'DELETE',
-		})
-			.then((res) => {
-				return res.json()
-			})
-			.then((responseMessage: string) => {
-				console.log('ACTION: ', responseMessage)
-				return responseMessage
-			})
-			.catch((e) => {
-				console.log('error in removeImageFromFrontend: ', e)
 			})
 	}
 }
@@ -169,7 +160,6 @@ export function handleDeletePost(token: string, id: number) {
 				return res.json()
 			})
 			.then((deletedPost: Post) => {
-				console.log('IMAGE IN ACTION: ', deletedPost.image)
 				if (deletedPost.image)
 					// @ts-ignore
 					dispatch(removeImageFromFrontend(deletedPost.image))
@@ -182,12 +172,19 @@ export function handleDeletePost(token: string, id: number) {
 	}
 }
 
+// edit post title, text, image
+// IMAGE => use case => DELETE PCTURE
+// -------- => remove image in frontend
+// -------- => set post image to NULL in DB
 export function handleEditPost(
 	id: number,
 	field: string,
-	value: string,
+	value: string | null, // null => to delete image
 	token: string,
-	key: number
+	key: number,
+	image?: string
+	// image only when a picture gets deleted
+	// delete old in frontend, set to null in DB
 ) {
 	const data = { field, value }
 
@@ -211,6 +208,8 @@ export function handleEditPost(
 			.then((editedPost) => {
 				console.log('EDITED POST: ', editedPost)
 				dispatch(editPost(editedPost, key))
+				// @ts-ignore
+				if (field === 'image') dispatch(removeImageFromFrontend(image))
 			})
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {

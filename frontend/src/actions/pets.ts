@@ -7,15 +7,18 @@
 // edit => EDIT_PET ✔
 // delete
 
-// addPictureToPet => ADD_PET_PICTURE
+// addPetImage => EDIT_PET_IMAGE (shared) ✔
+// even if the image is added for the first time
+// we EDIT the existing post (from null to value)
 
 import { hideLoading, showLoading } from 'react-redux-loading-bar'
 import { Dispatch } from 'redux'
 import { Pet } from '../../../backend/src/models/pet'
+import { removeImageFromFrontend } from './helper'
 
 export const RECEIVE_PETS = 'RECEIVE_PETS'
 export const EDIT_PET = 'EDIT_PET'
-export const ADD_PET_PICTURE = 'ADD_PET_PICTURE'
+export const EDIT_PET_PICTURE = 'ADD_PET_PICTURE'
 
 export function receivePets(payload: Pet[]) {
 	return {
@@ -31,9 +34,9 @@ export function editPet(payload: Pet, key: string) {
 		key,
 	}
 }
-export function addPetPicture(payload: string, key: number) {
+export function editPetPicture(payload: string, key: number) {
 	return {
-		type: ADD_PET_PICTURE,
+		type: EDIT_PET_PICTURE,
 		payload,
 		key,
 	}
@@ -100,14 +103,16 @@ export function handleEditPet(
 	}
 }
 
-export function handleAddPetPicture(
+// "NEW Picture" => upload a picture
+export function handleEditPetPicture(
 	id: string,
 	formData: FormData,
-	key: number
+	key: number,
+	editImage: string | null
+	// string => "edit picture" => old image has to be removed in frontend
+	// null => "add picture"
 ) {
 	return (dispatch: Dispatch) => {
-		dispatch(showLoading())
-
 		return fetch(`http://localhost:8000/shared/${id}`, {
 			method: 'POST',
 			body: formData,
@@ -117,9 +122,13 @@ export function handleAddPetPicture(
 			})
 			.then((petWithPicture) => {
 				const picture = petWithPicture.profile_pic
-				dispatch(addPetPicture(picture, key))
+				dispatch(editPetPicture(picture, key))
 			})
-			.then(() => dispatch(hideLoading()))
+			.then(() => {
+				if (editImage && editImage !== 'default_pet.jpg')
+					// @ts-ignore
+					dispatch(removeImageFromFrontend(editImage))
+			})
 			.catch((e) => {
 				console.log('error in handleAddPetPicture: ', e)
 			})

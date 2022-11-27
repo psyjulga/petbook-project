@@ -116,6 +116,21 @@ body {
 	padding: 17px;
 }
 
+.post-image-buttons {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	width: 60px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.post-delete-button {
+	position: absolute;
+	right: 15px;
+	bottom: 15px;
+}
+
 /* COMMENTS */
 .card-comment {
 	width: 27rem;
@@ -200,6 +215,22 @@ body {
 
 .my-button-green-nobg:hover {
 	color: var(--dark-purple);
+}
+
+/* delete */
+
+.my-delete-button {
+	color: var(--standard-green);
+	padding: 4px;
+	border-radius: 50%;
+	border: 2px solid var(--standard-green);
+	background-color: var(--light-green);
+	transition: all 300ms ease-in-out;
+}
+
+.my-delete-button:hover {
+	color: var(--light-green);
+	background-color: var(--standard-green) !important;
 }
 
 /* PICTURE */

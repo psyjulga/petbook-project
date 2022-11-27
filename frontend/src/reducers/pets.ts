@@ -7,9 +7,9 @@
 // edit => EDIT_PET ✔
 // delete
 
-// addPictureToPet => ADD_PET_PICTURE
+// addPictureToPet => EDIT_PET_PICTURE ✔
 
-import { EDIT_PET, RECEIVE_PETS, ADD_PET_PICTURE } from '../actions/pets'
+import { EDIT_PET, RECEIVE_PETS, EDIT_PET_PICTURE } from '../actions/pets'
 import { Pet } from '../../../backend/src/models/pet'
 
 type PetAction = { type: string; payload: Pet | Pet[]; key: string | number }
@@ -40,7 +40,7 @@ export default function pets(state = {}, action: PetAction) {
 			}
 		}
 
-		case ADD_PET_PICTURE: {
+		case EDIT_PET_PICTURE: {
 			const { key } = action
 
 			return {

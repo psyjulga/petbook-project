@@ -7,7 +7,6 @@ import { handleEditUser } from '../actions/users'
 import { handleEditPet } from '../actions/pets'
 import NewPicture from './NewPicture'
 import MyEditButton from './MyEditButton'
-import '../styles/styles.css'
 import MySaveButton from './MySaveButton'
 
 type Entry = string | number | null
@@ -131,7 +130,11 @@ const ProfileRow = (props: Props) => {
 				<div className="col-6">
 					{' '}
 					{isProfilePic ? (
-						<NewPicture id={id as number} table={table} />
+						<NewPicture
+							id={id as number}
+							table={table}
+							editImage={entry[1] as string}
+						/>
 					) : (
 						<input
 							size={15}

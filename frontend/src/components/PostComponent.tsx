@@ -1,19 +1,16 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Post } from '../../../backend/src/models/post'
 import { User } from '../../../backend/src/models/user'
 import { AuthedUser, StoreObject } from '../util/types'
 import { displayTimeInFrontend } from '../util/timeFunctions'
-import {
-	handleDeletePost,
-	handleEditPost,
-	handleReceivePosts,
-} from '../actions/posts'
+import { handleDeletePost, handleEditPost } from '../actions/posts'
 import { handleReceiveComments } from '../actions/comments'
 import NewPicture from './NewPicture'
 import MyDeleteButton from './MyDeleteButton'
 import MyEditButton from './MyEditButton'
 import MySaveButton from './MySaveButton'
+import Input from './Input'
 
 type Props = {
 	post: Post
@@ -30,20 +27,21 @@ const PostComponent = (props: Props) => {
 	const { post_id, post_title, date, text, image } = post
 	const { user_name, token } = authedUser
 
+	const [editPicture, setEditPicture] = useState(false)
 	const [editTitle, setEditTitle] = useState(false)
 	const [editText, setEditText] = useState(false)
 	const [disabled, setDisabled] = useState(true)
 
 	const [input, setInput] = useState('')
 
+	useEffect(() => {
+		setEditPicture(false)
+	}, [image])
+
 	const localDate = new Date(date).toString()
 
-	const authedToLoadPicture: boolean =
-		image === null && user_name === postAuthor
-
 	const authedToEditAndDelete: boolean = user_name === postAuthor
-
-	// edit picture
+	const showNewPictureInput: boolean = !image || editPicture
 
 	const cleanUp = (category: Category) => {
 		if (category === 'post_title') setEditTitle(false)
@@ -81,6 +79,24 @@ const PostComponent = (props: Props) => {
 		}
 	}
 
+	const deletePicture = () => {
+		const confirmed = window.confirm(
+			'Do you really want to delete this picture?'
+		)
+		// set picture to null in DB
+		if (confirmed)
+			dispatch(
+				handleEditPost(
+					post_id as number,
+					'image',
+					null,
+					token,
+					keyOfPost,
+					image as string
+				)
+			)
+	}
+
 	return (
 		<article className="post mb-4">
 			<div className="card card-post">
@@ -91,29 +107,37 @@ const PostComponent = (props: Props) => {
 						alt={`${post_title} picture`}
 					/>
 				)}
-				{authedToLoadPicture && <NewPicture id={post_id} table={'posts'} />}
+				{showNewPictureInput && authedToEditAndDelete && (
+					<NewPicture id={post_id} table={'posts'} editImage={image} />
+				)}
+				{image && authedToEditAndDelete && (
+					<span className="post-image-buttons">
+						<MyEditButton
+							onEdit={() => setEditPicture(true)}
+							title="Edit Image"
+						/>
+						<MyDeleteButton destroy={deletePicture} title="Delete Image" />
+					</span>
+				)}
 
 				<div className="card-body">
 					<h5 className="card-title">
 						{!editTitle ? (
 							post_title
 						) : (
-							<input
-								className="me-2"
-								value={input}
-								type="text"
-								onChange={onInputChange}
-							/>
+							<Input onChange={onInputChange} input={input} />
 						)}
 						<span>
 							{authedToEditAndDelete && !editTitle && (
 								<MyEditButton
 									onEdit={() => setEditTitle(true)}
 									myClass="my-button-green-nobg"
+									title="Edit Title"
 								/>
 							)}
 							{authedToEditAndDelete && editTitle && (
 								<MySaveButton
+									title="Save Title"
 									onSave={() => editPost('post_title')}
 									disabled={disabled}
 								/>
@@ -128,30 +152,31 @@ const PostComponent = (props: Props) => {
 						{!editText ? (
 							text
 						) : (
-							<input
-								className="me-2"
-								value={input}
-								type="text"
-								onChange={onInputChange}
-							/>
+							<Input onChange={onInputChange} input={input} />
 						)}
 						<span>
 							{authedToEditAndDelete && !editText && (
 								<MyEditButton
+									title="Edit Text"
 									onEdit={() => setEditText(true)}
 									myClass="my-button-green-nobg"
 								/>
 							)}
 							{authedToEditAndDelete && editText && (
 								<MySaveButton
+									title="Save Text"
 									onSave={() => editPost('text')}
 									disabled={disabled}
 								/>
 							)}
 						</span>
 					</p>
+					{authedToEditAndDelete && (
+						<span className="post-delete-button">
+							<MyDeleteButton destroy={deletePost} title="DELETE POST" />
+						</span>
+					)}
 				</div>
-				{authedToEditAndDelete && <MyDeleteButton destroy={deletePost} />}
 			</div>
 		</article>
 	)

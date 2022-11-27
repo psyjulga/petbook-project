@@ -5,19 +5,21 @@ import { User } from '../../../backend/src/models/user'
 import { Pet } from '../../../backend/src/models/pet'
 import { Post } from '../../../backend/src/models/post'
 import { StoreObject } from '../util/types'
-import { handleAddUserPicture } from '../actions/users'
-import { handleAddPostImage } from '../actions/posts'
-import { handleAddPetPicture } from '../actions/pets'
+import { handleEditUserPicture } from '../actions/users'
+import { handleEditPostImage } from '../actions/posts'
+import { handleEditPetPicture } from '../actions/pets'
 
 type Props = {
 	dispatch: Function
 	keyOfObject: number
 	id: number | undefined
 	table: 'users' | 'pets' | 'posts'
+	editImage?: string | null | undefined
 }
 
 const NewPicture = (props: Props): ReactElement => {
-	const { dispatch, keyOfObject, id, table } = props // id & table (users, pets, posts) from parent component
+	const { dispatch, keyOfObject, id, table, editImage } = props
+	// id & table & editImage (users, pets, posts) from parent component
 	const { register, handleSubmit } = useForm()
 	const { onChange, onBlur, name, ref } = register('file')
 	const inputRef = useRef<HTMLInputElement>(null) // for input styling
@@ -36,7 +38,7 @@ const NewPicture = (props: Props): ReactElement => {
 	const isPost: boolean = table === 'posts'
 
 	const addPicture = (action: Function, formData: FormData) => {
-		dispatch(action(id?.toString() as string, formData, keyOfObject))
+		dispatch(action(id?.toString() as string, formData, keyOfObject, editImage))
 			.then(() => setDisabled(true))
 			.catch((e: Error) => setError(e))
 	}
@@ -47,9 +49,9 @@ const NewPicture = (props: Props): ReactElement => {
 		formData.append('file', pic)
 		formData.append('table', table)
 
-		if (isUser) addPicture(handleAddUserPicture, formData)
-		if (isPet) addPicture(handleAddPetPicture, formData)
-		if (isPost) addPicture(handleAddPostImage, formData)
+		if (isUser) addPicture(handleEditUserPicture, formData)
+		if (isPet) addPicture(handleEditPetPicture, formData)
+		if (isPost) addPicture(handleEditPostImage, formData)
 	}
 
 	if (error) throw error

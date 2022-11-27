@@ -6,12 +6,14 @@
 // edit => EDIT_POST ✔
 // delete => DELETE_POST ✔
 
-// addPostImage => ADD_POST_IMAGE (shared) ✔
+// addPostImage => EDIT_POST_IMAGE (shared) ✔
+// even if the image is added for the first time
+// we EDIT the existing post (from null to value)
 
 import {
 	RECEIVE_POSTS,
 	ADD_POST,
-	ADD_POST_IMAGE,
+	EDIT_POST_IMAGE,
 	DELETE_POST,
 	EDIT_POST,
 } from '../actions/posts'
@@ -55,7 +57,7 @@ export default function posts(state = {}, action: PostAction) {
 			}
 		}
 
-		case ADD_POST_IMAGE: {
+		case EDIT_POST_IMAGE: {
 			const { key } = action
 
 			return {

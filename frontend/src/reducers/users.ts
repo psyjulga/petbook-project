@@ -8,14 +8,12 @@
 // edit => EDIT_USER ✔
 // delete
 
-// addUserPicture => ADD_USER_PICTURE ✔
-
-// REDUCER => updates the store
+// addUserPicture => EDIT_USER_PICTURE ✔
 
 import {
 	RECEIVE_USERS,
 	ADD_USER,
-	ADD_USER_PICTURE,
+	EDIT_USER_PICTURE,
 	EDIT_USER,
 } from '../actions/users'
 import { User } from '../../../backend/src/models/user'
@@ -65,7 +63,7 @@ export default function users(state = {}, action: UserAction) {
 			return { ...stateArr }
 		}
 
-		case ADD_USER_PICTURE: {
+		case EDIT_USER_PICTURE: {
 			const { key } = action
 
 			return {

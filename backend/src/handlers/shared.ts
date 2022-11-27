@@ -1,6 +1,7 @@
 import { Application, Request, Response } from 'express'
 import { FileStore } from '../models/shared'
 import path from 'path'
+import fs from 'fs'
 
 const store = new FileStore()
 
@@ -32,10 +33,25 @@ const create = async (req: Request, res: Response) => {
 	}
 }
 
+const destroy = async (req: Request, res: Response) => {
+	const { image } = req.params
+	const imagePath = path.resolve(`../frontend/public/images/${image}`)
+
+	// when a pet / post / user is deleted,
+	// the whole object gets deleted from the DB (including the image)
+	// via destroy pet / post / user
+	// BUT we still need to remove the image from the frontend folder
+	fs.unlink(imagePath, function (err) {
+		if (err) throw err
+		res.status(200)
+		res.json(`Deleted file ${image} at path ${imagePath}`)
+	})
+}
+
 const shared_routes = (app: Application) => {
 	app.post('/shared/:id', create) // same logic as edit ??
 	// app.put('/shared/:id', edit)
-	// app.delete('/shared/:id', destroy)
+	app.delete('/shared/:image', destroy)
 }
 
 export default shared_routes

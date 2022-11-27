@@ -72,8 +72,10 @@ const PostComponent = (props: Props) => {
 			'Do you really want to delete this post? All comments and likes will also be removed.'
 		)
 		if (confirmed) {
+			// delete post in DB
 			dispatch(handleDeletePost(token, post_id as number)).then(() => {
-				dispatch(handleReceiveComments(token)) // to sync redux store with db
+				// sync redux store with DB
+				dispatch(handleReceiveComments(token))
 				// and likes !!
 			})
 		}

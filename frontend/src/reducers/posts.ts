@@ -1,9 +1,9 @@
 // Post MODEL METHODS:
 // index => RECEIVE_POSTS ✔
-// show
+// show (by ID)
 // create => ADD_POST ✔
 // showByUser
-// edit => EDIT_POST
+// edit => EDIT_POST ✔
 // delete => DELETE_POST ✔
 
 // addPostImage => ADD_POST_IMAGE (shared) ✔
@@ -79,9 +79,7 @@ export default function posts(state = {}, action: PostAction) {
 
 		case EDIT_POST: {
 			const { payload, key } = action // editedPost
-
 			const newState = { ...state, [key]: payload }
-
 			return newState
 		}
 

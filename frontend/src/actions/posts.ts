@@ -1,9 +1,9 @@
 // Post MODEL METHODS:
 // index => RECEIVE_POSTS ✔
-// show
+// show (by ID)
 // create => ADD_POST ✔
 // showByUser
-// edit => EDIT_POST
+// edit => EDIT_POST ✔
 // delete => DELETE_POST ✔
 
 // addPostImage => ADD_POST_IMAGE (shared) ✔
@@ -134,6 +134,24 @@ export function handleAddPostImage(
 	}
 }
 
+function removeImageFromFrontend(image: string) {
+	return () => {
+		return fetch(`http://localhost:8000/shared/${image}`, {
+			method: 'DELETE',
+		})
+			.then((res) => {
+				return res.json()
+			})
+			.then((responseMessage: string) => {
+				console.log('ACTION: ', responseMessage)
+				return responseMessage
+			})
+			.catch((e) => {
+				console.log('error in removeImageFromFrontend: ', e)
+			})
+	}
+}
+
 export function handleDeletePost(token: string, id: number) {
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())
@@ -145,15 +163,18 @@ export function handleDeletePost(token: string, id: number) {
 			},
 		})
 			.then((res) => {
-				console.log('RES: ', res)
 				if (res.status === 403) {
 					throw new Error('no access to posts - protected route')
 				}
 				return res.json()
 			})
-			.then(() => {
-				dispatch(deletePost(id))
+			.then((deletedPost: Post) => {
+				console.log('IMAGE IN ACTION: ', deletedPost.image)
+				if (deletedPost.image)
+					// @ts-ignore
+					dispatch(removeImageFromFrontend(deletedPost.image))
 			})
+			.then(() => dispatch(deletePost(id)))
 			.then(() => dispatch(hideLoading()))
 			.catch((e) => {
 				console.log('error in deletePost: ', e)
@@ -169,8 +190,6 @@ export function handleEditPost(
 	key: number
 ) {
 	const data = { field, value }
-
-	console.log('DATA: ', data)
 
 	return (dispatch: Dispatch) => {
 		dispatch(showLoading())

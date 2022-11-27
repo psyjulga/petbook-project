@@ -24,6 +24,8 @@ const App = (props: Props): ReactElement => {
 	const { loading, dispatch } = props
 	// check loading logic
 
+	// onclick home when not logged in => forward to login page !!
+
 	const [error, setError] = useState<Error | null>(null)
 
 	useEffect(() => {

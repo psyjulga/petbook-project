@@ -8,7 +8,7 @@ type Props = {
 	title?: string
 }
 
-const MySaveButton = (props: Props): ReactElement => {
+const MySaveButton = (props: Props) => {
 	const { onSave, disabled, title } = props
 
 	return (

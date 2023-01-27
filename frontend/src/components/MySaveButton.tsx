@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import React, { MouseEventHandler, ReactElement } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 
@@ -8,7 +8,7 @@ type Props = {
 	title?: string
 }
 
-const MySaveButton = (props: Props) => {
+const MySaveButton = (props: Props): ReactElement => {
 	const { onSave, disabled, title } = props
 
 	return (

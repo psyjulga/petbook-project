@@ -1,6 +1,5 @@
 import React from 'react'
 import { Post } from '../../../backend/src/models/post'
-import '../styles/styles.css'
 import CommentList from './CommentsList'
 import PostComponent from './PostComponent'
 

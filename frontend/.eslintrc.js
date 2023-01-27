@@ -14,6 +14,8 @@ module.exports = {
 	globals: {},
 	parser: '@babel/eslint-parser',
 	parserOptions: {
+		requireConfigFile: false,
+		// to solve warning in jest.config.js
 		ecmaFeatures: {
 			jsx: true,
 		},

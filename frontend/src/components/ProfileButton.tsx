@@ -1,5 +1,4 @@
 import React, { MouseEventHandler } from 'react'
-import '../styles/styles.css'
 
 type Props = {
 	text: string

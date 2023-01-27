@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Pet } from '../../../backend/src/models/pet'
 import { StoreObject } from '../util/types'
 import PetContainer from './PetContainer'
-import '../styles/styles.css'
 
 type Props = {
 	petsArr: Pet[]

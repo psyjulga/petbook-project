@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { User } from '../../../backend/src/models/user'
 import { StoreObject } from '../util/types'
 import NewPicture from './NewPicture'
-import '../styles/styles.css'
 
 type Props = {
 	user?: User
